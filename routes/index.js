@@ -3,6 +3,9 @@ var router = express.Router();
 const { signup , login} = require('../controllers/auth');
 const User = require('./users');
 
+
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index'); 
