@@ -3,10 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello Page</title>
+  <title>Welcome to Katyayani</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    p {
+      color: #7f8c8d;
+      font-size: 1.2em;
+    }
+    .button-container {
+      margin-top: 20px;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 1.1em;
+      color: #fff;
+      background: #3498db;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .button:hover {
+      background: #2980b9;
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, World!</h1>
-  <p>Welcome to your Express application.</p>
+  <div class="container">
+    <h1>Hello, World!</h1>
+    <p>Welcome to Katyayani</p>
+    <div class="button-container">
+      <a href="/signup" class="button">Go to Signup Page</a>
+    </div>
+  </div>
 </body>
 </html>
