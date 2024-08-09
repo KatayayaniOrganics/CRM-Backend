@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+     "vercel-build": "echo 'No build step required'"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
