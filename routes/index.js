@@ -1,6 +1,7 @@
 var express = require('express');
 const Lead = require('../Models/leadModel');
 const { createLead } = require('../controllers/LeadControllers');
+const { createTask } = require('../controllers/task');
 var router = express.Router();
 
 
@@ -17,6 +18,8 @@ router.get('/signup', (req, res) => {
 });
 router.post('/createLead',createLead);
 
+
+router.get('/createtask',createTask);
 
 module.exports = router;
  
