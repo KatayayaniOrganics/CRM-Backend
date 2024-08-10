@@ -1,4 +1,6 @@
 var express = require('express');
+const Lead = require('../Models/leadModel');
+const { createLead } = require('../controllers/LeadControllers');
 var router = express.Router();
 
 
@@ -13,6 +15,8 @@ router.get('/login', (req, res) => {
 router.get('/signup', (req, res) => {
   res.render('signup');
 });
+router.post('/createLead',createLead);
+
 
 module.exports = router;
  
