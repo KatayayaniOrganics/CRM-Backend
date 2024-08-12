@@ -14,5 +14,16 @@ router.get('/signup', (req, res) => {
   res.render('signup');
 });
 
+
+router.get('/forgot-password', (req,res)=>{
+  res.render('forgotpassword');
+});
+
+router.get('/reset-password', (req,res)=>{
+   res.render('resetpassword');
+})
+
+
+
 module.exports = router;
  

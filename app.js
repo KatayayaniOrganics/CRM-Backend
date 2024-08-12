@@ -1,8 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const createError = require('http-errors');
+
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
@@ -20,6 +22,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter); // For rendering views
 app.use('/api/auth', authRouter); // For API routes
+
+app.get('/reset-password/:token', (req, res) => {
+  const token = req.params.token;
+  res.render('reset-password', { token });
+});
+
 
 app.use(function(req, res, next) {
   next(createError(404));
