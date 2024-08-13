@@ -6,18 +6,17 @@ const sendResetEmail = async (email, token) => {
         // Create a transporter object using SMTP transport
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
-            port: 465, // Port for SSL/TLS
-            secure: true, // Use SSL/TLS
+            port: 465,
+            secure: true, 
             auth: {
-                user: process.env.EMAIL_USER, // Email account to send from
-                pass: process.env.EMAIL_PASS, // App password for the email account
+                user: process.env.EMAIL_USER, 
+                pass: process.env.EMAIL_PASS, 
             }
         });
 
-        // Define the reset link with localhost
+      
         const resetLink = `http://localhost:3000/reset-password/${token}`;
 
-        // Define email options
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,

@@ -29,6 +29,7 @@ app.get('/reset-password/:token', (req, res) => {
 });
 
 
+
 app.use(function(req, res, next) {
   next(createError(404));
 });
