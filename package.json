@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "vercel-build": "echo 'No build step required'"
+    "build": "echo 'No build step required'",
+    "test": "echo 'No test specified' && exit 0"
+  
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
