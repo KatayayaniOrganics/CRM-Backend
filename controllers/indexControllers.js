@@ -11,10 +11,15 @@ const Tags = require("../Models/tagsModel");
 exports.agentCreation = async (req, res) => {
  
     try { 
-        const { user_id, call_history, talktime_day, total_talktime, breaktime_day, total_breaktime } = req.body;
-        const agent = new Agents({ user_id, call_history, talktime_day, total_talktime, breaktime_day, total_breaktime });
+        if(Array.isArray(req.body)){
+          const agents=await Agents.insertMany(req.body);
+          res.status(201).send(agents);
+        }
+        else{
+        const agent = new Agents(req.body);
         await agent.save();
         res.status(201).send(agent);
+        }
         } catch (error) {
             res.status(500).json({
                 success: false,
@@ -75,10 +80,17 @@ exports.agentCreation = async (req, res) => {
   
 exports.createSource = async (req, res) => {
     try {
-      const { utm_content, utm_campaign } = req.body;
-      const source = new Source({ utm_content, utm_campaign });
-      await source.save();
-      res.status(201).send(source);
+      if(Array.isArray(req.body)){
+
+        const sources = await Source.insertMany(req.body);
+        // await sources.save();
+        res.status(201).send(sources);
+      }
+      else{
+        const source = new Source(req.body);
+        await source.save();
+        res.status(201).send(source);
+      }
     } catch (error) {
       res.status(500).json({
         success: false,
