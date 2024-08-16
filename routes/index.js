@@ -1,5 +1,7 @@
 var express = require('express');
-const { createLead, createSource, createTags } = require('../controllers/LeadControllers');
+const { createLead } = require('../controllers/LeadControllers');
+const {createSource, createTags,agentCreation, queryCreation, CallDetailsCreation, CropsCreation}=require('../controllers/indexControllers')
+
 var router = express.Router();
 
 
@@ -30,7 +32,17 @@ router.get('/reset-password', (req,res)=>{
    res.render('resetpassword');
 })
 
+// Create a new agent
+router.post('/agents',agentCreation);
 
+// Create a new query
+router.post('/queries', queryCreation);
+
+// Create a new call detail
+router.post('/calls',CallDetailsCreation );
+
+// Create a new crop
+router.post('/crops',CropsCreation );
 
 module.exports = router;
  
