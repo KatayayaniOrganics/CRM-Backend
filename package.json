@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "vercel-build": "echo 'No build step required'"
-  },
+  "build": "your-build-command",
+  "start": "your-start-command"
+}
+,
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
