@@ -5,7 +5,12 @@ exports.connectDatabase = async () =>{
     await mongoose.connect(process.env.MONGODB_URL);
     console.log("Connection established")
   } catch(error){
+     confirm.log("not found")
+  };
+  
+}
      console.log("not found")
   };
   
 }
+

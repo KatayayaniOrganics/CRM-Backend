@@ -1,7 +1,11 @@
-// const Agents = require("../Models/");
+
+const Agents = require("../Models/agentModel");
 const Query = require("../Models/queryModel");
 const CallDetails = require("../Models/callDetails");
 const Crop = require("../Models/cropModel");
+const Source = require("../Models/sourceModel");
+const Tags = require("../Models/tagsModel");
+
 
 
 exports.agentCreation = async (req, res) => {
@@ -65,4 +69,40 @@ exports.agentCreation = async (req, res) => {
             error: error.message,
         });
     }
+
   }
+
+  
+exports.createSource = async (req, res) => {
+    try {
+      const { utm_content, utm_campaign } = req.body;
+      const source = new Source({ utm_content, utm_campaign });
+      await source.save();
+      res.status(201).send(source);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    }
+  };
+  
+  exports.createTags = async (req, res) => {
+    try {
+      const { name } = req.body;
+      const tag = new Tags({ name });
+      await tag.save();
+      res.status(201).send(tag);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message,
+      });
+    }
+  };
+  
+
+  }
+
