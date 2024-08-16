@@ -6,6 +6,8 @@ const logger = require('morgan');
 const createError = require('http-errors');
 
 
+require("./Models/Database").connectDatabase();
+
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 
