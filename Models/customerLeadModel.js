@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const customerLeadSchema = new mongoose.Schema({
-    leadOwner: { type: String, required: true },
+    leadOwner: { type: String,  },
     firstName: { type: String },
-    lastName: { type: String, required: true },
+    lastName: { type: String,  },
     email: { type: String },
     source: { type: mongoose.Schema.Types.ObjectId, ref: 'Source' }, 
-    contact: { type: String, required: true },
+    contact: { type: String, },
     created_at: { type: Date, default: Date.now },
     responded_at: Date,
     query: { type: mongoose.Schema.Types.ObjectId, ref: 'Query' },

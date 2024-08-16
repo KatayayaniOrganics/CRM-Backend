@@ -48,7 +48,7 @@ router.post('/crops',CropsCreation );
 router.post('/sources',createSource);
 
 // Create a new tag
-app.post('/tags', createTags);
+router.post('/tags', createTags);
 
 module.exports = router;
  
