@@ -1,7 +1,5 @@
 var express = require('express');
-const Lead = require('../Models/leadModel');
-const { createLead } = require('../controllers/LeadControllers');
-const { createTask } = require('../controllers/task');
+const { createLead, createSource, createTags } = require('../controllers/LeadControllers');
 var router = express.Router();
 
 
@@ -18,9 +16,11 @@ router.get('/signup', (req, res) => {
 });
 router.post('/createLead',createLead);
 
+// Create a new source
+router.post('/sources',createSource);
 
-router.get('/createtask',createTask);
-
+// Create a new tag
+app.post('/tags', createTags);
 
 router.get('/forgot-password', (req,res)=>{
   res.render('forgotpassword');

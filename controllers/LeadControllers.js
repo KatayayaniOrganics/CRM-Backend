@@ -1,12 +1,13 @@
-const Lead = require('../Models/leadModel');
+const CustomerLead = require('../Models/customerLeadModel');
 
 exports.createLead = async (req, res) => {
-    const {} = req.body
+   
     try { 
-    const lead = await new Lead(req.body).save();
+    const customerLead = await new CustomerLead(req.body).save();
         res.status(201).json({
             success: true,
-            message: 'Lead created successfully',
+            message: 'CustomerLead created successfully',
+            customerLead
         });
     } catch (error) {
         res.status(500).json({
