@@ -1,5 +1,3 @@
-
-const Agents = require("../Models/agentModel");
 const Query = require("../Models/queryModel");
 const CallDetails = require("../Models/callDetails");
 const Crop = require("../Models/cropModel");
@@ -7,29 +5,7 @@ const Source = require("../Models/sourceModel");
 const Tags = require("../Models/tagsModel");
 
 
-
-exports.agentCreation = async (req, res) => {
- 
-    try { 
-        if(Array.isArray(req.body)){
-          const agents=await Agents.insertMany(req.body);
-          res.status(201).send(agents);
-        }
-        else{
-        const agent = new Agents(req.body);
-        await agent.save();
-        res.status(201).send(agent);
-        }
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: 'Server error',
-                error: error.message,
-            });
-        }
-  }
-  
-  exports.queryCreation = async (req, res) => {
+exports.queryCreation = async (req, res) => {
       try { 
         const { customer_id, query_category, order, tags, reason_not_ordered, description, created_by } = req.body;
         const query = new Query({ customer_id, query_category, order, tags, reason_not_ordered, description, created_by });

@@ -1,27 +1,40 @@
 const CustomerLead = require('../Models/customerLeadModel');
 
 exports.createLead = async (req, res) => {
-    try {
-      // Check if req.body is an array
+  try {
+      // Access user information from the verified token
+      const loggedInUser = req.user; // This contains the decoded token data
+      console.log('Logged-in user:', loggedInUser);
+
+      // You can add the logged-in user's information to the lead
       if (Array.isArray(req.body)) {
-        // Use insertMany for bulk creation
-        const customerLeads = await CustomerLead.insertMany(req.body);
-        res.status(201).json({
-          success: true,
-          message: "CustomerLeads created successfully",
-          customerLeads
-        });
+          // Add created_by field for each lead
+          const leadsWithCreator = req.body.map(lead => ({
+              ...lead,
+              created_by: loggedInUser.id // Assuming the token contains user id
+          }));
+
+          const customerLeads = await CustomerLead.insertMany(leadsWithCreator);
+          res.status(201).json({
+              success: true,
+              message: "CustomerLeads created successfully",
+              customerLeads
+          });
       } else {
-        // Handle single document creation
-        const customerLead = new CustomerLead(req.body);
-        await customerLead.save();
-        res.status(201).json({
-          success: true,
-          message: "CustomerLead created successfully",
-          customerLead
-        });
+          // Add created_by field for a single lead
+          const customerLead = new CustomerLead({
+              ...req.body,
+              created_by: loggedInUser.id // Assuming the token contains user id
+          });
+
+          await customerLead.save();
+          res.status(201).json({
+              success: true,
+              message: "CustomerLead created successfully",
+              customerLead
+          });
       }
-    } catch (error) {
+  } catch (error) {
       res.status(500).json({ success: false, message: error.message });
-    }
-  };
+  }
+};
