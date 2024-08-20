@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Lead</title>
+</head>
+<body>
+    <h1>Create a New Lead</h1>
+
+    <form action="/createLead" method="POST">
+        <!-- Lead Owner -->
+        <div>
+            <label for="leadOwner">Lead Owner:</label>
+            <input type="text" id="leadOwner" name="leadOwner" required>
+        </div>
+
+        <!-- First Name -->
+        <div>
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+        </div>
+
+        <!-- Last Name -->
+        <div>
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+        </div>
+
+        <!-- Email -->
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <!-- Source (dropdown) -->
+        <div>
+            <label for="source">Source:</label>
+            <select id="source" name="source" required>
+                <option value="">Select a Source</option>
+                <!-- Populate with sources from your database -->
+                <option value="64b5fabd2c8f82b1a8d4b4a9">Source 1</option>
+                <!-- Add more sources as needed -->
+            </select>
+        </div>
+
+        <!-- Contact -->
+        <div>
+            <label for="contact">Contact:</label>
+            <input type="text" id="contact" name="contact" required>
+        </div>
+
+        <!-- Created At -->
+        <div>
+            <label for="created_at">Created At:</label>
+            <input type="datetime-local" id="created_at" name="created_at" required>
+        </div>
+
+        <!-- Responded At -->
+        <div>
+            <label for="responded_at">Responded At:</label>
+            <input type="datetime-local" id="responded_at" name="responded_at">
+        </div>
+
+        <!-- Query (dropdown) -->
+        <div>
+            <label for="query">Query:</label>
+            <select id="query" name="query" required>
+                <option value="">Select a Query</option>
+                <!-- Populate with queries from your database -->
+                <option value="64b5fae12c8f82b1a8d4b4aa">Query 1</option>
+                <!-- Add more queries as needed -->
+            </select>
+        </div>
+
+        <!-- Address -->
+        <div>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+        </div>
+
+        <!-- Order History (multiple) -->
+        <div>
+            <label for="order_history">Order History:</label>
+            <select id="order_history" name="order_history[]" multiple>
+                <!-- Populate with orders from your database -->
+                <option value="64b5faeb2c8f82b1a8d4b4ab">Order 1</option>
+                <!-- Add more orders as needed -->
+            </select>
+        </div>
+
+        <!-- Farm Details -->
+        <fieldset>
+            <legend>Farm Details</legend>
+            <div>
+                <label for="farm_area">Area:</label>
+                <input type="text" id="farm_area" name="farm_details[area]" required>
+            </div>
+            <div>
+                <label for="farm_crops">Crops:</label>
+                <select id="farm_crops" name="farm_details[crops][]" multiple>
+                    <!-- Populate with crops from your database -->
+                    <option value="64b5faef2c8f82b1a8d4b4ac">Crop 1</option>
+                    <!-- Add more crops as needed -->
+                </select>
+            </div>
+        </fieldset>
+
+        <!-- Call History (this will likely be empty at lead creation) -->
+        <div>
+            <label for="call_history">Call History:</label>
+            <input type="text" id="call_history" name="call_history[]" value="" readonly>
+        </div>
+
+        <!-- Lead Category (dropdown) -->
+        <div>
+            <label for="lead_category">Lead Category:</label>
+            <select id="lead_category" name="lead_category" required>
+                <option value="Cold">Cold</option>
+                <option value="Warm">Warm</option>
+                <option value="Hot">Hot</option>
+            </select>
+        </div>
+
+        <!-- Tags (multiple) -->
+        <div>
+            <label for="tags">Tags:</label>
+            <select id="tags" name="tags[]" multiple>
+                <!-- Populate with tags from your database -->
+                <option value="64b5faf82c8f82b1a8d4b4ad">Tag 1</option>
+                <!-- Add more tags as needed -->
+            </select>
+        </div>
+
+        <!-- Additional Fields -->
+        <fieldset>
+            <legend>Additional Fields</legend>
+            <div>
+                <label for="preferred_contact_time">Preferred Contact Time:</label>
+                <input type="text" id="preferred_contact_time" name="additionalFields[preferred_contact_time]" required>
+            </div>
+            <div>
+                <label for="priority_level">Priority Level:</label>
+                <input type="text" id="priority_level" name="additionalFields[priority_level]" required>
+            </div>
+        </fieldset>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit">Create Lead</button>
+        </div>
+    </form>
+</body>
+</html>
