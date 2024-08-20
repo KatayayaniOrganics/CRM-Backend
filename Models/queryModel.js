@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const querySchema = new mongoose.Schema({
     customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'CustomerLead' },
-    query_category: String,
+    query_category: {
+        type:String,
+        required: [true, "Query category is required"]
+    },
     order: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tags' }], 
     reason_not_ordered: String,
