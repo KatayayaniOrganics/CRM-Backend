@@ -1,6 +1,5 @@
 var express = require('express');
 const { createLead } = require('../controllers/LeadControllers');
-
 const {createSource,createTags,queryCreation, CallDetailsCreation, CropsCreation}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 
@@ -34,26 +33,23 @@ router.get('/createLead', (req,res)=>{
 
 
 // Create a new query
-router.post('/queries', queryCreation);
+router.post('/queries', verifyToken,queryCreation);
 
 // Create a new call detail
-router.post('/calls',CallDetailsCreation );
+router.post('/calls',verifyToken,CallDetailsCreation );
 
 
 // Create a new crop
-router.post('/crops',CropsCreation );
+router.post('/crops',verifyToken,CropsCreation );
 
 
 // Create a new source
-router.post('/sources',createSource);
+router.post('/sources',verifyToken,createSource);
 
 // Create a new tag
-router.post('/tags', createTags);
+router.post('/tags', verifyToken,createTags);
 
 
-router.get("/test",verifyToken,(res,req)=>{
-  req.send("wroking");
-});
 
 module.exports = router;
  
