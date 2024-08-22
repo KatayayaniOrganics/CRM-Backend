@@ -1,46 +1,58 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const agentSchema = new mongoose.Schema({
-  firstname: { type: String, 
-    required: [true, "First Name is required"], 
+  firstname: {
+    type: String,
+    required: [true, "First Name is required"],
     trim: true,
-    minLength:[3,"First Name should be atleast 4 character long"]
-   },
-  lastname: { type: String, 
+    minLength: [3, "First Name should be at least 3 characters long"]
+  },
+  lastname: {
+    type: String,
     required: [true, "Last Name is required"],
     trim: true,
-    minLength:[4,"First Name should be atleast 4 character long"]
-   },
-  email: { type: String, 
+    minLength: [4, "Last Name should be at least 4 characters long"]
+  },
+  email: {
+    type: String,
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      "Please fill a valid email address",
-   ],
-    unique: true ,
+      "Please fill a valid email address"
+    ],
+    unique: true
   },
-  password: { type: String, 
-    select: false,
-    required: [true, "Password required"],
-    maxLength: [15, 'Password Should not be exceed more than 15 characters'],
-    minLength: [6, 'Password Should have atleast 6 characters'],
+  password: {
+    type: String,
+    required: [true, "Password is required"],
+    minLength: [6, 'Password should have at least 6 characters']
+  }
+  ,
+  address: {
+    type: String,
+    required: [true, "Address is required"]
   },
-  address: { type: String ,required: [true, "Address is required"] },
   user_role: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "UserRoles",
-  }, // Reference to UserRoles
+    ref: "UserRoles"
+  },
+  otp: String,
+    otpExpirationTime: Date,
+    otpVerified: {
+        type: Boolean,
+        default: false,
+    },
   call_history: [
-      {
-          call_id: { type: mongoose.Schema.Types.ObjectId, ref: "CallDetails" },
-        },
-    ],
-    talktime_day: Number,
-    total_talktime: Number,
-    breaktime_day: Number,
-    total_breaktime: Number,
-    resetPasswordToken: String,
-    resetPasswordExpires: Date,
+    {
+      call_id: { type: mongoose.Schema.Types.ObjectId, ref: "CallDetails" }
+    }
+  ],
+  talktime_day: Number,
+  total_talktime: Number,
+  breaktime_day: Number,
+  total_breaktime: Number,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
-const Agents = mongoose.model("Agents", agentSchema);
-module.exports = Agents;
+const Agent = mongoose.model("Agents", agentSchema);
+module.exports = Agent;
