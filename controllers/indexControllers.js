@@ -13,13 +13,16 @@ exports.queryCreation = async (req, res) => {
         const query = new Query({ customer_id, query_category, order, tags, reason_not_ordered, description, created_by });
         await query.save();
       
-        res.status(201).send(query);
+        res.status(201).send({ success: true, message: 'Query created successfully' });
+        logger.info(query)
     } catch (error) {
         res.status(500).json({
             success: false,
             message: 'Server error',
             error: error.message,
         });
+    logger.error({ success: false, message: 'Server error', error: error.message })
+
     }
   }
 
@@ -31,7 +34,8 @@ exports.queryCreation = async (req, res) => {
         const { query_id, customer_id, agent_id, datetime, duration, reason_not_connected } = req.body;
         const callDetails = new CallDetails({ query_id, customer_id, agent_id, datetime, duration, reason_not_connected });
         await callDetails.save();
-        res.status(201).send(callDetails);
+        res.status(201).send({ success: true, message: 'CallDetails created successfully' });
+        logger.info(callDetails)
         
     } catch (error) {
         res.status(500).json({
@@ -39,6 +43,8 @@ exports.queryCreation = async (req, res) => {
             message: 'Server error',
             error: error.message,
         });
+    logger.error({ success: false, message: 'Server error', error: error.message });
+
     }
   }
 
@@ -49,7 +55,8 @@ exports.queryCreation = async (req, res) => {
         const { name, sowing, products_used, crop_stage } = req.body;
         const crop = new Crop({ name, sowing, products_used, crop_stage });
         await crop.save();
-        res.status(201).send(crop);
+        res.status(201).send({ success: true, message: 'Crop created successfully' });
+        logger.info(crop)
 
     } catch (error) {
         res.status(500).json({
@@ -57,6 +64,8 @@ exports.queryCreation = async (req, res) => {
             message: 'Server error',
             error: error.message,
         });
+    logger.error({ success: false, message: 'Server error', error: error.message })
+
     }
 
   }
@@ -70,12 +79,14 @@ exports.createSource = async (req, res) => {
 
         const sources = await Source.insertMany(req.body);
         // await sources.save();
-        res.status(201).send(sources);
+        res.status(201).send({ success: true, message: 'Sources Created in Bulk successfully' });
+        logger.info(sources)
       }
       else{
         const source = new Source(req.body);
         await source.save();
-        res.status(201).send(source);
+        res.status(201).send({ success: true, message: 'Sources Created successfully' });
+        logger.info(source)
       }
     } catch (error) {
       res.status(500).json({
@@ -83,6 +94,8 @@ exports.createSource = async (req, res) => {
         message: "Server error",
         error: error.message,
       });
+    logger.error({ success: false, message: 'Server error', error: error.message })
+
     }
   };
   
@@ -93,13 +106,16 @@ exports.createSource = async (req, res) => {
       const { name } = req.body;
       const tag = new Tags({ name });
       await tag.save();
-      res.status(201).send(tag);
+      res.status(201).send({ success: true, message: 'Tags Created successfully' });
+      logger.info(sources)
     } catch (error) {
       res.status(500).json({
         success: false,
         message: "Server error",
         error: error.message,
       });
+    logger.error({ success: false, message: 'Server error', error: error.message })
+
     }
   };
   

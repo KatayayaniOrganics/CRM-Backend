@@ -33,6 +33,7 @@ exports.signup = async (req, res) => {
     // Save the agent to the database
     await agent.save();
     
+    logger.info({ message: 'Agent Signup successfully',Agent:agent} );
     res.status(201).json({ success: true, message: 'Agent registered successfully' });
   } catch (error) {
     console.error("Error in signup:", error); // Detailed error logging
@@ -41,12 +42,16 @@ exports.signup = async (req, res) => {
       message: 'Server error',
       error: error.message
     });
+    logger.error({ success: false, message: 'Server error', error: error.message })
+
   }
 };
 
 
 // Login Controller
 exports.login = async (req, res) => {
+  logger.info("You made a POST Request on Login Route");
+
   try {
     const { email, password } = req.body;
     const agent = await Agent.findOne({ email });
@@ -58,15 +63,20 @@ exports.login = async (req, res) => {
 
     // Store the token in cookies
     res.cookie("token", token, { httpOnly: true });
-    res.status(200).json({ success: true, token });
+    res.status(200).json({ success: true, token ,message: 'Agent Logged successfully'});
+    logger.info({ message: 'Agent Logged successfully',token:token} );
+
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    logger.error({ success: false, message: 'Server error', error: error.message })
   }
 };
 
 
 // Forgot Password Controller
 module.exports.forgotPasswordController = async (req, res) => {
+  logger.info("You made a POST Request on Forget Route")
+
   try {
       const { email } = req.body;
 
@@ -116,6 +126,8 @@ module.exports.forgotPasswordController = async (req, res) => {
 
 // OTP Verification Controller
 module.exports.verifyOtpController = async (req, res) => {
+  logger.info("You made a POST Request on Verify Otp Route")
+
   try {
       const { email, otp } = req.body;
 
@@ -155,6 +167,8 @@ module.exports.verifyOtpController = async (req, res) => {
 
 // Reset Password Controller
 module.exports.resetPasswordController = async (req, res) => {
+  logger.info("You made a POST Request on Reset Route")
+
   try {
       const { email, newPassword } = req.body;
 
