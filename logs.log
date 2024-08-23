@@ -1,0 +1,91 @@
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"173.803\"}","timestamp":"2024-08-23T04:06:12.160Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"189.851\"}","timestamp":"2024-08-23T04:07:54.999Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"236.848\"}","timestamp":"2024-08-23T04:09:02.816Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:14:35.101Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:14:54.965Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:14:56.943Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:15:21.951Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:15:22.721Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"183.331\"}","timestamp":"2024-08-23T04:15:43.749Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:16:11.921Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:16:12.583Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:16:14.700Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:16:15.185Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:16:16.730Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:16:17.264Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:16:32.120Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:16:32.737Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:17:39.046Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:17:39.836Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:18:08.146Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:18:08.788Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:18:12.111Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:18:12.589Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:18:16.574Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:18:17.709Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:18:18.625Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:18:19.199Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:18:24.368Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:18:24.833Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:18:26.207Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:18:26.704Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T04:18:39.634Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T04:18:40.172Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request","timestamp":"2024-08-23T04:18:59.710Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"222.676\"}","timestamp":"2024-08-23T04:18:59.922Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:39:33.199Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:39:33.931Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:39:35.282Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:39:35.779Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:39:36.909Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:39:37.345Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:00.602Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:01.384Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:05.097Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:05.684Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:13.393Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:14.051Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:20.724Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:21.400Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:25.369Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:26.013Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:28.654Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:29.394Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:36.629Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:37.561Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:38.557Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:39.244Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:40.431Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:41.616Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:42.540Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:47.200Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:47.877Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:51.065Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:51.695Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:40:56.039Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:40:56.491Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:03.809Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:41:04.406Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:05.667Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:41:06.237Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:20.543Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:41:21.131Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:28.486Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:41:29.194Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:30.064Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:41:30.842Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:33.019Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:34.271Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:41:34.763Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:39.596Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:41:40.329Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:46.230Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:41:46.796Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:50.365Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:41:51.025Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:41:58.491Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:41:59.116Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:42:03.795Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:42:04.285Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T05:42:15.450Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T05:42:15.931Z"}

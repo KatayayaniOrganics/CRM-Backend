@@ -3,10 +3,12 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const Agent = require("../Models/agentModel"); // Make sure this is the correct path
 const sendResetEmail = require("../controllers/sendMail");
+const logger = require('../logger');
 
 // Signup Controller
 exports.signup = async (req, res) => {
   const { firstname, lastname, email, password, address } = req.body;
+  logger.info("You made a POST Request on Singup Route")
 
   try {
     // Check if the agent already exists
@@ -61,6 +63,7 @@ exports.login = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
 };
+
 
 // Forgot Password Controller
 module.exports.forgotPasswordController = async (req, res) => {

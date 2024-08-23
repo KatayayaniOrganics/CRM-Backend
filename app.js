@@ -2,8 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const createError = require('http-errors');
+const logger = require ("./logger");
+const morgan = require ("morgan");
 
 
 require("./Models/Database").connectDatabase();
@@ -16,21 +17,31 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
+
+const morganFormat = ":method :url :status :response-time ms";
+
+app.use(
+  morgan(morganFormat, {
+    stream: {
+      write: (message) => {
+        const logObject = {
+          method: message.split(" ")[0],
+          url: message.split(" ")[1],
+          status: message.split(" ")[2],
+          responseTime: message.split(" ")[3],
+        };
+        logger.info(JSON.stringify(logObject));
+      },
+    },
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter); // For rendering views
+app.use('/', indexRouter); // For API routes
 app.use('/api/auth', authRouter); // For API routes
-
-app.get('/reset-password/:token', (req, res) => {
-  const token = req.params.token;
-  res.render('reset-password', { token });
-});
-
-
 
 app.use(function(req, res, next) {
   next(createError(404));
@@ -42,5 +53,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
