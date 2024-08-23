@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
 const logger = require ("./logger");
 const morgan = require ("morgan");
+const cors = require('cors')
 
 
 require("./Models/Database").connectDatabase();
@@ -39,6 +40,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+
 
 app.use('/', indexRouter); // For API routes
 app.use('/api/auth', authRouter); // For API routes

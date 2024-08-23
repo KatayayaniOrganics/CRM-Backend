@@ -3,12 +3,11 @@ const router = express.Router();
 const { signup, login, forgotPasswordController,resetPasswordController , verifyOtpController,logout} = require('../controllers/authController');
 
 // Define your API routes
-
 router.post('/signup', signup);
 
+//login route
 router.post('/login', login);
 
-// router.post('/reset-password/:token', resetpassword);
 // Forgot Password route
 router.post('/forgot-password', forgotPasswordController);
 
