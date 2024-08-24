@@ -38,3 +38,25 @@ exports.createLead = async (req, res) => {
       res.status(500).json({ success: false, message: error.message });
   }
 };
+
+exports.searchLead = async (req, res) => {
+    try {
+      const query = {};
+      
+      // Loop through the query parameters and add them to the search query
+      for (let key in req.query) {
+        if (req.query[key]) {
+          if (key === 'firstName' || key === 'lastName' || key === 'address' || key==='leadOwner'|| key==='email'||key==='contact') {
+            query[key] = { $regex: req.query[key], $options: 'i' }; // Case-insensitive partial match
+          } else {
+            query[key] = req.query[key];
+          }
+        }
+      }
+  
+      const lead = await CustomerLead.find(query) // Exclude password field
+      res.json(lead);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
+  }
