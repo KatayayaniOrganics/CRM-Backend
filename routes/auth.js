@@ -1,18 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const { signup, login, forgotpassword,resetpassword} = require('../controllers/authController');
+const { signup, login, forgotPasswordController,resetPasswordController , verifyOtpController,logout} = require('../controllers/authController');
 
 // Define your API routes
 router.post('/signup', signup);
+
+//login route
 router.post('/login', login);
-router.post('/forgot-password', forgotpassword); 
-// router.post('/forgot-password', (req, res, next) => {
-//     console.log('Forgot Password route hit');
-//     next();
-// }, forgotpassword);
 
-router.post('/reset-password/:token', resetpassword);
+// Forgot Password route
+router.post('/forgot-password', forgotPasswordController);
 
+// Verify OTP route
+router.post('/verify-otp', verifyOtpController);
+
+// Reset Password route
+router.post('/reset-password', resetPasswordController);
 
 
 module.exports = router;

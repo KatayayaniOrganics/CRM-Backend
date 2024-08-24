@@ -1,9 +1,7 @@
 const app = require('./app'); 
-const port = 3000;
-// const authRoutes = require('./auth')
-
-// app.use('/api/auth', authRoutes);
+const logger = require('./logger');
+const port = process.env.PORT;
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  logger.info(`Server is running on http://localhost:${port}`);
 });
