@@ -559,3 +559,13 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T12:05:25.250Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T12:05:26.118Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T12:05:26.466Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:undefined","timestamp":"2024-08-27T06:42:51.239Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"not found","timestamp":"2024-08-27T06:42:51.242Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-27T06:43:28.959Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-27T06:43:29.492Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-27T06:43:44.062Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-27T06:43:46.693Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/\",\"status\":\"304\",\"responseTime\":\"51.256\"}","timestamp":"2024-08-27T06:45:53.483Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/favicon.ico\",\"status\":\"404\",\"responseTime\":\"2.494\"}","timestamp":"2024-08-27T06:45:53.551Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/createLead\",\"status\":\"201\",\"responseTime\":\"204.940\"}","timestamp":"2024-08-27T06:48:26.235Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/searchLead?leadId=KO-1001\",\"status\":\"200\",\"responseTime\":\"48.854\"}","timestamp":"2024-08-27T06:49:05.496Z"}
