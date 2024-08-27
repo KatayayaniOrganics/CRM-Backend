@@ -52,9 +52,5 @@ router.post('/sources',createSource);
 router.post('/tags', createTags);
 
 
-router.get("/test",verifyToken,(res,req)=>{
-  req.send("wroking");
-});
-
 module.exports = router;
  
