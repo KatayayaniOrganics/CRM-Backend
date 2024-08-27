@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const customerLeadSchema = new mongoose.Schema(
   {
+    leadId:{
+      type: String,
+      unique:true,
+      required: [true, "LeadId Name is required"],
+    },
     leadOwner: {
       type: String,
       required: [true, "LeadOwner Name is required"],

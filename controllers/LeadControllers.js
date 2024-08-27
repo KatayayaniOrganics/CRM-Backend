@@ -1,13 +1,11 @@
-const logger = require('../logger');
+const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
 const CustomerLead = require('../Models/customerLeadModel');
 
-
 exports.createLead = async (req, res) => {
-    logger.info("You made a POST Request on Creating Customer lead Route")
-
   try {
       // Access user information from the verified token
       const loggedInUser = req.user; // This contains the decoded token data
+      console.log('Logged-in user:', loggedInUser);
 
       // You can add the logged-in user's information to the lead
       if (Array.isArray(req.body)) {
@@ -18,12 +16,10 @@ exports.createLead = async (req, res) => {
           }));
 
           const customerLeads = await CustomerLead.insertMany(leadsWithCreator);
-         logger.info("Customer leads Created Successfully")
-
           res.status(201).json({
               success: true,
               message: "CustomerLeads created successfully",
-              customerLeads : customerLeads._id
+              customerLeads
           });
       } else {
           // Add created_by field for a single lead
@@ -33,12 +29,10 @@ exports.createLead = async (req, res) => {
           });
 
           await customerLead.save();
-         logger.info("Customer lead Created Successfully")
-
           res.status(201).json({
               success: true,
               message: "CustomerLead created successfully",
-              customerlead: customerLead._id
+              customerLead
           });
       }
   } catch (error) {
@@ -46,37 +40,22 @@ exports.createLead = async (req, res) => {
   }
 };
 
-//update Lead
-exports.updateLead = async (req, res) => {
-    logger.info("You made a POST Request on Updating Customer lead Route")
+exports.searchLead = catchAsyncErrors(async (req, res) => {
 
-    try {
-        // Access user information from the verified token
-        const loggedInUser = req.user; // This contains the decoded token data
-
-        const leadId = req.params.id; // Assuming the lead ID is passed as a URL parameter
-        const updateData = req.body;
-        // Optionally, add fields like `updated_by` and `updated_at` to track who updated the lead and when
-        updateData.updated_by = loggedInUser.id;
-        updateData.updated_at = new Date();
-
-        const updatedLead = await CustomerLead.findByIdAndUpdate(
-            leadId,
-            { $set: updateData },
-            { new: true, runValidators: true } // return the updated document
-        );
-
-        if (!updatedLead) {
-            return res.status(404).json({ success: false, message: "Lead not found" });
+    const query = {};
+    
+    // Loop through the query parameters and add them to the search query
+    for (let key in req.query) {
+      if (req.query[key]) {
+        if (key === 'leadId' || key === 'firstName' || key === 'lastName' || key === 'address' || key==='leadOwner'|| key==='email'||key==='contact') {
+          query[key] = { $regex: req.query[key], $options: 'i' }; // Case-insensitive partial match
+        } else {
+          query[key] = req.query[key];
         }
-        logger.info("Customer lead Updated Successfully")
-        
-        res.status(200).json({
-            success: true,
-            message: "CustomerLead updated successfully",
-            updatedLead
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+      }
     }
-};
+
+    const lead = await CustomerLead.find(query) // Exclude password field
+    res.json(lead);
+  
+})
