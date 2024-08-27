@@ -16,6 +16,7 @@ router.post('/verify-otp', verifyOtpController);
 
 // Reset Password route
 router.post('/reset-password', resetPasswordController);
+router.post('/logout', logout);
 
 
 module.exports = router;

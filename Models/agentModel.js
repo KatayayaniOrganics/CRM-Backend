@@ -11,17 +11,19 @@ const agentSchema = new mongoose.Schema({
     type: String,
     required: [true, "Last Name is required"],
     trim: true,
-    minLength: [4, "Last Name should be at least 4 characters long"]
+    minLength: [3, "Last Name should be at least 3 characters long"]
   },
   email: {
     type: String,
+    required:[true,"Email Address is Required"],
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       "Please fill a valid email address"
     ],
-    unique: true
+    unique: true,
   },
   password: {
+    select:false,
     type: String,
     required: [true, "Password is required"],
     minLength: [6, 'Password should have at least 6 characters']

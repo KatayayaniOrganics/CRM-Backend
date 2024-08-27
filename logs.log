@@ -122,3 +122,440 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Updating Customer lead Route","timestamp":"2024-08-23T11:37:02.310Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Customer lead Updated Successfully","timestamp":"2024-08-23T11:37:02.376Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/updateLead/66c86eebde7b33f0bdf41b09\",\"status\":\"200\",\"responseTime\":\"87.704\"}","timestamp":"2024-08-23T11:37:02.381Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T11:41:11.930Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T11:41:12.691Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-23T11:49:08.523Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-23T11:49:09.309Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:34:06.218Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:34:07.270Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/aith/signup\",\"status\":\"400\",\"responseTime\":\"873\",\"contentLength\":\"POST /api/aith/signup 400 873 - 33.289 ms\\n\"}","timestamp":"2024-08-24T06:35:31.561Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/aith/signup\",\"status\":\"400\",\"responseTime\":\"873\",\"contentLength\":\"POST /api/aith/signup 400 873 - 2.758 ms\\n\"}","timestamp":"2024-08-24T06:36:04.121Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/aith/signup\",\"status\":\"404\",\"responseTime\":\"1116\",\"contentLength\":\"POST /api/aith/signup 404 1116 - 2.054 ms\\n\"}","timestamp":"2024-08-24T06:36:21.245Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:36:33.534Z"}
+{"Agent":{"__v":0,"_id":"66c97f717694035d5b58c32d","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$Gnw09y28vopKANuO.MBnreeU0Hj8n2O6FVfgU52rmKmwpZsYnqs72"},"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-24T06:36:33.736Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"58\",\"contentLength\":\"POST /api/auth/signup 201 58 - 203.815 ms\\n\"}","timestamp":"2024-08-24T06:36:33.738Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:37:09.474Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:37:10.658Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:37:22.221Z"}
+{"Agent":{"__v":0,"_id":"66c97fa254956d1b520444f8","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$jWCDQGf1RiSihf9TwLd2O.6w1HGZ2s8KpGoDwOPpp/yAKZvadLv.u"},"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-24T06:37:22.437Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"58\",\"contentLength\":\"-\"}","timestamp":"2024-08-24T06:37:22.442Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:37:39.314Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:37:40.167Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:37:41.603Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:37:42.215Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:38:01.234Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:38:03.030Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:38:03.785Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:38:07.943Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"400\",\"responseTime\":\"55.382\"}","timestamp":"2024-08-24T06:38:07.986Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:38:16.294Z"}
+{"error":"colors[Colorizer.allColors[lookup]] is not a function","level":"\u001b[31merror\u001b[39m","message":"Server error","success":false,"timestamp":"2024-08-24T06:38:16.573Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"280.304\"}","timestamp":"2024-08-24T06:38:16.574Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:39:01.814Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:39:03.567Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:39:04.642Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:39:05.624Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:39:15.172Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:39:16.531Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:39:25.436Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"400\",\"responseTime\":\"51.010\"}","timestamp":"2024-08-24T06:39:25.476Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:39:36.245Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66c98028fca4680907e21bb2","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$lovBY3QoDjNBd0WTatMHbOED0qNDz171PsrTJejceh640aX2sbXhO"},"timestamp":"2024-08-24T06:39:36.395Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"155.036\"}","timestamp":"2024-08-24T06:39:36.400Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:40:10.124Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:40:11.437Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:40:14.309Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:40:15.196Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:40:17.447Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:40:18.828Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:40:21.285Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:40:27.327Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"agent":{"__v":0,"_id":"66c9805b6bc8be5290f693b2","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$PFc/AtT/Mq5xLbo6AbMpyusHXoUFwcZgD1duBlLrurebNrg29qPWa"}},"timestamp":"2024-08-24T06:40:27.545Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"238.544\"}","timestamp":"2024-08-24T06:40:27.551Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:42:26.434Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:42:28.216Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:42:29.216Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:42:55.014Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"Agent":{"__v":0,"_id":"66c980efeb2c5455e4175a3a","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$6f3KdhvR74txDtV6r2NwvemWJZIdCLv6JPS1pNWer196a8dc7itVa"}},"timestamp":"2024-08-24T06:42:55.247Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"248.570\"}","timestamp":"2024-08-24T06:42:55.252Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:44:11.163Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:44:13.330Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:44:34.365Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:44:35.071Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:44:42.840Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"Data":{"__v":0,"_id":"66c9815a5896b83ba4375e9b","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$BSRH3FimEmODEneOopx5.u.Pe1ran6dLWYdUj5SjLWB5i9WeJF6Sm"}},"timestamp":"2024-08-24T06:44:43.154Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"329.577\"}","timestamp":"2024-08-24T06:44:43.159Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:44:59.961Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:45:01.025Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:45:15.389Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"Data":{"__v":0,"_id":"66c9817bc80a27cc250ba498","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$Z8j.qQjKSNx3/IdpXNHxbe7lnIbT91XCJDvJLgKo4RA/S4RI0hAVm"}},"timestamp":"2024-08-24T06:45:15.612Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"240.290\"}","timestamp":"2024-08-24T06:45:15.617Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:45:31.604Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:45:32.316Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:45:38.031Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:45:39.012Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:45:44.458Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:45:45.504Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:45:49.506Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:45:50.211Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:45:57.802Z"}
+{"$__":{"$versionError":null,"activePaths":{"paths":{"address":"require","firstname":"require","lastname":"require","password":"require"},"states":{"default":{},"modify":{},"require":{"address":true,"firstname":true,"lastname":true,"password":true}}},"backup":{"activePaths":{"default":{"_id":true,"call_history":true,"otpVerified":true},"modify":{"address":true,"email":true,"firstname":true,"lastname":true,"password":true}},"validationError":null},"cachedRequired":{},"inserting":true,"op":null,"saveOptions":null,"savedState":{},"saving":null,"validating":null},"$isNew":false,"_doc":{"__v":0,"_id":"66c981a551151cf6c2806bd1","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$x5PrNmismQzmynNZQUaWSuunwiPluloGwcKaA5KjwVXX9pdUHhidW"},"level":"\u001b[32minfo\u001b[39m","message":"hello","timestamp":"2024-08-24T06:45:58.086Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"298.264\"}","timestamp":"2024-08-24T06:45:58.091Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:46:08.178Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:46:08.751Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:46:09.334Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"400\",\"responseTime\":\"121.594\"}","timestamp":"2024-08-24T06:46:09.445Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:46:42.784Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66c981d2358a41f56483b9d5","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$fHpJVp5BTMvrLLzCfZiG4eo4.3HenXf0HFB9xMTOdqih1T70.3Mn2"},"timestamp":"2024-08-24T06:46:43.072Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"293.267\"}","timestamp":"2024-08-24T06:46:43.076Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:47:25.323Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:47:26.679Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:48:16.129Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66c98230d682a500e6850f45","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$ip7vqnRpcSNWXJRD1ItYGe0WaI2N/X8Um5yqI30UpSvxpkSLJ12au"},"timestamp":"2024-08-24T06:48:16.277Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"167.042\"}","timestamp":"2024-08-24T06:48:16.285Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:49:33.978Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:49:35.000Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:49:48.603Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66c9828c3cb2b527c7473e27","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false,"password":"$2a$10$dyuBfp4RcXwWQDKrxF9Ft.MGokM3Gs79oNt01btF/jb2XtHt48fn2"},"timestamp":"2024-08-24T06:49:48.847Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"264.140\"}","timestamp":"2024-08-24T06:49:48.855Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:55:28.524Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:55:29.305Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:55:30.534Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:55:31.079Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:56:18.399Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:56:19.386Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:56:42.807Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66c9842a204880f33600de40","address":"Saket nagar","call_history":[],"email":"praveen.dev@katyayaniorganics.com","firstname":"praveen","lastname":"soni","otpVerified":false},"timestamp":"2024-08-24T06:56:42.998Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"207.691\"}","timestamp":"2024-08-24T06:56:43.003Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:57:25.225Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:57:26.178Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:57:31.693Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:57:32.215Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:57:37.800Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:57:38.417Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:57:42.126Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:57:42.616Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:58:42.527Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:58:43.497Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:58:48.410Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:58:49.796Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:58:50.469Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:58:51.730Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:58:52.279Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:58:54.881Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:58:58.804Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:58:59.487Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T06:59:09.429Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-24T06:59:09.722Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"311.953\"}","timestamp":"2024-08-24T06:59:09.731Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T06:59:56.177Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T06:59:57.086Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:00:00.894Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:00:01.610Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:00:08.755Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:00:09.517Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T07:00:12.851Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"400\",\"responseTime\":\"65.624\"}","timestamp":"2024-08-24T07:00:12.907Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:00:58.442Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:00:59.653Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:01:02.783Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:01:04.101Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:01:07.937Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:01:09.661Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:01:10.723Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T07:01:24.201Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-24T07:01:24.694Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"514.082\"}","timestamp":"2024-08-24T07:01:24.703Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:01:57.324Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:02:00.178Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:02:01.657Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:02:02.238Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:33:54.086Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:33:55.151Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:34:10.170Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:34:10.798Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:34:56.967Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:34:57.739Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:35:07.278Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:35:07.970Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:35:13.047Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:35:13.666Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:44:59.927Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:45:01.827Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:48:23.878Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:48:24.880Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:48:28.677Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:48:29.482Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:48:49.730Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:48:50.412Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:49:20.782Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:49:21.833Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:49:23.181Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:49:24.187Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:50:43.773Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:50:45.725Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:52:04.731Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:52:06.028Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:52:28.060Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:52:29.228Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:52:33.959Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:52:34.823Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:52:39.627Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:52:40.273Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:52:54.561Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:52:55.640Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:52:56.538Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:52:57.105Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:53:04.187Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:53:04.930Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:53:06.933Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T07:53:08.241Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T07:53:13.904Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:21:14.318Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:21:15.236Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:23:44.179Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-24T08:23:44.325Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"163.471\"}","timestamp":"2024-08-24T08:23:44.330Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:23:47.273Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"400\",\"responseTime\":\"24.773\"}","timestamp":"2024-08-24T08:23:47.297Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:25:30.030Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"112.079\"}","timestamp":"2024-08-24T08:25:30.142Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:26:09.101Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:26:10.076Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:26:12.556Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:26:13.173Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:26:18.122Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:26:18.931Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:26:22.435Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-24T08:26:22.879Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"458.840\"}","timestamp":"2024-08-24T08:26:22.884Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:26:23.999Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"400\",\"responseTime\":\"35.469\"}","timestamp":"2024-08-24T08:26:24.033Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:26:38.216Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:26:39.169Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:27:16.288Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:27:17.580Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:27:18.633Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:27:19.459Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:27:29.483Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:27:30.108Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:27:54.570Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:27:55.262Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:28:08.080Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:28:08.937Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:28:13.151Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"318.927\"}","timestamp":"2024-08-24T08:28:13.459Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:28:31.802Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:28:32.564Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:28:35.226Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"171.343\"}","timestamp":"2024-08-24T08:28:35.387Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:28:51.965Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:28:52.754Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:28:58.930Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:29:00.687Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:29:01.326Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:29:03.768Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:29:04.671Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:29:08.889Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:29:09.879Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:29:12.654Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:29:13.146Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:29:23.898Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:29:25.259Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:30:15.345Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:30:16.181Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:30:19.506Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:30:20.044Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:30:45.203Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"103.102\"}","timestamp":"2024-08-24T08:30:45.294Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:30:54.900Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:30:55.665Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:31:18.217Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:31:19.111Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:31:20.290Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"100.090\"}","timestamp":"2024-08-24T08:31:20.379Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:31:50.232Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:31:50.832Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:31:56.544Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:31:57.296Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:32:09.582Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:32:10.215Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:32:15.712Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:32:16.441Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:32:25.499Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:32:26.417Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:32:28.677Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:32:29.293Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:32:54.584Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:32:55.433Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:33:01.001Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:33:01.798Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:33:09.619Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:33:10.523Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:33:15.716Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"110.349\"}","timestamp":"2024-08-24T08:33:15.812Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:33:39.849Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:33:40.566Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:33:45.140Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:33:45.485Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:33:46.291Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"112.432\"}","timestamp":"2024-08-24T08:33:46.391Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:34:52.638Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:34:53.315Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:35:37.006Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:35:37.453Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:35:43.670Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:35:44.052Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:35:45.996Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:35:46.328Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:36:12.809Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"97.530\"}","timestamp":"2024-08-24T08:36:12.895Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:36:20.593Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:36:21.140Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:36:21.853Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"94.902\"}","timestamp":"2024-08-24T08:36:21.938Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:36:26.022Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:36:26.358Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:40:02.255Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:40:03.836Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:40:04.194Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:40:05.003Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"103.453\"}","timestamp":"2024-08-24T08:40:05.096Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:40:49.934Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:40:50.507Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:40:57.869Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:40:58.247Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:41:19.229Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:41:19.734Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:41:30.287Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"110.950\"}","timestamp":"2024-08-24T08:41:30.383Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:43:21.951Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:43:22.634Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:43:25.249Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:43:25.613Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:43:30.324Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:43:30.666Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:43:34.517Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:43:34.879Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:43:53.677Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-24T08:43:53.808Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"150.373\"}","timestamp":"2024-08-24T08:43:53.814Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T08:44:04.105Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"77.877\"}","timestamp":"2024-08-24T08:44:04.181Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:44:18.154Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:44:18.679Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T08:44:22.188Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T08:44:22.619Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T09:55:52.921Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-24T09:55:53.050Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"153.911\"}","timestamp":"2024-08-24T09:55:53.056Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Login Route","timestamp":"2024-08-24T09:58:52.987Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/login\",\"status\":\"500\",\"responseTime\":\"35.058\"}","timestamp":"2024-08-24T09:58:53.020Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/login\",\"status\":\"400\",\"responseTime\":\"2.280\"}","timestamp":"2024-08-24T09:59:30.697Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Login Route","timestamp":"2024-08-24T09:59:38.678Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/login\",\"status\":\"500\",\"responseTime\":\"24.002\"}","timestamp":"2024-08-24T09:59:38.701Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T10:04:28.935Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"68.433\"}","timestamp":"2024-08-24T10:04:29.004Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T10:04:49.685Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"67.136\"}","timestamp":"2024-08-24T10:04:49.752Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T10:04:59.336Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-24T10:04:59.437Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"103.026\"}","timestamp":"2024-08-24T10:04:59.438Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:05:15.572Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:05:16.253Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:05:32.848Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:05:33.234Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:05:44.658Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:05:46.426Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:05:48.693Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:05:49.093Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:05:54.577Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:05:55.057Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:06:02.092Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:06:02.464Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:06:04.247Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:06:04.674Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T10:06:07.856Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"105.449\"}","timestamp":"2024-08-24T10:06:07.950Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:06:54.715Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:06:55.359Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:07:10.166Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:07:10.534Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:07:12.737Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:07:13.107Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:07:15.764Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:07:16.193Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:07:17.337Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:07:17.721Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:09:05.713Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:09:06.324Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:09:07.833Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:09:08.170Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:09:24.537Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:09:24.920Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:09:31.188Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:09:31.518Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:09:37.915Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:09:38.301Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:09:39.762Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:09:40.123Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:09:41.545Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:09:41.887Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:09:47.985Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:09:49.172Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:09:49.534Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T10:09:52.910Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"93.599\"}","timestamp":"2024-08-24T10:09:52.994Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:10:17.336Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:10:17.867Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:10:44.510Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:10:44.876Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:01.478Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:11:01.883Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:05.864Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:11:06.231Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:07.442Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:11:07.836Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:10.821Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:11:11.160Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:14.480Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:11:14.843Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:19.021Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:11:19.529Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T10:11:25.631Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Please Provide Email Address","timestamp":"2024-08-24T10:11:25.714Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"98.486\"}","timestamp":"2024-08-24T10:11:25.719Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:47.024Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:48.158Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:11:48.510Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:51.029Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:11:51.394Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:54.174Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:11:54.595Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:11:58.324Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:11:58.689Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:12:01.695Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:12:02.055Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:12:05.052Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:12:05.413Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:12:08.517Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:12:08.852Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:12:11.747Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:12:12.081Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T10:12:15.490Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"Please Provide Email Address","timestamp":"2024-08-24T10:12:15.574Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"500\",\"responseTime\":\"102.494\"}","timestamp":"2024-08-24T10:12:15.580Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:14:56.185Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:14:58.346Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:15:11.713Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:15:12.518Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T10:15:24.392Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T10:15:25.173Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-24T10:17:27.807Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-24T10:17:27.923Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"130.796\"}","timestamp":"2024-08-24T10:17:27.928Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T12:05:23.845Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T12:05:24.747Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T12:05:25.250Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T12:05:26.118Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T12:05:26.466Z"}
