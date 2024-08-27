@@ -4,59 +4,45 @@ const nodemailer = require('nodemailer');
 const Agent = require("../Models/agentModel"); // Make sure this is the correct path
 const sendResetEmail = require("../controllers/sendMail");
 const logger = require('../logger');
+const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
 
 // Signup Controller
-exports.signup = async (req, res) => {
+exports.signup = catchAsyncErrors(async (req, res) => {
   const { firstname, lastname, email, password, address } = req.body;
-  logger.info("You made a POST Request on Singup Route")
+  logger.info("You made a POST Request on Singup Route");
 
-  try {
-    // Check if the agent already exists
-    let agent = await Agent.findOne({ email });
-    if (agent) {
-      return res.status(400).json({ success: false, message: 'Agent already exists' });
-    }
+  // Create a new agent
+  agent = new Agent({
+    firstname,
+    lastname,
+    email,
+    password,
+    address
+  });
 
-    // Create a new agent
-    agent = new Agent({
-      firstname,
-      lastname,
-      email,
-      password,
-      address
-    });
+  // Hash the password before saving
+  const salt = await bcrypt.genSalt(10);
+  agent.password = await bcrypt.hash(password, salt);
 
-    // Hash the password before saving
-    const salt = await bcrypt.genSalt(10);
-    agent.password = await bcrypt.hash(password, salt);
+  // Save the agent to the database
+  await agent.save();
+  
+  logger.info({message: 'Agent Signup successfully'});
+  
+  res.status(201).json({ success: true, message: 'Agent registered successfully' });
 
-    // Save the agent to the database
-    await agent.save();
-    
-    logger.info({ message: 'Agent Signup successfully',Agent:agent} );
-    res.status(201).json({ success: true, message: 'Agent registered successfully' });
-  } catch (error) {
-    console.error("Error in signup:", error); // Detailed error logging
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      error: error.message
-    });
-    logger.error({ success: false, message: 'Server error', error: error.message })
-
-  }
-};
+});
 
 
 // Login Controller
-exports.login = async (req, res) => {
+exports.login = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Login Route");
-
-  try {
     const { email, password } = req.body;
     const agent = await Agent.findOne({ email });
+    if (!agent) return next(new ErrorHandler("Student Not Found With This Email Address", 404));
+
     if (!agent || !(await bcrypt.compare(password, agent.password))) {
-      return res.status(400).json({ success: false, message: 'Invalid credentials' });
+      return res.status(404).json({ success: false, message: 'Invalid credentials' });
     } 
 
     const token = jwt.sign({ id: agent._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -66,18 +52,11 @@ exports.login = async (req, res) => {
     res.status(200).json({ success: true, token ,message: 'Agent Logged successfully'});
     logger.info({ message: 'Agent Logged successfully',token:token} );
 
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error', error: error.message });
-    logger.error({ success: false, message: 'Server error', error: error.message })
-  }
-};
-
+});
 
 // Forgot Password Controller
-module.exports.forgotPasswordController = async (req, res) => {
+exports.forgotPasswordController = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Forget Route")
-
-  try {
       const { email } = req.body;
 
       if (!email) {
@@ -118,17 +97,14 @@ module.exports.forgotPasswordController = async (req, res) => {
 
       return res.status(200).send({ message: 'OTP sent successfully' });
 
-  } catch (error) {
-      console.error("Error:", error.message);
-      return res.status(500).send({ error: 'An error occurred while sending the OTP' });
-  }
-};
+ 
+});
 
 // OTP Verification Controller
-module.exports.verifyOtpController = async (req, res) => {
+exports.verifyOtpController = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Verify Otp Route")
 
-  try {
+
       const { email, otp } = req.body;
 
       if (!email || !otp) {
@@ -159,17 +135,13 @@ module.exports.verifyOtpController = async (req, res) => {
 
       return res.status(200).send({ message: 'OTP verified successfully' });
 
-  } catch (error) {
-      console.error("Error:", error.message);
-      return res.status(500).send({ error: 'An error occurred while verifying OTP' });
-  }
-};
+  
+});
 
 // Reset Password Controller
-module.exports.resetPasswordController = async (req, res) => {
+exports.resetPasswordController = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Reset Route")
 
-  try {
       const { email, newPassword } = req.body;
 
       if (!email || !newPassword) {
@@ -200,8 +172,5 @@ module.exports.resetPasswordController = async (req, res) => {
 
       return res.status(200).send({ message: 'Password reset successfully' });
 
-  } catch (error) {
-      console.error("Error:", error.message);
-      return res.status(500).send({ error: 'An error occurred while resetting the password' });
-  }
-};
+  
+});

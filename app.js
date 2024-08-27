@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
 const logger = require ("./logger");
 const morgan = require ("morgan");
-const cors = require('cors')
+const cors = require('cors');
 
 
 require("./Models/Database").connectDatabase();
@@ -49,13 +49,13 @@ app.use('/api/auth', authRouter); // For API routes
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-app.use(function(err, req, res, next) {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.render('error');
+//error Handling
+const ErrorHandler = require("./utils/errorHandler.js");
+const generateError = require("./middlewares/errors.js");
+app.all("*", (req, res, next) => {
+  next(new ErrorHandler(`Requested URL Not Found: ${req.url}`, 404));
 });
+app.use(generateError)
 
 
 module.exports = app;
