@@ -23,7 +23,6 @@ const agentSchema = new mongoose.Schema({
     unique: true,
   },
   password: {
-    select:false,
     type: String,
     required: [true, "Password is required"],
     minLength: [6, 'Password should have at least 6 characters']

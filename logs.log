@@ -559,3 +559,38 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T12:05:25.250Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-24T12:05:26.118Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-24T12:05:26.466Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-27T11:17:31.238Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-27T11:17:31.953Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Singup Route","timestamp":"2024-08-27T11:17:50.663Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Signup successfully","timestamp":"2024-08-27T11:17:50.804Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/signup\",\"status\":\"201\",\"responseTime\":\"163.187\"}","timestamp":"2024-08-27T11:17:50.812Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Login Route","timestamp":"2024-08-27T11:17:54.538Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/login\",\"status\":\"500\",\"responseTime\":\"32.947\"}","timestamp":"2024-08-27T11:17:54.570Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-27T11:20:07.825Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-27T11:20:08.631Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/login\",\"status\":\"500\",\"responseTime\":\"105.253\"}","timestamp":"2024-08-27T11:20:14.560Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-27T11:21:25.018Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-27T11:21:25.952Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Login Route","timestamp":"2024-08-27T11:22:25.990Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/login\",\"status\":\"500\",\"responseTime\":\"63.403\"}","timestamp":"2024-08-27T11:22:26.039Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-27T11:24:58.931Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-27T11:24:59.628Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Login Route","timestamp":"2024-08-27T11:25:00.416Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent found with email praveen.dev@katyayaniorganics.com, password exists: false","timestamp":"2024-08-27T11:25:00.463Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/login\",\"status\":\"500\",\"responseTime\":\"68.865\"}","timestamp":"2024-08-27T11:25:00.470Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-27T11:25:34.569Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Login Route","timestamp":"2024-08-27T11:25:35.139Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-27T11:25:35.182Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent found with email praveen.dev@katyayaniorganics.com, password exists: true","timestamp":"2024-08-27T11:25:35.217Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"JWT_SECRET is defined: true","timestamp":"2024-08-27T11:25:35.299Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Logged successfully","timestamp":"2024-08-27T11:25:35.309Z","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Y2RiNWRlZDk1M2JmMmE5ZTRjMTBjYyIsImlhdCI6MTcyNDc1NzkzNSwiZXhwIjoxNzI0NzYxNTM1fQ.601gs08JtiT_DjPqB2WRkUdyWQDB1PWEMv9idYcwDcQ"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/login\",\"status\":\"200\",\"responseTime\":\"192.093\"}","timestamp":"2024-08-27T11:25:35.310Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-27T11:25:51.434Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-27T11:25:51.876Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-27T11:25:53.131Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-27T11:25:53.746Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Login Route","timestamp":"2024-08-27T11:25:56.507Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent Logged successfully","timestamp":"2024-08-27T11:25:56.637Z","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Y2RiNWRlZDk1M2JmMmE5ZTRjMTBjYyIsImlhdCI6MTcyNDc1Nzk1NiwiZXhwIjoxNzI0NzYxNTU2fQ.-wP4l107rwKCpgLZBrWxZU_FZM5oTlraCjKKE8yrUQg"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/login\",\"status\":\"200\",\"responseTime\":\"140.451\"}","timestamp":"2024-08-27T11:25:56.641Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-27T11:26:29.466Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-27T11:26:30.075Z"}
