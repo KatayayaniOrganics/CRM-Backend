@@ -174,3 +174,12 @@ exports.resetPasswordController = catchAsyncErrors(async (req, res) => {
 
   
 });
+module.exports.logout = catchAsyncErrors( async (req, res) => {
+        logger.info("You made a POST Request on Logout Route");
+      
+        // Clear the token from cookies
+        res.clearCookie('token', { httpOnly: true });
+        
+        return res.status(200).json({ success: true, message: 'Logged out successfully!' });
+      });
+      
