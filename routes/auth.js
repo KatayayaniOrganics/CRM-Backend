@@ -16,6 +16,8 @@ router.post('/verify-otp', verifyOtpController);
 
 // Reset Password route
 router.post('/reset-password', resetPasswordController);
+
+//Logout Route
 router.post('/logout', logout);
 
 
