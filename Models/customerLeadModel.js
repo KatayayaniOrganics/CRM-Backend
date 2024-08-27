@@ -30,12 +30,18 @@ const customerLeadSchema = new mongoose.Schema(
         "Please fill a valid email address",
       ],
     },
-    source: { type: mongoose.Schema.Types.ObjectId, ref: "Source" },
-    contact: { type: String, required: [true, "Contact is required"],minLnegth: [10, "Contact shuold be atleast 10 number"],maxLnegth: [13, "Contact shuold be atmost 13 number"] },
-    created_at: { type: Date, default: Date.now },
+    address1: String,
+    address2: String,
+    city:String,
+    State:String,
+    Country:String,
     responded_at: Date,
+    lead_category: String,
+    contact: { type: String, required: [true, "Contact is required"],minLnegth: [10, "Contact shuold be atleast 10 number"],maxLnegth: [13, "Contact shuold be atmost 13 number"] },
+    source: { type: mongoose.Schema.Types.ObjectId, ref: "Source" },
+    created_at: { type: Date, default: Date.now },
     query: { type: mongoose.Schema.Types.ObjectId, ref: "Query" },
-    address: String,
+    
     order_history: [
       {
         order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
@@ -45,8 +51,8 @@ const customerLeadSchema = new mongoose.Schema(
       area: String,
       crops: [{ type: mongoose.Schema.Types.ObjectId, ref: "Crop" }],
     },
-    call_history: [{}],
-    lead_category: String,
+    call_history: [{type: mongoose.Schema.Types.ObjectId, ref: "CallDetails"}],
+
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tags" }],
 
     // For additional fields that may be added dynamically
