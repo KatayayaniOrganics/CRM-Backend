@@ -5,7 +5,7 @@ const Agent = require("../Models/agentModel"); // Make sure this is the correct 
 const sendResetEmail = require("../controllers/sendMail");
 const logger = require('../logger');
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
-const { ErrorHandler } = require('../utils/errorHandler');
+const ErrorHandler  = require('../utils/errorHandler');
 
 // Signup Controller
 exports.signup = catchAsyncErrors(async (req, res) => {

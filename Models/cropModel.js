@@ -5,6 +5,7 @@ const cropSchema = new mongoose.Schema({
   sowing: Date,
   products_used: [String],
   crop_stage: String,
+  Date:Date,
 });
 
 const Crop = mongoose.model("Crop", cropSchema);

@@ -1,5 +1,5 @@
 var express = require('express');
-const { createLead, searchLead } = require('../controllers/LeadControllers');
+const { createLead, searchLead ,allLeads } = require('../controllers/LeadControllers');
 const {createSource,createTags,queryCreation, CallDetailsCreation, CropsCreation}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 
@@ -31,6 +31,9 @@ router.get('/createLead', (req,res)=>{
 
 //search lead
 router.get('/searchLead',verifyToken,searchLead);
+
+//all Leads
+router.get('/getLeads',verifyToken,allLeads);
 
 // Create a new query
 router.post('/queries', queryCreation);
