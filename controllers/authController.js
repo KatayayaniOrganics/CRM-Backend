@@ -5,6 +5,7 @@ const Agent = require("../Models/agentModel"); // Make sure this is the correct 
 const sendResetEmail = require("../controllers/sendMail");
 const logger = require('../logger');
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
+const ErrorHandler  = require('../utils/errorHandler');
 
 // Signup Controller
 exports.signup = catchAsyncErrors(async (req, res) => {
@@ -42,7 +43,7 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
     const agent = await Agent.findOne({ email });
   
     if (!agent) {
-      return next(new ErrorHandler("Student Not Found With This Email Address", 404));
+      return next(new ErrorHandler("Agent Not Found With This Email Address", 404));
     }
   
     // Log the agent password to check if it exists

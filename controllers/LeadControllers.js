@@ -1,8 +1,8 @@
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
 const CustomerLead = require('../Models/customerLeadModel');
 
-exports.createLead = async (req, res) => {
-  try {
+exports.createLead = catchAsyncErrors(async (req, res) => {
+
       // Access user information from the verified token
       const loggedInUser = req.user; // This contains the decoded token data
       console.log('Logged-in user:', loggedInUser);
@@ -35,10 +35,8 @@ exports.createLead = async (req, res) => {
               customerLead
           });
       }
-  } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
-  }
-};
+ 
+});
 
 exports.searchLead = catchAsyncErrors(async (req, res) => {
 
@@ -58,4 +56,12 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
     const lead = await CustomerLead.find(query) // Exclude password field
     res.json(lead);
   
+});
+
+exports.allLeads = catchAsyncErrors(async(req,res)=>{
+  
+  const allLeads = await CustomerLead.find();
+
+  res.status(200).json({success:true,message:"All Leads that are available",allLeads})
+
 })
