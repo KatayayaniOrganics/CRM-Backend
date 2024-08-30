@@ -1,0 +1,351 @@
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:18:15.686Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:18:16.192Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"DELETE\",\"url\":\"/deleteLead/K0-1000\",\"status\":\"200\",\"responseTime\":\"48.671\"}","timestamp":"2024-08-30T09:18:19.214Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"DELETE\",\"url\":\"/deleteLead/K0-1001\",\"status\":\"200\",\"responseTime\":\"33.725\"}","timestamp":"2024-08-30T09:18:32.642Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:19:59.451Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:19:59.922Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:20:08.129Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:20:08.496Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:20:10.558Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:20:10.907Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:21:15.550Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:21:16.067Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:21:22.881Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:21:23.292Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:21:25.592Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:21:25.975Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:21:36.626Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:21:36.978Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:21:38.667Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:21:39.067Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:23:11.049Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:23:11.540Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:23:16.219Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:23:17.514Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:23:17.893Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:23:19.631Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:23:19.999Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:23:23.998Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:23:25.117Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:23:25.494Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:23:39.708Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:23:40.232Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:23:42.876Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:23:43.241Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:23:52.790Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:23:53.203Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:24:05.725Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:24:06.118Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:24:09.551Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:24:09.953Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:24:15.165Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:24:15.569Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:24:19.208Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:24:19.617Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:24:21.357Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:24:21.734Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:24:29.418Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:24:29.827Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:24:35.815Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:24:36.959Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:24:37.331Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:24:41.210Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:24:41.741Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:24:42.675Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:24:43.009Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:25:08.420Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:25:08.866Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:25:11.885Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:25:12.247Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:25:13.813Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:25:14.152Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:25:36.090Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:25:36.488Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:25:37.411Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:25:37.804Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:25:40.558Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:25:40.960Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:25:45.543Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:25:45.972Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:25:50.750Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:25:51.139Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:25:56.311Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:25:56.689Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:25:58.345Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:25:58.681Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:29:29.864Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"60.768\"}","timestamp":"2024-08-30T09:29:29.907Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:29:58.790Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:29:59.563Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:30:01.135Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"45.751\"}","timestamp":"2024-08-30T09:30:01.170Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:30:12.388Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:30:12.742Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:30:14.323Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:30:15.632Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:30:15.958Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:30:17.268Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:30:17.591Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:30:21.072Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:30:21.459Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:30:24.976Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:30:25.332Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:30:25.366Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"257.818\"}","timestamp":"2024-08-30T09:30:25.576Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:32:36.505Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:32:37.020Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:32:39.582Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:32:39.955Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:38:30.831Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"61.209\"}","timestamp":"2024-08-30T09:38:30.882Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:39:11.950Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"75.444\"}","timestamp":"2024-08-30T09:39:12.024Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:39:54.229Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":1,"_id":"66d1936a89c0f144de2a3b73","cropId":"CS-01","crop_stage":"Flowering","diseases":["66d1936a89c0f144de2a3b75"],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T09:39:54.372Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"143.031\"}","timestamp":"2024-08-30T09:39:54.377Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:39:59.106Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":1,"_id":"66d1936f89c0f144de2a3b79","cropId":"CS-2","crop_stage":"Flowering","diseases":["66d1936f89c0f144de2a3b7b"],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T09:39:59.235Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"128.556\"}","timestamp":"2024-08-30T09:39:59.237Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:40:03.797Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":1,"_id":"66d1937389c0f144de2a3b7f","cropId":"CS-3","crop_stage":"Flowering","diseases":["66d1937389c0f144de2a3b81"],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T09:40:03.926Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"128.799\"}","timestamp":"2024-08-30T09:40:03.928Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:40:08.155Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":1,"_id":"66d1937889c0f144de2a3b85","cropId":"CS-4","crop_stage":"Flowering","diseases":["66d1937889c0f144de2a3b87"],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T09:40:08.284Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"128.885\"}","timestamp":"2024-08-30T09:40:08.287Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:40:10.288Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":1,"_id":"66d1937a89c0f144de2a3b8b","cropId":"CS-5","crop_stage":"Flowering","diseases":["66d1937a89c0f144de2a3b8d"],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T09:40:10.425Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"136.635\"}","timestamp":"2024-08-30T09:40:10.426Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:40:12.726Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":1,"_id":"66d1937c89c0f144de2a3b91","cropId":"CS-6","crop_stage":"Flowering","diseases":["66d1937c89c0f144de2a3b93"],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T09:40:12.850Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"124.454\"}","timestamp":"2024-08-30T09:40:12.851Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:40:14.817Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":1,"_id":"66d1937e89c0f144de2a3b97","cropId":"CS-7","crop_stage":"Flowering","diseases":["66d1937e89c0f144de2a3b99"],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T09:40:14.945Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"127.614\"}","timestamp":"2024-08-30T09:40:14.946Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:40:17.434Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":1,"_id":"66d1938189c0f144de2a3b9d","cropId":"CS-8","crop_stage":"Flowering","diseases":["66d1938189c0f144de2a3b9f"],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T09:40:17.562Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"127.913\"}","timestamp":"2024-08-30T09:40:17.564Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:40:19.989Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":1,"_id":"66d1938489c0f144de2a3ba3","cropId":"CS-9","crop_stage":"Flowering","diseases":["66d1938489c0f144de2a3ba5"],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T09:40:20.117Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"127.840\"}","timestamp":"2024-08-30T09:40:20.119Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:40:21.996Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":1,"_id":"66d1938689c0f144de2a3ba9","cropId":"CS-10","crop_stage":"Flowering","diseases":["66d1938689c0f144de2a3bab"],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T09:40:22.125Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"128.588\"}","timestamp":"2024-08-30T09:40:22.126Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:40:24.007Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"60.546\"}","timestamp":"2024-08-30T09:40:24.068Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:41:29.606Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"74.153\"}","timestamp":"2024-08-30T09:41:29.681Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T09:44:52.544Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T09:44:53.121Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:44:54.500Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"68.990\"}","timestamp":"2024-08-30T09:44:54.559Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T09:45:11.983Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"124.841\"}","timestamp":"2024-08-30T09:45:12.108Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:03:42.170Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:03:42.605Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"400\",\"responseTime\":\"18.864\"}","timestamp":"2024-08-30T12:03:50.891Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Login Route","timestamp":"2024-08-30T12:03:58.818Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent found with email ak7879241532@gmail.com, password exists: true","timestamp":"2024-08-30T12:03:58.851Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"JWT_SECRET is defined: true","timestamp":"2024-08-30T12:03:58.922Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Agent LoggedIn successfully","timestamp":"2024-08-30T12:03:58.925Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/api/auth/login\",\"status\":\"200\",\"responseTime\":\"108.752\"}","timestamp":"2024-08-30T12:03:58.927Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"400\",\"responseTime\":\"0.703\"}","timestamp":"2024-08-30T12:04:28.288Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:04:34.670Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"59.909\"}","timestamp":"2024-08-30T12:04:34.729Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:04:52.513Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:04:53.026Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:01.134Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:01.540Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:02.604Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:02.975Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:03.852Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:04.231Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:06.018Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:06.362Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:07.918Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:08.262Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:24.350Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:24.685Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:29.869Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:30.234Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:37.633Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:37.964Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:39.032Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:39.371Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:40.392Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:41.421Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:41.811Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:43.530Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:43.854Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:05:44.947Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:05:45.329Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:06:02.549Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"65.924\"}","timestamp":"2024-08-30T12:06:02.605Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:06:16.910Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:06:17.292Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:06:18.609Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b5bab64794fe63ef36ae","cropId":"CS-10","crop_stage":"Flowering","diseases":[],"image":"wheat_image.jpg","name":"Wheat","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:06:18.679Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"80.980\"}","timestamp":"2024-08-30T12:06:18.684Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:06:20.770Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"51.878\"}","timestamp":"2024-08-30T12:06:20.821Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:07:19.563Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"47.601\"}","timestamp":"2024-08-30T12:07:19.610Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:07:35.937Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:07:36.532Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:07:39.276Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:07:39.650Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:07:42.233Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:07:42.563Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:19.695Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b6338bd20cf95a95fac6","cropId":"CS-00","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:19.766Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"82.321\"}","timestamp":"2024-08-30T12:08:19.771Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:21.679Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b6358bd20cf95a95fac9","cropId":"CS-01","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:21.737Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"59.410\"}","timestamp":"2024-08-30T12:08:21.739Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:23.321Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b6378bd20cf95a95facc","cropId":"CS-02","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:23.380Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"59.215\"}","timestamp":"2024-08-30T12:08:23.383Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:24.676Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b6388bd20cf95a95facf","cropId":"CS-03","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:24.735Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"59.372\"}","timestamp":"2024-08-30T12:08:24.737Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:26.031Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b63a8bd20cf95a95fad2","cropId":"CS-04","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:26.084Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"53.142\"}","timestamp":"2024-08-30T12:08:26.085Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:27.395Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b63b8bd20cf95a95fad5","cropId":"CS-05","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:27.451Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"55.630\"}","timestamp":"2024-08-30T12:08:27.453Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:28.669Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b63c8bd20cf95a95fad8","cropId":"CS-06","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:28.722Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"54.032\"}","timestamp":"2024-08-30T12:08:28.724Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:30.146Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b63e8bd20cf95a95fadb","cropId":"CS-07","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:30.199Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"52.956\"}","timestamp":"2024-08-30T12:08:30.201Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:32.073Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b6408bd20cf95a95fade","cropId":"CS-08","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:32.128Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"55.979\"}","timestamp":"2024-08-30T12:08:32.130Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:33.412Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b6418bd20cf95a95fae1","cropId":"CS-09","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:33.465Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"54.013\"}","timestamp":"2024-08-30T12:08:33.467Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:35.547Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b6438bd20cf95a95fae4","cropId":"CS-010","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:08:35.603Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"55.336\"}","timestamp":"2024-08-30T12:08:35.604Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:08:36.900Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"52.411\"}","timestamp":"2024-08-30T12:08:36.952Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:13:51.611Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:13:52.130Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:13:53.377Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:13:53.763Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:13:54.712Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:13:55.046Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:14:08.346Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:14:09.139Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:14:12.953Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:14:13.403Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:14:20.882Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:14:21.405Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:14:27.689Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"54.195\"}","timestamp":"2024-08-30T12:14:27.732Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:14:28.955Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"35.024\"}","timestamp":"2024-08-30T12:14:28.990Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:14:30.083Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"33.283\"}","timestamp":"2024-08-30T12:14:30.116Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:14:31.170Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"37.770\"}","timestamp":"2024-08-30T12:14:31.207Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:14:32.179Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"132.218\"}","timestamp":"2024-08-30T12:14:32.311Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:14:33.230Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"32.221\"}","timestamp":"2024-08-30T12:14:33.262Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:14:55.481Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:14:56.033Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:14:59.001Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:14:59.513Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:15:04.470Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:15:04.885Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:15:04.913Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b7c8a60409e2470d7a4f","cropId":"CS-01","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:15:05.114Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"239.470\"}","timestamp":"2024-08-30T12:15:05.118Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:15:21.980Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:15:23.271Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:15:23.610Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:16:58.556Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b83aa0c896d30335b3bd","cropId":"CS-2","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:16:58.643Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"100.467\"}","timestamp":"2024-08-30T12:16:58.648Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:17:07.534Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b843a0c896d30335b3c0","cropId":"CS-3","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:17:07.587Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"54.350\"}","timestamp":"2024-08-30T12:17:07.590Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:17:58.381Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b876a0c896d30335b3c3","cropId":"CS-4","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:17:58.452Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"71.006\"}","timestamp":"2024-08-30T12:17:58.454Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:18:00.287Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b878a0c896d30335b3c6","cropId":"CS-5","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:18:00.338Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"50.991\"}","timestamp":"2024-08-30T12:18:00.340Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:18:11.210Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b883a0c896d30335b3c9","cropId":"CS-6","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:18:11.266Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"56.304\"}","timestamp":"2024-08-30T12:18:11.269Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:18:16.541Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b888a0c896d30335b3cc","cropId":"CS-7","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:18:16.598Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"56.804\"}","timestamp":"2024-08-30T12:18:16.600Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:18:21.378Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b88da0c896d30335b3cf","cropId":"CS-8","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:18:21.424Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"45.375\"}","timestamp":"2024-08-30T12:18:21.425Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:18:23.957Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b88fa0c896d30335b3d2","cropId":"CS-9","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:18:24.004Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"47.134\"}","timestamp":"2024-08-30T12:18:24.005Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:18:26.620Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1b892a0c896d30335b3d5","cropId":"CS-10","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:18:26.670Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"49.665\"}","timestamp":"2024-08-30T12:18:26.671Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:18:29.430Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"48.954\"}","timestamp":"2024-08-30T12:18:29.479Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:18:33.363Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"500\",\"responseTime\":\"45.808\"}","timestamp":"2024-08-30T12:18:33.409Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:45:01.217Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:45:01.681Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:55:52.227Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:55:52.704Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:56:12.138Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:56:12.556Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:56:54.509Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:56:55.436Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:56:57.083Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c199ba4a2470d0530e7c","cropId":"CS-01","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:56:57.164Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"91.615\"}","timestamp":"2024-08-30T12:56:57.169Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:56:59.506Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c19bba4a2470d0530e7f","cropId":"CS-02","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:56:59.569Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"64.111\"}","timestamp":"2024-08-30T12:56:59.571Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:00.912Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c19cba4a2470d0530e82","cropId":"CS-03","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:00.976Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"63.541\"}","timestamp":"2024-08-30T12:57:00.978Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:02.335Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c19eba4a2470d0530e85","cropId":"CS-04","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:02.395Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"60.207\"}","timestamp":"2024-08-30T12:57:02.397Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:04.025Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c1a0ba4a2470d0530e88","cropId":"CS-05","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:04.088Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"63.200\"}","timestamp":"2024-08-30T12:57:04.090Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:05.695Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c1a1ba4a2470d0530e8b","cropId":"CS-06","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:05.759Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"63.846\"}","timestamp":"2024-08-30T12:57:05.761Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:07.418Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c1a3ba4a2470d0530e8e","cropId":"CS-07","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:07.480Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"62.996\"}","timestamp":"2024-08-30T12:57:07.482Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:08.836Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c1a4ba4a2470d0530e91","cropId":"CS-08","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:08.898Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"61.519\"}","timestamp":"2024-08-30T12:57:08.900Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:10.072Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c1a6ba4a2470d0530e94","cropId":"CS-09","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:10.133Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"61.471\"}","timestamp":"2024-08-30T12:57:10.135Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:11.295Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c1a7ba4a2470d0530e97","cropId":"CS-10","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:11.355Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"61.144\"}","timestamp":"2024-08-30T12:57:11.357Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:12.442Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c1a8ba4a2470d0530e9a","cropId":"CS-11","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:12.503Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"61.896\"}","timestamp":"2024-08-30T12:57:12.505Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:13.834Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c1a9ba4a2470d0530e9d","cropId":"CS-12","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:13.907Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"73.401\"}","timestamp":"2024-08-30T12:57:13.908Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:14.760Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c1aaba4a2470d0530ea0","cropId":"CS-13","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:14.820Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"60.440\"}","timestamp":"2024-08-30T12:57:14.822Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"You made a POST Request on Crops creation Route","timestamp":"2024-08-30T12:57:15.795Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":{"__v":0,"_id":"66d1c1abba4a2470d0530ea3","cropId":"CS-14","crop_stage":"Flohghgwering","diseases":[],"image":"wheahggt_image.jpg","name":"Wheahgght","products_used":["Fertilizer A","Pesticide B"],"sowing":"2023-11-15T00:00:00.000Z"},"timestamp":"2024-08-30T12:57:15.863Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/crops\",\"status\":\"201\",\"responseTime\":\"68.458\"}","timestamp":"2024-08-30T12:57:15.865Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-08-30T12:58:16.440Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-08-30T12:58:17.038Z"}
