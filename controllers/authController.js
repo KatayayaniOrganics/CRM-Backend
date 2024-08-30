@@ -5,6 +5,7 @@ const Agent = require("../Models/agentModel"); // Make sure this is the correct 
 const sendResetEmail = require("../controllers/sendMail");
 const logger = require('../logger');
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
+const ErrorHandler  = require('../utils/errorHandler');
 
 // Signup Controller
 exports.signup = catchAsyncErrors(async (req, res) => {
@@ -35,25 +36,35 @@ exports.signup = catchAsyncErrors(async (req, res) => {
 
 
 // Login Controller
-exports.login = catchAsyncErrors(async (req, res) => {
-  logger.info("You made a POST Request on Login Route");
+exports.login = catchAsyncErrors(async (req, res, next) => {
+    logger.info("You made a POST Request on Login Route");
+    
     const { email, password } = req.body;
     const agent = await Agent.findOne({ email });
-    if (!agent) return next(new ErrorHandler("Student Not Found With This Email Address", 404));
-
-    if (!agent || !(await bcrypt.compare(password, agent.password))) {
+  
+    if (!agent) {
+      return next(new ErrorHandler("Agent Not Found With This Email Address", 404));
+    }
+  
+    // Log the agent password to check if it exists
+    logger.info(`Agent found with email ${email}, password exists: ${!!agent.password}`);
+  
+    if (!(await bcrypt.compare(password, agent.password))) {
       return res.status(404).json({ success: false, message: 'Invalid credentials' });
-    } 
-
+    }
+  
+    // Log to check if the JWT_SECRET is defined
+    logger.info(`JWT_SECRET is defined: ${!!process.env.JWT_SECRET}`);
+  
     const token = jwt.sign({ id: agent._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
+  
     // Store the token in cookies
     res.cookie("token", token, { httpOnly: true });
-    res.status(200).json({ success: true, token ,message: 'Agent Logged successfully'});
-    logger.info({ message: 'Agent Logged successfully',token:token} );
-
-});
-
+    res.status(200).json({ success: true, token, message: 'Agent Logged successfully' });
+    
+    logger.info({ message: 'Agent Logged successfully', token: token });
+  });
+  
 // Forgot Password Controller
 exports.forgotPasswordController = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Forget Route")
@@ -174,6 +185,8 @@ exports.resetPasswordController = catchAsyncErrors(async (req, res) => {
 
   
 });
+
+
 module.exports.logout = catchAsyncErrors( async (req, res) => {
         logger.info("You made a POST Request on Logout Route");
       
