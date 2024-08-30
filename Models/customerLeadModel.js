@@ -5,7 +5,7 @@ const customerLeadSchema = new mongoose.Schema(
     leadId:{
       type: String,
       unique:true,
-      required: [true, "LeadId Name is required"],
+      default:"K0-1000",
     },
     leadOwner: {
       type: String,
@@ -24,6 +24,7 @@ const customerLeadSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+      unique:true,
       required: [true, "Email is required"],
       match: [
         /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/,
@@ -39,7 +40,11 @@ const customerLeadSchema = new mongoose.Schema(
     responded_at: Date,
     last_active:Date,
     lead_category: String,
-    contact: { type: String, required: [true, "Contact is required"],minLnegth: [10, "Contact shuold be atleast 10 number"],maxLnegth: [13, "Contact shuold be atmost 13 number"] },
+    contact: { type: String,
+      unique:true ,
+      required: [true, "Contact is required"],
+      minLnegth: [10, "Contact shuold be atleast 10 number"],
+      maxLnegth: [13, "Contact shuold be atmost 13 number"] },
     source: { type: mongoose.Schema.Types.ObjectId, ref: "Source" },
     created_at: { type: Date, default: Date.now },
     query: { type: mongoose.Schema.Types.ObjectId, ref: "Query" },
