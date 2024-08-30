@@ -3,40 +3,51 @@ const CustomerLead = require('../Models/customerLeadModel');
 
 exports.createLead = catchAsyncErrors(async (req, res) => {
 
-      // Access user information from the verified token
-      const loggedInUser = req.user; // This contains the decoded token data
-      console.log('Logged-in user:', loggedInUser);
+    // Find the latest lead by sorting in descending order
+    const lastLead = await CustomerLead.findOne().sort({ leadId: -1 }).exec();
 
-      // You can add the logged-in user's information to the lead
-      if (Array.isArray(req.body)) {
-          // Add created_by field for each lead
-          const leadsWithCreator = req.body.map(lead => ({
-              ...lead,
-              created_by: loggedInUser.id // Assuming the token contains user id
-          }));
+    let newLeadId = "K0-1000"; // Default starting ID
 
-          const customerLeads = await CustomerLead.insertMany(leadsWithCreator);
-          res.status(201).json({
-              success: true,
-              message: "CustomerLeads created successfully",
-              customerLeads
-          });
-      } else {
-          // Add created_by field for a single lead
-          const customerLead = new CustomerLead({
-              ...req.body,
-              created_by: loggedInUser.id // Assuming the token contains user id
-          });
+    if (lastLead) {
+      // Extract the numeric part from the last leadId and increment it
+      const lastLeadIdNumber = parseInt(lastLead.leadId.split("-")[1]);
+      newLeadId = `K0-${lastLeadIdNumber + 1}`;
+    }
 
-          await customerLead.save();
-          res.status(201).json({
-              success: true,
-              message: "CustomerLead created successfully",
-              customerLead
-          });
-      }
- 
+    // Create the new customer lead with the generated leadId
+    const newLead = new CustomerLead({
+      ...req.body,
+      leadId: newLeadId,
+    });
+
+    // Save the lead
+    await newLead.save();
+
+    res.status(201).json({
+      message: "Customer lead created successfully",
+      lead: newLead,
+    });
+
 });
+
+exports.updateLead = catchAsyncErrors(async (req, res) => {
+  const { leadId } = req.params;
+  const updateData = req.body;
+
+    // Find the customer lead by leadId and update it
+    const updatedLead = await CustomerLead.findOneAndUpdate(
+      { leadId },
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedLead) {
+      return res.status(404).json({ message: "Customer lead not found" });
+    }
+
+    res.json(updatedLead);
+  
+})
 
 exports.searchLead = catchAsyncErrors(async (req, res) => {
 
@@ -59,9 +70,22 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
 });
 
 exports.allLeads = catchAsyncErrors(async(req,res)=>{
-  
+
   const allLeads = await CustomerLead.find();
 
   res.status(200).json({success:true,message:"All Leads that are available",allLeads})
 
 })
+
+exports.deleteLead = catchAsyncErrors(async (req, res) => {
+  const { leadId } = req.params;
+
+  // Find the customer lead by leadId and delete it
+  const deletedLead = await CustomerLead.findOneAndDelete({ leadId });
+
+  if (!deletedLead) {
+    return res.status(404).json({ message: "Customer lead not found" });
+  }
+
+  res.json({ message: "Customer lead deleted successfully" });
+});
