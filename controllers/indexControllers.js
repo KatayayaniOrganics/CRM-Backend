@@ -63,23 +63,33 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
 
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Crops creation Route");
+
   const lastCrop = await Crop.findOne().sort({ cropId: -1 }).exec();
 
   let newCropId = "CS-01";
 
   if (lastCrop) {
-    const lastCropNumber = parseInt(lastCrop.cropId.split("-")[1]);
-    newCropId = `CS-${lastCropNumber + 1}`;
+    // Extract the numeric part of the cropId
+    const lastCropNumber = parseInt(lastCrop.cropId.split("-")[1], 10);
+
+    // Increment and create the new cropId
+    const newCropNumber = lastCropNumber + 1;
+
+    // Ensure the numeric part is padded to the correct length
+    newCropId = `CS-${newCropNumber.toString().padStart(2, "0")}`;
   }
 
-  // const { name, sowing, products_used, crop_stage } = req.body;
-  const crop = new Crop({...req.body,
-     cropId: newCropId });
+  const crop = new Crop({
+    ...req.body,
+    cropId: newCropId,
+  });
+
   const disease = new Disease(req.body);
   const diseaseId = disease.id;
   crop.diseases.push(diseaseId);
   await disease.save();
   await crop.save();
+
   res.status(201).send({ success: true, message: "Crop created successfully" });
   logger.info(crop);
 });

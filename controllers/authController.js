@@ -62,7 +62,7 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
     res.cookie("token", token, { httpOnly: true });
     res.status(200).json({ success: true, token, message: 'Agent Logged successfully' });
     
-    logger.info({ message: 'Agent Logged successfully', token: token });
+    logger.info({ message: 'Agent LoggedIn successfully', });
   });
   
 // Forgot Password Controller
