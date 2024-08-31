@@ -1,31 +1,10 @@
 var express = require('express');
-const { createLead, searchLead ,allLeads } = require('../controllers/LeadControllers');
+const { createLead, searchLead ,allLeads, updateLead ,deleteLead } = require('../controllers/LeadControllers');
 const {createSource,createTags,queryCreation, CallDetailsCreation, CropsCreation}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 
 var router = express.Router();
 
-
-router.get('/', function(req, res) {
-  res.render('index');
-});
-
-router.get('/login', (req, res) => {
-  res.render('login');
-});
-
-router.get('/forgot-password', (req,res)=>{
-  res.render('forgotpassword');
-});
-
-router.get('/reset-password', (req,res)=>{
-   res.render('resetpassword');
-});
-
-
-router.get('/createLead', (req,res)=>{
-   res.render('createLead');
-});
 
  //create lead
  router.post('/createLead',verifyToken,createLead);
@@ -35,6 +14,13 @@ router.get('/searchLead',verifyToken,searchLead);
 
 //all Leads
 router.get('/getLeads',verifyToken,allLeads);
+  
+//Update leads
+router.put("/updateLead/:leadId",updateLead);
+
+//delete leads
+router.delete("/deleteLead/:leadId", deleteLead);
+
 
 // Create a new query
 router.post('/queries', queryCreation);

@@ -43,6 +43,29 @@ exports.signup = catchAsyncErrors(async (req, res) => {
         return res.status(404).json({ success: false, message: 'Invalid credentials' });
     }
 
+  
+    // Log to check if the JWT_SECRET is defined
+    logger.info(`JWT_SECRET is defined: ${!!process.env.JWT_SECRET}`);
+  
+    const token = jwt.sign({ id: agent._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  
+    // Store the token in cookies
+    res.cookie("token", token, { httpOnly: true });
+    res.status(200).json({ success: true, token, message: 'Agent Logged successfully' });
+    
+    logger.info({ message: 'Agent LoggedIn successfully', });
+  });
+  
+// Forgot Password Controller
+exports.forgotPasswordController = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a POST Request on Forget Route")
+      const { email } = req.body;
+
+      if (!email) {
+          return res.status(400).send({ error: 'Email is required' });
+      }
+
+
     // Generate the access token and refresh token
     const accessToken = jwt.sign({ id: agent._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const refreshToken = jwt.sign({ id: agent._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
