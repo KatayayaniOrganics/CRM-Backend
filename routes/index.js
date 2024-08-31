@@ -1,6 +1,6 @@
 var express = require('express');
 const { createLead, searchLead ,allLeads, updateLead ,deleteLead } = require('../controllers/LeadControllers');
-const {createSource,createTags,queryCreation, CallDetailsCreation, CropsCreation}=require('../controllers/indexControllers');
+const {createSource,createTags,queryCreation, CallDetailsCreation, CropsCreation, searchCrop}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 const { checkTokenExpiration } = require('../middlewares/refreshMiddleware');
 
@@ -31,6 +31,9 @@ router.post('/calls',CallDetailsCreation );
 
 // Create a new crop
 router.post('/crops',CropsCreation );
+
+//search crop
+router.get('/searchCrops',verifyToken,searchCrop);
 
 // Create a new source
 router.post('/sources',createSource);
