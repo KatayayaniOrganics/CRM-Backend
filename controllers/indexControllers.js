@@ -95,6 +95,52 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   logger.info(crop);
 });
 
+// exports.searchCrop = catchAsyncErrors(async (req, res) => {
+
+//   const query = {};
+
+//   // Loop through the query parameters and add them to the search query
+//   for (let key in req.query) {
+//     if (req.query[key]) {
+//       if (key === 'cropId' || key === 'name' || key==='diseaseName') {
+//         query[key] = { $regex: req.query[key], $options: 'i' }; // Case-insensitive partial match
+//       } else {
+//         query[key] = req.query[key];
+//       }
+//     }
+//   }
+
+//   const crop = await Crop.find(query) // Exclude password field
+//   res.json(crop);
+
+// });
+
+exports.searchCrop = catchAsyncErrors(async (req, res) => {
+  const query = {};
+
+  // Loop through the query parameters and add them to the search query
+  for (let key in req.query) {
+    if (req.query[key]) {
+      if (key === "cropId" || key === "name") {
+        query[key] = { $regex: req.query[key], $options: "i" }; // Case-insensitive partial match
+      }
+    }
+  }
+
+  // If the user searches by disease name
+  if (req.query.diseaseName) {
+    const diseases = await Disease.find({
+      diseaseName: { $regex: req.query.diseaseName, $options: "i" }, // Case-insensitive partial match
+    }).select("_id"); // Get only the IDs of the matching diseases
+
+    // Add a condition to search crops with the found disease IDs
+    query.diseases = { $in: diseases };
+  }
+
+  const crops = await Crop.find(query).populate("diseases"); // Populate the diseases field
+  res.json(crops);
+});
+
 exports.createSource = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Source creation Route");
 
