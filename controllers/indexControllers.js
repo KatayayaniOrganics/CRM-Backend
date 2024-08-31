@@ -35,25 +35,30 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
     .send({ success: true, message: "Query created successfully" });
   logger.info(query);
 });
+
 exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on CallDeatails creation Route");
 
-  const {
-    query_id,
-    customer_id,
-    agent_id,
-    datetime,
-    duration,
-    reason_not_connected,
-  } = req.body;
+  const lastCall = await CallDetails.findOne().sort({ callId: -1 }).exec();
+
+  let newCallId = "CO-1001";
+
+  if (lastCall) {
+    // Extract the numeric part of the callId
+    const lastCallNumber = parseInt(lastCall.callId.split("-")[1], 10);
+
+    // Increment and create the new callId
+    const newCallNumber = lastCallNumber + 1;
+
+    // Ensure the numeric part is padded to the correct length
+    newCallId = `CO-${newCallNumber.toString().padStart(2, "0")}`;
+  }
+
   const callDetails = new CallDetails({
-    query_id,
-    customer_id,
-    agent_id,
-    datetime,
-    duration,
-    reason_not_connected,
+    ...req.body,
+    callId: newCallId,
   });
+
   await callDetails.save();
   res
     .status(201)
