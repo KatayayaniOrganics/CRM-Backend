@@ -5,6 +5,7 @@ const { verifyToken } = require('../middlewares/authMiddleware');
 
 var router = express.Router();
 
+
  //create lead
  router.post('/createLead',verifyToken,createLead);
 
