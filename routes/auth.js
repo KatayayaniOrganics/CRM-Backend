@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { signup, login, forgotPasswordController,resetPasswordController , verifyOtpController,logout} = require('../controllers/authController');
+const { signup, login, forgotPasswordController,resetPasswordController , verifyOtpController,logout, refreshToken} = require('../controllers/authController');
 
 // Define your API routes
 router.post('/signup', signup);
@@ -19,6 +19,9 @@ router.post('/reset-password', resetPasswordController);
 
 //Logout Route
 router.post('/logout', logout);
+
+// Token refresh route
+router.post("/refresh-token", refreshToken);
 
 
 module.exports = router;

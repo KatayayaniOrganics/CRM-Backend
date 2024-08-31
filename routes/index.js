@@ -22,6 +22,7 @@ router.get('/reset-password', (req,res)=>{
    res.render('resetpassword');
 });
 
+
 router.get('/createLead', (req,res)=>{
    res.render('createLead');
 });
