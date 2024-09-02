@@ -1,0 +1,44 @@
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:38:28.600Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:38:30.307Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:38:35.162Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:38:36.218Z"}
+{"level":"\u001b[33mwarn\u001b[39m","message":"First Name is required","timestamp":"2024-09-02T11:38:46.797Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"500\",\"responseTime\":\"105.001\"}","timestamp":"2024-09-02T11:38:46.804Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"500\",\"responseTime\":\"43251.667\"}","timestamp":"2024-09-02T11:43:39.152Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/\",\"status\":\"404\",\"responseTime\":\"18.509\"}","timestamp":"2024-09-02T11:45:35.132Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/favicon.ico\",\"status\":\"404\",\"responseTime\":\"5.367\"}","timestamp":"2024-09-02T11:45:36.046Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:45:54.204Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:45:57.803Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:48:27.322Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:48:31.953Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:48:42.879Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:48:43.917Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"400\",\"responseTime\":\"3.736\"}","timestamp":"2024-09-02T11:48:46.056Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:50:12.530Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"400\",\"responseTime\":\"4.833\"}","timestamp":"2024-09-02T11:50:13.087Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:50:16.255Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:56:31.331Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:56:35.412Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:57:32.085Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:57:33.046Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:57:48.411Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:57:49.206Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"500\",\"responseTime\":\"3.917\"}","timestamp":"2024-09-02T11:57:52.293Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:59:05.795Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"400\",\"responseTime\":\"15.678\"}","timestamp":"2024-09-02T11:59:05.846Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:59:09.401Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T11:59:24.228Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"400\",\"responseTime\":\"5.286\"}","timestamp":"2024-09-02T11:59:24.757Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T11:59:25.151Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T12:00:17.856Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T12:00:18.738Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"500\",\"responseTime\":\"5.045\"}","timestamp":"2024-09-02T12:00:20.714Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T12:02:09.145Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T12:02:13.613Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T12:02:57.805Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T12:02:58.835Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server is running on http://localhost:3000","timestamp":"2024-09-02T12:05:07.488Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Connection established to Database","timestamp":"2024-09-02T12:05:10.647Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"500\",\"responseTime\":\"2532.300\"}","timestamp":"2024-09-02T12:05:10.756Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"500\",\"responseTime\":\"197.719\"}","timestamp":"2024-09-02T12:06:09.021Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"POST\",\"url\":\"/kylas-assign-lead\",\"status\":\"201\",\"responseTime\":\"319.601\"}","timestamp":"2024-09-02T12:07:35.917Z"}

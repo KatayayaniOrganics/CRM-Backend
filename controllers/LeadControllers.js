@@ -89,3 +89,42 @@ exports.deleteLead = catchAsyncErrors(async (req, res) => {
 
   res.json({ message: "Customer lead deleted successfully" });
 });
+
+exports.kylasLead = catchAsyncErrors(async (req, res) => {
+  try {
+    
+    const newLeadData = req.body;
+    console.log(`New Lead: ${JSON.stringify(newLeadData)}`);
+
+
+    const leadID = newLeadData.leadId;
+    const ownerName = newLeadData.leadOwner;
+
+    console.log(`Lead ID: ${leadID}, Owner Name: ${ownerName}`);
+
+    const existingLead = await CustomerLead.findOne({ leadId: leadID });
+
+    if (existingLead) {
+      return res.status(400).json({ message: "Lead ID already exists. Please provide a unique Lead ID." });
+    }
+
+    const newLead = new CustomerLead({
+      leadId: leadID,
+      ownerName: ownerName,
+      ...newLeadData 
+    });
+
+    await newLead.save();
+
+    res.status(201).json({
+      message: "New lead added successfully.",
+      lead: newLead
+    });
+
+  } catch (error) {
+    
+    console.error(`Error processing adding request: ${error}`);
+    res.status(500).json({ message: 'Error processing adding request', error: error.message });
+  }
+});
+
