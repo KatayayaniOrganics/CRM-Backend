@@ -92,39 +92,38 @@ exports.deleteLead = catchAsyncErrors(async (req, res) => {
 
 exports.kylasLead = catchAsyncErrors(async (req, res) => {
   try {
-    
     const newLeadData = req.body;
-    console.log(`New Lead: ${JSON.stringify(newLeadData)}`);
+    console.log(`New Lead Data: ${JSON.stringify(newLeadData)}`);
+    const lastLead = await CustomerLead.findOne().sort({ leadId: -1 }).exec();
 
+ 
+    let newLeadId = "K0-1000";
 
-    const leadID = newLeadData.leadId;
-    const ownerName = newLeadData.leadOwner;
-
-    console.log(`Lead ID: ${leadID}, Owner Name: ${ownerName}`);
-
-    const existingLead = await CustomerLead.findOne({ leadId: leadID });
-
-    if (existingLead) {
-      return res.status(400).json({ message: "Lead ID already exists. Please provide a unique Lead ID." });
+    if (lastLead) {
+    
+      const lastLeadIdNumber = parseInt(lastLead.leadId.split("-")[1]);
+      newLeadId = `K0-${lastLeadIdNumber + 1}`;
     }
 
+    const firstName = newLeadData.entity.firstName || '';
+    const contact = newLeadData.entity.phoneNumbers[0].value || '';
+
+    console.log(`First Name: ${firstName}, contact: ${contact}`);
+
     const newLead = new CustomerLead({
-      leadId: leadID,
-      ownerName: ownerName,
-      ...newLeadData 
+      firstName:firstName,contact:contact,
+      leadId: newLeadId, 
     });
 
     await newLead.save();
-
+ 
     res.status(201).json({
-      message: "New lead added successfully.",
-      lead: newLead
+      message: "Customer lead created successfully",
+      lead: newLead,
     });
 
   } catch (error) {
-    
     console.error(`Error processing adding request: ${error}`);
     res.status(500).json({ message: 'Error processing adding request', error: error.message });
   }
 });
-
