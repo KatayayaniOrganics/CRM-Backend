@@ -1,7 +1,8 @@
 var express = require('express');
 const { createLead, searchLead ,allLeads, updateLead ,deleteLead } = require('../controllers/LeadControllers');
-const {createSource,createTags,queryCreation, CallDetailsCreation, CropsCreation, searchCrop}=require('../controllers/indexControllers');
+const {createSource,createTags,queryCreation, CropsCreation, searchCrop}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
+const {CallDetailsCreation, CallUpdate, CallDelete} = require('../controllers/CallController');
 const { checkTokenExpiration } = require('../middlewares/refreshMiddleware');
 
 var router = express.Router();
@@ -28,6 +29,12 @@ router.post('/queries', queryCreation);
 
 // Create a new call detail
 router.post('/calls',CallDetailsCreation );
+
+//update calls
+router.put('/calls/:callId', CallUpdate);
+
+//delete calls
+router.delete('/calls/:callId', CallDelete)
 
 // Create a new crop
 router.post('/crops',CropsCreation );

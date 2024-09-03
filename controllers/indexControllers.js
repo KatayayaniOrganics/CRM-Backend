@@ -1,5 +1,4 @@
 const Query = require("../Models/queryModel");
-const CallDetails = require("../Models/callDetails");
 const Crop = require("../Models/cropModel");
 const Source = require("../Models/sourceModel");
 const Tags = require("../Models/tagsModel");
@@ -36,35 +35,7 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
   logger.info(query);
 });
 
-exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
-  logger.info("You made a POST Request on CallDeatails creation Route");
 
-  const lastCall = await CallDetails.findOne().sort({ callId: -1 }).exec();
-
-  let newCallId = "CO-1001";
-
-  if (lastCall) {
-    // Extract the numeric part of the callId
-    const lastCallNumber = parseInt(lastCall.callId.split("-")[1], 10);
-
-    // Increment and create the new callId
-    const newCallNumber = lastCallNumber + 1;
-
-    // Ensure the numeric part is padded to the correct length
-    newCallId = `CO-${newCallNumber.toString().padStart(2, "0")}`;
-  }
-
-  const callDetails = new CallDetails({
-    ...req.body,
-    callId: newCallId,
-  });
-
-  await callDetails.save();
-  res
-    .status(201)
-    .send({ success: true, message: "CallDetails created successfully" });
-  logger.info(callDetails);
-});
 
 
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
