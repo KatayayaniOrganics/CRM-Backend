@@ -52,7 +52,7 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
 exports.searchLead = catchAsyncErrors(async (req, res) => {
 
     const query = {};
-    
+
     // Loop through the query parameters and add them to the search query
     for (let key in req.query) {
       if (req.query[key]) {

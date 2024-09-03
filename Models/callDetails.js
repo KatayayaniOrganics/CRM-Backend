@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const callDetailsSchema = new mongoose.Schema({
+    callId: {type:String , unique:true, default:"CO-1001"},
     query_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Query' },
     customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'CustomerLead' },
     agent_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Agents' },
@@ -9,6 +10,12 @@ const callDetailsSchema = new mongoose.Schema({
     desposition:String,
     reason_not_connected: String,
     order_amount:Number,
+    outcome:String,
+   startTime: {
+    type: Date
+   },
+   phoneNumber: Number,
+   callType:String 
 });
 
 const CallDetails = mongoose.model('CallDetails', callDetailsSchema);

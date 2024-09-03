@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const agentSchema = new mongoose.Schema({
@@ -51,7 +52,12 @@ const agentSchema = new mongoose.Schema({
   breaktime_day: Number,
   total_breaktime: Number,
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  refreshToken: {
+    type: String,
+    default: null
+  }
+  
 });
 
 const Agent = mongoose.model("Agents", agentSchema);

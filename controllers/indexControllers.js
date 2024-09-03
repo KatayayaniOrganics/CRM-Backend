@@ -35,25 +35,30 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
     .send({ success: true, message: "Query created successfully" });
   logger.info(query);
 });
+
 exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on CallDeatails creation Route");
 
-  const {
-    query_id,
-    customer_id,
-    agent_id,
-    datetime,
-    duration,
-    reason_not_connected,
-  } = req.body;
+  const lastCall = await CallDetails.findOne().sort({ callId: -1 }).exec();
+
+  let newCallId = "CO-1001";
+
+  if (lastCall) {
+    // Extract the numeric part of the callId
+    const lastCallNumber = parseInt(lastCall.callId.split("-")[1], 10);
+
+    // Increment and create the new callId
+    const newCallNumber = lastCallNumber + 1;
+
+    // Ensure the numeric part is padded to the correct length
+    newCallId = `CO-${newCallNumber.toString().padStart(2, "0")}`;
+  }
+
   const callDetails = new CallDetails({
-    query_id,
-    customer_id,
-    agent_id,
-    datetime,
-    duration,
-    reason_not_connected,
+    ...req.body,
+    callId: newCallId,
   });
+
   await callDetails.save();
   res
     .status(201)
@@ -61,27 +66,64 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
   logger.info(callDetails);
 });
 
+
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Crops creation Route");
+
   const lastCrop = await Crop.findOne().sort({ cropId: -1 }).exec();
 
   let newCropId = "CS-01";
 
   if (lastCrop) {
-    const lastCropNumber = parseInt(lastCrop.cropId.split("-")[1]);
-    newCropId = `CS-${lastCropNumber + 1}`;
+    // Extract the numeric part of the cropId
+    const lastCropNumber = parseInt(lastCrop.cropId.split("-")[1], 10);
+
+    // Increment and create the new cropId
+    const newCropNumber = lastCropNumber + 1;
+
+    // Ensure the numeric part is padded to the correct length
+    newCropId = `CS-${newCropNumber.toString().padStart(2, "0")}`;
   }
 
-  // const { name, sowing, products_used, crop_stage } = req.body;
-  const crop = new Crop({...req.body,
-     cropId: newCropId });
+  const crop = new Crop({
+    ...req.body,
+    cropId: newCropId,
+  });
+
   const disease = new Disease(req.body);
   const diseaseId = disease.id;
   crop.diseases.push(diseaseId);
   await disease.save();
   await crop.save();
+
   res.status(201).send({ success: true, message: "Crop created successfully" });
   logger.info(crop);
+});
+
+exports.searchCrop = catchAsyncErrors(async (req, res) => {
+  const query = {};
+
+  // Loop through the query parameters and add them to the search query
+  for (let key in req.query) {
+    if (req.query[key]) {
+      if (key === "cropId" || key === "name") {
+        query[key] = { $regex: req.query[key], $options: "i" }; // Case-insensitive partial match
+      }
+    }
+  }
+
+  // If the user searches by disease name
+  if (req.query.diseaseName) {
+    const diseases = await Disease.find({
+      diseaseName: { $regex: req.query.diseaseName, $options: "i" }, // Case-insensitive partial match
+    }).select("_id"); // Get only the IDs of the matching diseases
+
+    // Add a condition to search crops with the found disease IDs
+    query.diseases = { $in: diseases };
+  }
+
+  const crops = await Crop.find(query).populate("diseases"); // Populate the diseases field
+  res.json(crops);
 });
 
 exports.createSource = catchAsyncErrors(async (req, res) => {
