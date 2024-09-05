@@ -9,7 +9,6 @@ const customerLeadSchema = new mongoose.Schema(
     },
     leadOwner: {
       type: String,
-      required: [true, "LeadOwner Name is required"],
       minLnegth: [3, "LeadOwner shuold be atleast 3 character long"],
     },
     firstName: {
@@ -19,13 +18,11 @@ const customerLeadSchema = new mongoose.Schema(
     },
     lastName: {
       type: String,
-      required: [true, "Last Name is required"],
       minLnegth: [3, "Second Name shuold be atleast 3 character long"],
     },
     email: {
       type: String,
       unique:true,
-      required: [true, "Email is required"],
       match: [
         /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/,
         "Please fill a valid email address",
