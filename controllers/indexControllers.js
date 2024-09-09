@@ -1,5 +1,4 @@
 const Query = require("../Models/queryModel");
-const CallDetails = require("../Models/callDetails");
 const Crop = require("../Models/cropModel");
 const Source = require("../Models/sourceModel");
 const Tags = require("../Models/tagsModel");
@@ -35,31 +34,8 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
     .send({ success: true, message: "Query created successfully" });
   logger.info(query);
 });
-exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
-  logger.info("You made a POST Request on CallDeatails creation Route");
 
-  const {
-    query_id,
-    customer_id,
-    agent_id,
-    datetime,
-    duration,
-    reason_not_connected,
-  } = req.body;
-  const callDetails = new CallDetails({
-    query_id,
-    customer_id,
-    agent_id,
-    datetime,
-    duration,
-    reason_not_connected,
-  });
-  await callDetails.save();
-  res
-    .status(201)
-    .send({ success: true, message: "CallDetails created successfully" });
-  logger.info(callDetails);
-});
+
 
 
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {

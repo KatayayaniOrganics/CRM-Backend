@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
-const ErrorHandler = require("../utils/errorHandler");
-const catchAsyncErrors = require("./catchAsyncErrors");
-
+const ErrorHandler  = require('../utils/errorHandler');
+const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 exports.checkTokenExpiration = catchAsyncErrors(async (req, res, next) => {
     const token = req.cookies.token;
 
