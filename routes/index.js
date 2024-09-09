@@ -1,6 +1,6 @@
 var express = require('express');
 const { createLead, searchLead ,allLeads, updateLead ,deleteLead } = require('../controllers/LeadControllers');
-const {createSource,createTags,queryCreation, CallDetailsCreation, CropsCreation, searchCrop}=require('../controllers/indexControllers');
+const {createSource,createTags,queryCreation, CallDetailsCreation, CropsCreation, searchCrop, updateCrop, deleteCrop}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 
 var router = express.Router();
@@ -33,6 +33,13 @@ router.post('/crops',CropsCreation );
 
 //search crop
 router.get('/searchCrops',verifyToken,searchCrop);
+
+//Update Crop
+router.put("/updateCrop/:cropId",updateCrop);
+
+//Delete Crop
+router.delete("/deleteCrop/:cropId", deleteCrop);
+
 
 // Create a new source
 router.post('/sources',createSource);
