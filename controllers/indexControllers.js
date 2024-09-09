@@ -97,6 +97,39 @@ exports.searchCrop = catchAsyncErrors(async (req, res) => {
   res.json(crops);
 });
 
+
+exports.updateCrop = catchAsyncErrors(async (req, res) => {
+  const { cropId } = req.params;
+  const updateCropData = req.body;
+
+    // Find the customer lead by leadId and update it
+    const updatedCrop = await Crop.findOneAndUpdate(
+      { cropId },
+      updateCropData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedCrop) {
+      return res.status(404).json({ message: "Crop not found" });
+    }
+
+    res.json(updatedCrop);
+  
+})
+
+exports.deleteCrop = catchAsyncErrors(async (req, res) => {
+  const { cropId } = req.params;
+
+  // Find the customer lead by leadId and delete it
+  const deletedCrop = await Crop.findOneAndDelete({ cropId });
+
+  if (!deletedCrop) {
+    return res.status(404).json({ message: "Crop not found" });
+  }
+
+  res.json({ message: "Crop deleted successfully" });
+});
+
 exports.createSource = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Source creation Route");
 
