@@ -6,30 +6,49 @@ const sendResetEmail = require("../controllers/sendMail");
 const logger = require('../logger');
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
 const ErrorHandler  = require('../utils/errorHandler');
+const UserRoles = ('../Models/userRolesModel.js')
 
 exports.signup = catchAsyncErrors(async (req, res) => {
-    const { firstname, lastname, email, password, address } = req.body;
-    logger.info("You made a POST Request on Signup Route");
-  
-    const agent = new Agent({
-      firstname,
-      lastname,
-      email,
-      password,
-      address
-    });
-  
-    const salt = await bcrypt.genSalt(10);
-    agent.password = await bcrypt.hash(password, salt);
-  
-    await agent.save();
-    logger.info({ message: 'Agent Signup successfully' });
-    
-    res.status(201).json({ success: true, message: 'Agent registered successfully' });
+  const {user_role,password } = req.body;
+  logger.info("You made a POST Request on Signup Route");
+ // Find the latest lead by sorting in descending order
+ const lastAgent = await Agent.findOne().sort({ agentId: -1 }).exec();
+
+ let newAgnetId = "A0-1000"; // Default starting ID
+
+ if (lastAgent) {
+   // Extract the numeric part from the last leadId and increment it
+   const lastagentIdNumber = parseInt(lastAgent.agentId.split("-")[1]);
+   newLeadId = `A0-${lastagentIdNumber + 1}`;
+ }
+ let role = user_role;
+ if (!role) {
+   const defaultRole = await UserRoles.findOne({ role_name: "User", level: 2 });
+   if (!defaultRole) {
+     return res.status(500).json({ success: false, message: 'Default role not found' });
+   }
+   role = defaultRole._id;
+ }
+
+
+  const agent = new Agent({
+  ...req.body,
+    password,
+    user_role, // Set the user role
+    agentId : newAgnetId
   });
+
+  const salt = await bcrypt.genSalt(10);
+  agent.password = await bcrypt.hash(password, salt);
+
+  await agent.save();
+  logger.info({ message: 'Agent Signup successfully' });
   
+  res.status(201).json({ success: true, message: 'Agent registered successfully' });
+});
+
   // Login Controller
-  exports.login = catchAsyncErrors(async (req, res, next) => {
+exports.login = catchAsyncErrors(async (req, res, next) => {
     logger.info("You made a POST Request on Login Route");
     
     const { email, password } = req.body;
@@ -96,8 +115,6 @@ exports.refreshToken = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("Invalid Refresh Token", 401));
     }
 });
-
-
 
 
   // Forgot Password Controller

@@ -1,7 +1,13 @@
 
 const mongoose = require('mongoose');
+const UserRoles = require("../Models/userRolesModel")
 
 const agentSchema = new mongoose.Schema({
+    agentId:{
+      type: String,
+      unique:true,
+      default:"A0-1000",
+    },
   firstname: {
     type: String,
     required: [true, "First Name is required"],
@@ -34,7 +40,13 @@ const agentSchema = new mongoose.Schema({
   },
   user_role: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "UserRoles"
+    ref: "UserRoles",
+    required: true,  // Ensure user_role is required
+    default: async function() {
+      // Fetch the default role from the UserRoles collection
+      const defaultRole = await UserRoles.findOne({ role_name: "Agent Level 3", level: 3 });
+      return defaultRole ? defaultRole._id : null;
+    }
   },
   otp: String,
     otpExpirationTime: Date,
