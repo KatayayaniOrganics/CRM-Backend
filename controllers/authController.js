@@ -9,23 +9,23 @@ const ErrorHandler  = require('../utils/errorHandler');
 const UserRoles = ('../Models/userRolesModel.js')
 
 exports.signup = catchAsyncErrors(async (req, res) => {
-  const {user_role,password } = req.body;
+  const {password } = req.body;
   logger.info("You made a POST Request on Signup Route");
  // Find the latest lead by sorting in descending order
  const lastAgent = await Agent.findOne().sort({ agentId: -1 }).exec();
+ console.log(lastAgent)
 
  let newAgnetId = "A0-1000"; // Default starting ID
 
  if (lastAgent) {
    // Extract the numeric part from the last leadId and increment it
    const lastagentIdNumber = parseInt(lastAgent.agentId.split("-")[1]);
-   newLeadId = `A0-${lastagentIdNumber + 1}`;
+   newAgentId = `A0-${lastagentIdNumber + 1}`;
  }
 
   const agent = new Agent({
   ...req.body,
-    password,
-    agentId : newAgnetId
+    agentId : newAgentId
   });
 
   const salt = await bcrypt.genSalt(10);
@@ -36,7 +36,6 @@ exports.signup = catchAsyncErrors(async (req, res) => {
   
   res.status(201).json({ success: true, message: 'Agent registered successfully' });
 });
-
   // Login Controller
 exports.login = catchAsyncErrors(async (req, res, next) => {
     logger.info("You made a POST Request on Login Route");
