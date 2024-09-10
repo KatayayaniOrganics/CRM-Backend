@@ -94,33 +94,6 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
   try {
     const newLeadData = req.body;
     console.log(`New Lead Data: ${JSON.stringify(newLeadData)}`);
-    const lastLead = await CustomerLead.findOne().sort({ leadId: -1 }).exec();
-
- 
-    let newLeadId = "K0-1000";
-
-    if (lastLead) {
-    
-      const lastLeadIdNumber = parseInt(lastLead.leadId.split("-")[1]);
-      newLeadId = `K0-${lastLeadIdNumber + 1}`;
-    }
-
-    const firstName = newLeadData.entity.firstName || '';
-    const contact = newLeadData.entity.phoneNumbers[0].value || '';
-
-    console.log(`First Name: ${firstName}, contact: ${contact}`);
-
-    const newLead = new CustomerLead({
-      firstName:firstName,contact:contact,
-      leadId: newLeadId, 
-    });
-
-    await newLead.save();
- 
-    res.status(201).json({
-      message: "Customer lead created successfully",
-      lead: newLead,
-    });
 
   } catch (error) {
     console.error(`Error processing adding request: ${error}`);
