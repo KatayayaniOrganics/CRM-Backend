@@ -21,20 +21,10 @@ exports.signup = catchAsyncErrors(async (req, res) => {
    const lastagentIdNumber = parseInt(lastAgent.agentId.split("-")[1]);
    newLeadId = `A0-${lastagentIdNumber + 1}`;
  }
- let role = user_role;
- if (!role) {
-   const defaultRole = await UserRoles.findOne({ role_name: "User", level: 2 });
-   if (!defaultRole) {
-     return res.status(500).json({ success: false, message: 'Default role not found' });
-   }
-   role = defaultRole._id;
- }
-
 
   const agent = new Agent({
   ...req.body,
     password,
-    user_role, // Set the user role
     agentId : newAgnetId
   });
 
