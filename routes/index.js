@@ -1,6 +1,6 @@
 var express = require('express');
 const { createLead, searchLead ,allLeads, updateLead ,deleteLead,kylasLead } = require('../controllers/LeadControllers');
-const {createSource,createTags,queryCreation,CropsCreation,searchCrop}=require('../controllers/indexControllers');
+const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, CreateUserRoles ,updateUserRole}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 const {CallDetailsCreation, CallUpdate, CallDelete} = require('../controllers/CallController');
 const { checkTokenExpiration } = require('../middlewares/refreshMiddleware');
@@ -52,5 +52,20 @@ router.post('/sources',createSource);
 router.post('/tags', createTags);
 
 
+router.post('/userRoles',CreateUserRoles);
+
+
+router.get('/userRoles',getAlluserRoles);
+
+router.put('/update-role', updateUserRole);
+
+
 module.exports = router;
  
+// PUT /update-role
+// Content-Type: application/json
+
+// {
+//   "agentId": "some-agent-id",
+//   "newRoleId": "new-role-id" 
+// }

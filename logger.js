@@ -17,7 +17,7 @@ const logger = createLogger({
     new transports.Console({
       format: consoleLogFormat,
     }),
-    new transports.File({ filename: "logs.log" }),
+    // new transports.File({ filename: "logs.log" }),
   ],
 });
 

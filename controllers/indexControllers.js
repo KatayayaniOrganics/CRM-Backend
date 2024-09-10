@@ -4,6 +4,8 @@ const Source = require("../Models/sourceModel");
 const Tags = require("../Models/tagsModel");
 const Disease = require("../Models/diseaseModel");
 const logger = require("../logger");
+const UserRoles = require('../Models/userRolesModel');
+const Agent = require("../Models/agentModel")
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 
 exports.queryCreation = catchAsyncErrors(async (req, res) => {
@@ -34,8 +36,6 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
     .send({ success: true, message: "Query created successfully" });
   logger.info(query);
 });
-
-
 
 
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
@@ -125,4 +125,56 @@ exports.createTags = catchAsyncErrors(async (req, res) => {
   await tag.save();
   res.status(201).send({ success: true, message: "Tags Created successfully" });
   logger.info(tag);
+});
+
+exports.CreateUserRoles = catchAsyncErrors(async (req, res) => {
+  const { role_name, level } = req.body;
+
+  if (level <= 1) {
+    return res.status(400).json({ message: 'You cannot create roles with level 1' });
+  }
+  const lastUserRoles = await UserRoles.findOne().sort({ UserRoleId: -1 }).exec();
+
+ let newUserRoleId = "USR-1000"; // Default starting ID
+
+ if (lastUserRoles) {
+   // Extract the numeric part from the last leadId and increment it
+   const lastUserRolesNumber = parseInt(lastUserRoles.UserRoleId.split("-")[1]);
+   newUserRoleId = `USR-${lastUserRolesNumber + 1}`;
+ }
+    // Create the new role
+    const newRole = new UserRoles({ role_name, level , UserRoleId:newUserRoleId });
+    await newRole.save();
+    res.status(201).json({ message: 'User role created successfully', newRole });
+  
+});
+
+
+exports.getAlluserRoles =catchAsyncErrors(async (req, res) => {
+  
+  const userRoles = await UserRoles.find();
+  res.status(200).json(userRoles);
+
+});
+
+
+exports.updateUserRole = catchAsyncErrors(async (req, res) => {
+  const { agentId, newRoleId } = req.body;
+
+  // Find the new role
+  const newRole = await UserRoles.findById(newRoleId);
+  if (!newRole) {
+    return res.status(404).json({ success: false, message: 'Role not found' });
+  }
+
+  // Find the agent and update the user_role
+  const agent = await Agent.findByIdAndUpdate(agentId, {
+    user_role: newRole._id
+  }, { new: true }); // `new: true` returns the updated agent
+
+  if (!agent) {
+    return res.status(404).json({ success: false, message: 'Agent not found' });
+  }
+
+  res.status(200).json({ success: true, message: 'User role updated successfully', agent });
 });
