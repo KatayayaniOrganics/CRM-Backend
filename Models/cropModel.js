@@ -21,6 +21,11 @@ const cropSchema = new mongoose.Schema({
   ], // Array of diseases related to the crop
 
   Date: Date,
+  updatedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Agent', 
+  },
+
 });
 
 const Crop = mongoose.model("Crop", cropSchema);

@@ -101,6 +101,11 @@ exports.searchCrop = catchAsyncErrors(async (req, res) => {
 exports.updateCrop = catchAsyncErrors(async (req, res) => {
   const { cropId } = req.params;
   const updateCropData = req.body;
+  const agentId = req.user.id;  
+  // console.log(agentId)
+
+    // Add the user who is updating the crop to the update data
+    updateCropData.updatedBy = agentId;   
 
     // Find the customer lead by leadId and update it
     const updatedCrop = await Crop.findOneAndUpdate(
@@ -114,7 +119,8 @@ exports.updateCrop = catchAsyncErrors(async (req, res) => {
     }
 
     res.json(updatedCrop);
-  
+    console.log(updatedCrop); 
+    
 })
 
 exports.deleteCrop = catchAsyncErrors(async (req, res) => {

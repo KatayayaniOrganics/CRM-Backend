@@ -46,7 +46,7 @@ router.post('/crops',CropsCreation );
 router.get('/searchCrops',verifyToken,searchCrop);
 
 //Update Crop
-router.put("/updateCrop/:cropId",updateCrop);
+router.put("/updateCrop/:cropId",verifyToken,updateCrop);
 
 //Delete Crop
 router.delete("/deleteCrop/:cropId", deleteCrop);
