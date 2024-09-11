@@ -1,5 +1,6 @@
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
 const CustomerLead = require('../Models/customerLeadModel');
+const logger = require('../logger.js')
 
 exports.createLead = catchAsyncErrors(async (req, res) => {
 
@@ -93,30 +94,38 @@ exports.deleteLead = catchAsyncErrors(async (req, res) => {
 exports.kylasLead = catchAsyncErrors(async (req, res) => {
   try {
     const newLeadData = req.body;
-    console.log(`New Lead Data: ${JSON.stringify(newLeadData)}`);
+    logger.info(`New Lead Data: ${JSON.stringify(newLeadData)}`);
+    
+    // Find the last lead to generate a new lead ID
     const lastLead = await CustomerLead.findOne().sort({ leadId: -1 }).exec();
-
- 
     let newLeadId = "K0-1000";
 
     if (lastLead) {
-    
       const lastLeadIdNumber = parseInt(lastLead.leadId.split("-")[1]);
       newLeadId = `K0-${lastLeadIdNumber + 1}`;
     }
 
     const firstName = newLeadData.entity.firstName || '';
     const contact = newLeadData.entity.phoneNumbers[0].value || '';
+    
+    // Create the lead data object
+    const leadData = {
+      firstName: firstName,
+      contact: contact,
+      leadId: newLeadId,
+    };
 
-    console.log(`First Name: ${firstName}, contact: ${contact}`);
+    // Only include the email field if it's not null or undefined
+    if (newLeadData.entity.emails && newLeadData.entity.emails[0].value) {
+      leadData.email = newLeadData.entity.emails[0].value;
+    }
 
-    const newLead = new CustomerLead({
-      firstName:firstName,contact:contact,
-      leadId: newLeadId, 
-    });
+    console.log(`Lead Data: ${JSON.stringify(leadData)}`);
 
+    // Create and save the new lead
+    const newLead = new CustomerLead(leadData);
     await newLead.save();
- 
+
     res.status(201).json({
       message: "Customer lead created successfully",
       lead: newLead,
@@ -124,6 +133,9 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
 
   } catch (error) {
     console.error(`Error processing adding request: ${error}`);
-    res.status(500).json({ message: 'Error processing adding request', error: error.message });
+    res.status(500).json({
+      message: 'Error processing adding request',
+      error: error.message,
+    });
   }
 });

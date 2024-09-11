@@ -9,33 +9,23 @@ const ErrorHandler  = require('../utils/errorHandler');
 const UserRoles = ('../Models/userRolesModel.js')
 
 exports.signup = catchAsyncErrors(async (req, res) => {
-  const {user_role,password } = req.body;
+  const {password } = req.body;
   logger.info("You made a POST Request on Signup Route");
  // Find the latest lead by sorting in descending order
  const lastAgent = await Agent.findOne().sort({ agentId: -1 }).exec();
+ console.log(lastAgent)
 
- let newAgnetId = "A0-1000"; // Default starting ID
+ let newAgentId = "A0-1000"; // Default starting ID
 
  if (lastAgent) {
    // Extract the numeric part from the last leadId and increment it
    const lastagentIdNumber = parseInt(lastAgent.agentId.split("-")[1]);
-   newLeadId = `A0-${lastagentIdNumber + 1}`;
+   newAgentId = `A0-${lastagentIdNumber + 1}`;
  }
- let role = user_role;
- if (!role) {
-   const defaultRole = await UserRoles.findOne({ role_name: "User", level: 2 });
-   if (!defaultRole) {
-     return res.status(500).json({ success: false, message: 'Default role not found' });
-   }
-   role = defaultRole._id;
- }
-
 
   const agent = new Agent({
   ...req.body,
-    password,
-    user_role, // Set the user role
-    agentId : newAgnetId
+    agentId : newAgentId
   });
 
   const salt = await bcrypt.genSalt(10);

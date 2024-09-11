@@ -41,12 +41,6 @@ const agentSchema = new mongoose.Schema({
   user_role: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "UserRoles",
-    required: true,  // Ensure user_role is required
-    default: async function() {
-      // Fetch the default role from the UserRoles collection
-      const defaultRole = await UserRoles.findOne({ role_name: "Agent Level 3", level: 3 });
-      return defaultRole ? defaultRole._id : null;
-    }
   },
   otp: String,
     otpExpirationTime: Date,

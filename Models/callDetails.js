@@ -14,7 +14,7 @@ const callDetailsSchema = new mongoose.Schema({
    startTime: {
     type: Date
    },
-   phoneNumber: Number,
+   phoneNumber: String,
    callType:String 
 });
 
