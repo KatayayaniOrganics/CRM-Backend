@@ -1,4 +1,3 @@
-
 const CallDetails = require("../Models/callDetails");
 const logger = require("../logger");
 const {catchAsyncErrors} = require('../middlewares/catchAsyncErrors')
@@ -73,3 +72,23 @@ exports.CallDelete = catchAsyncErrors(async (req, res) => {
     logger.info(`CallDetails with callId ${callId} deleted successfully`);
   });
   
+
+exports.callFilter = catchAsyncErrors(async (req, res) => {
+
+    const query = {};
+
+    // Loop through the query parameters and add them to the search query
+    for (let key in req.query) {
+      if (req.query[key]) {
+        if (key === 'phoneNumber' || key === 'callId') {
+          query[key] = { $regex: req.query[key], $options: 'i' }; // Case-insensitive partial match
+        } else {
+          query[key] = req.query[key];
+        }
+      }
+    }
+
+    const call = await CallDetails.find(query) // Exclude password field
+    res.json(call);
+  
+});

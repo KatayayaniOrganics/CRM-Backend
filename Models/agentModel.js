@@ -1,5 +1,6 @@
 
 const mongoose = require('mongoose');
+const UserRoles = require("../Models/userRolesModel")
 
 const agentSchema = new mongoose.Schema({
     agentId:{
@@ -39,7 +40,7 @@ const agentSchema = new mongoose.Schema({
   },
   user_role: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "UserRoles"
+    ref: "UserRoles",
   },
   otp: String,
     otpExpirationTime: Date,
