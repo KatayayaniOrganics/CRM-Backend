@@ -36,8 +36,7 @@ exports.signup = catchAsyncErrors(async (req, res) => {
   
   res.status(201).json({ success: true, message: 'Agent registered successfully' });
 });
-
-  // Login Controller
+// Login Controller
 exports.login = catchAsyncErrors(async (req, res, next) => {
     logger.info("You made a POST Request on Login Route");
     
