@@ -32,6 +32,8 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     logger.info(callDetails);
   });
 
+
+
   exports.CallUpdate = catchAsyncErrors(async (req, res) => {
     logger.info("You made a PUT Request on CallDetails update Route");
 
@@ -80,7 +82,7 @@ exports.callFilter = catchAsyncErrors(async (req, res) => {
     // Loop through the query parameters and add them to the search query
     for (let key in req.query) {
       if (req.query[key]) {
-        if (key === 'phoneNumber' || key === 'callId') {
+        if (key === 'phoneNumber' || key === 'callId' || key=== 'query_id'  ) {
           query[key] = { $regex: req.query[key], $options: 'i' }; // Case-insensitive partial match
         } else {
           query[key] = req.query[key];
@@ -92,3 +94,5 @@ exports.callFilter = catchAsyncErrors(async (req, res) => {
     res.json(call);
   
 });
+
+
