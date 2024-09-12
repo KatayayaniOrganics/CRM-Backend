@@ -1,6 +1,5 @@
 
 const mongoose = require('mongoose');
-const UserRoles = require("../Models/userRolesModel")
 
 const agentSchema = new mongoose.Schema({
     agentId:{
@@ -10,24 +9,24 @@ const agentSchema = new mongoose.Schema({
     },
   firstname: {
     type: String,
-    required: [true, "First Name is required"],
     trim: true,
+    required: [true, "First Name is required"],
     minLength: [3, "First Name should be at least 3 characters long"]
   },
   lastname: {
     type: String,
-    required: [true, "Last Name is required"],
     trim: true,
+    required: [true, "Last Name is required"],
     minLength: [3, "Last Name should be at least 3 characters long"]
   },
   email: {
     type: String,
     required:[true,"Email Address is Required"],
+    unique: true,
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       "Please fill a valid email address"
     ],
-    unique: true,
   },
   password: {
     type: String,
@@ -53,10 +52,14 @@ const agentSchema = new mongoose.Schema({
       call_id: { type: mongoose.Schema.Types.ObjectId, ref: "CallDetails" }
     }
   ],
-  talktime_day: Number,
-  total_talktime: Number,
-  breaktime_day: Number,
-  total_breaktime: Number,
+  updated_By:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Agent"
+  },
+  talktime_day:{type:Number,default:null},
+  total_talktime: {type:Number,default:null},
+  breaktime_day: {type:Number,default:null},
+  total_breaktime: {type:Number,default:null},
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   refreshToken: {
