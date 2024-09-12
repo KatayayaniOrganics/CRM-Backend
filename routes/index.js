@@ -1,6 +1,6 @@
 var express = require('express');
 const { createLead, searchLead ,allLeads, updateLead ,deleteLead,kylasLead } = require('../controllers/LeadControllers');
-const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, CreateUserRoles ,updateUserRole, updateCrop, deleteCrop}=require('../controllers/indexControllers');
+const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, CreateUserRoles ,updateUserRole, updateCrop, deleteCrop, allCrops}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 const {CallDetailsCreation, CallUpdate, CallDelete, callFilter} = require('../controllers/CallController');
 const { checkTokenExpiration } = require('../middlewares/refreshMiddleware');
@@ -45,11 +45,16 @@ router.get("/callFilter",callFilter);
 // Create a new crop
 router.post('/crops',CropsCreation );
 
+//all Leads
+router.get('/getCrops',verifyToken,allCrops);
+
 //search crop
 router.get('/searchCrops',verifyToken,searchCrop);
 
 //Update Crop
 router.put("/updateCrop/:cropId",verifyToken,updateCrop);
+
+
 
 //Delete Crop
 router.delete("/deleteCrop/:cropId", deleteCrop);

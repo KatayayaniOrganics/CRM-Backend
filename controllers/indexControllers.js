@@ -37,38 +37,73 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
   logger.info(query);
 });
 
-
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Crops creation Route");
 
+  // Fetch the last created crop to increment the ID
   const lastCrop = await Crop.findOne().sort({ cropId: -1 }).exec();
 
   let newCropId = "CS-01";
-
   if (lastCrop) {
-    // Extract the numeric part of the cropId
     const lastCropNumber = parseInt(lastCrop.cropId.split("-")[1], 10);
-
-    // Increment and create the new cropId
     const newCropNumber = lastCropNumber + 1;
-
-    // Ensure the numeric part is padded to the correct length
     newCropId = `CS-${newCropNumber.toString().padStart(2, "0")}`;
   }
 
+  const stages = req.body.stages; // Fetch stages from the request body
+  const cropStages = [];
+
+  // Loop through each stage and create diseases dynamically
+  for (let stage of stages) {
+    const diseaseIds = [];
+    for (let diseaseData of stage.diseases) {
+      const disease = new Disease({
+        diseaseName: diseaseData.name,
+        diseaseImage: diseaseData.image,
+        solution: diseaseData.solutions,
+        prevention: diseaseData.prevention,
+        products: diseaseData.products,
+      });
+
+      await disease.save();
+      diseaseIds.push(disease._id); // Add the saved disease ID to the stage
+    }
+
+    // Add the dynamically created diseases to each stage
+    cropStages.push({
+      name: stage.Name,
+      stage: stage.stage,
+      duration: stage.duration,
+      diseases: diseaseIds,
+    });
+  }
+
+  // Create the new crop with dynamic stages
   const crop = new Crop({
     ...req.body,
     cropId: newCropId,
+    cropImage: req.body.cropImage,
+    stages: cropStages,
   });
 
-  const disease = new Disease(req.body);
-  const diseaseId = disease.id;
-  crop.diseases.push(diseaseId);
-  await disease.save();
   await crop.save();
 
-  res.status(201).send({ success: true, message: "Crop created successfully" });
+  res.status(201).send({ success: true, message: "Crop created successfully", crop });
   logger.info(crop);
+});
+
+exports.allCrops = catchAsyncErrors(async (req, res) => {
+
+  const allCrops = await Crop.find().populate({
+    path: 'stages.diseases', 
+    model: 'Disease',
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "All Crops that are available",
+    allCrops,
+  });
 });
 
 exports.searchCrop = catchAsyncErrors(async (req, res) => {
@@ -85,18 +120,30 @@ exports.searchCrop = catchAsyncErrors(async (req, res) => {
 
   // If the user searches by disease name
   if (req.query.diseaseName) {
+    // Find disease IDs that match the search criteria
     const diseases = await Disease.find({
       diseaseName: { $regex: req.query.diseaseName, $options: "i" }, // Case-insensitive partial match
     }).select("_id"); // Get only the IDs of the matching diseases
 
-    // Add a condition to search crops with the found disease IDs
-    query.diseases = { $in: diseases };
+    if (diseases.length > 0) {
+      const diseaseIds = diseases.map(d => d._id);
+
+      // Add a condition to search crops where any stage's diseases field contains the found disease IDs
+      query['stages.diseases'] = { $in: diseaseIds };
+    } else {
+      // If no diseases are found, return an empty array
+      return res.json([]);
+    }
   }
 
-  const crops = await Crop.find(query).populate("diseases"); // Populate the diseases field
+  // Fetch crops and populate the diseases in the stages array
+  const crops = await Crop.find(query).populate({
+    path: 'stages.diseases', // Path to populate nested diseases within stages
+    model: 'Disease',        // Model name of Disease
+  });
+
   res.json(crops);
 });
-
 
 exports.updateCrop = catchAsyncErrors(async (req, res) => {
   const { cropId } = req.params;
@@ -121,7 +168,7 @@ exports.updateCrop = catchAsyncErrors(async (req, res) => {
     res.json(updatedCrop);
     console.log(updatedCrop); 
     
-})
+});
 
 exports.deleteCrop = catchAsyncErrors(async (req, res) => {
   const { cropId } = req.params;
@@ -188,14 +235,12 @@ exports.CreateUserRoles = catchAsyncErrors(async (req, res) => {
   
 });
 
-
 exports.getAlluserRoles =catchAsyncErrors(async (req, res) => {
   
   const userRoles = await UserRoles.find();
   res.status(200).json(userRoles);
 
 });
-
 
 exports.updateUserRole = catchAsyncErrors(async (req, res) => {
   const { agentId, newRoleId } = req.body;
