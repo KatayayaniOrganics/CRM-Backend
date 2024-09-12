@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 
 const cropSchema = new mongoose.Schema({
@@ -8,22 +7,50 @@ const cropSchema = new mongoose.Schema({
     default: "CS-01",
   },
   name: { type: String, required: [true, "Name is required"] },
-  sowing: Date,
-  products_used: [String],
-  crop_stage: String,
+  sowing:{
+    type:Date,
+    default:null
+  },
+  products_used: [{
+    type:String,
+    default:null
+  }],
 
-  image: String, // Image of the crop
-  diseases: [
+  cropImage:{
+    type:String,
+    default:null
+  }, 
+
+  description:{
+    type:String,
+    default:null
+  }, 
+  stages: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Disease",
+      name: {
+        type:String,
+        default:null
+      },
+      stage:{
+        type:String,
+        default:null
+      },
+      duration: {
+        type:String,
+        default:null
+      },
+      diseases: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Disease",
+        },
+      ],
     },
-  ], // Array of diseases related to the crop
+  ],
 
-  Date: Date,
   updatedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Agent', 
+    ref: 'Agent',
   },
 
 });
