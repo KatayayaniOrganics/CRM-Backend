@@ -7,7 +7,11 @@ const orderSchema = new mongoose.Schema({
     products: [{
         product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Products' }
     }],
-    order_amount: Number
+    order_amount: Number,
+    updated_By:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Agent"
+      },
 });
 
 const Order = mongoose.model('Order', orderSchema);

@@ -9,7 +9,7 @@ const consoleLogFormat = format.combine(
   })
 );
 
-// Create a Winston logger
+// Create a Winston logger 
 const logger = createLogger({
   level: "info",
   format: combine(colorize(), timestamp(), json()),

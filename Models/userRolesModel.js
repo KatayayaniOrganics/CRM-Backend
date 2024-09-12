@@ -6,7 +6,7 @@ const userRolesSchema = new mongoose.Schema({
         unique:true,
         default:"USR-1000",  
       },
-    role_name: { type: String, required: true },
+    role_name: { type: String, required: true},
     level: { type: Number, required: true}
 });
 
