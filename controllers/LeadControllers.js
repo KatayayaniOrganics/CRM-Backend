@@ -149,3 +149,25 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
     });
   }
 });
+
+exports.interactLead = catchAsyncErrors(async (req, res) => {
+  try {
+    const newLeadData = req.body;
+    
+    console.log(`New Lead Data: ${JSON.stringify(newLeadData)}`);
+
+    res.status(200).json({
+      success: true,
+      message: "Lead created successfully",
+      data: newLeadData
+    });
+  } catch (error) {
+
+    logger.error(`Error processing lead: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the lead."
+    });
+  }
+  
+});
