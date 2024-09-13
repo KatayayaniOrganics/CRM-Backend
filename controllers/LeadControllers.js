@@ -154,7 +154,7 @@ exports.interactLead = catchAsyncErrors(async (req, res) => {
   try {
     const newLeadData = req.body;
     
-    console.log(`New Lead Data: ${JSON.stringify(newLeadData)}`);
+    console.log(`Interact Lead Data: ${JSON.stringify(newLeadData)}`);
 
     res.status(200).json({
       success: true,
