@@ -117,7 +117,12 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
       newLeadId = `K0-${lastLeadIdNumber + 1}`;
       newLeadNumber=`${lastLeadIdNumber + 1}`;
     }
-    newEmail = `Katyayani${newLeadNumber}@gmail.com`;
+      // Generate email
+    if (entity.emails && entity.emails.length > 0) {
+      newEmail = entity.emails[0].value;
+    } else {
+      newEmail = `Katyayani${newLeadNumber}@gmail.com`;
+    }
     const  LatestLeadData = {
       leadId: newLeadId,   
       firstName: firstName,
