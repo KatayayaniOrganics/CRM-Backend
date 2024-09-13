@@ -13,7 +13,6 @@ exports.signup = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Signup Route");
  // Find the latest lead by sorting in descending order
  const lastAgent = await Agent.findOne().sort({ agentId: -1 }).exec();
- console.log(lastAgent)
 
  let newAgentId = "A0-1000"; // Default starting ID
 
