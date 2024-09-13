@@ -112,7 +112,7 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
 
     let newLeadId = "K0-1000"; 
     let newLeadNumber = "1000"; // Initialize newLeadNumber early
-    let newEmail = "";
+    let newEmail = "Katyayani1000@gmail.com";
 
     if (lastLead) {
       const lastLeadIdNumber = parseInt(lastLead.leadId.split("-")[1]);
