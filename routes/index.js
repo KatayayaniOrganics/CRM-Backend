@@ -2,7 +2,7 @@ var express = require('express');
 const { createLead, searchLead ,allLeads, updateLead ,deleteLead,kylasLead } = require('../controllers/LeadControllers');
 const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, CreateUserRoles ,updateUserRole, updateCrop, deleteCrop}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
-const {CallDetailsCreation, CallUpdate, CallDelete, callFilter} = require('../controllers/CallController');
+const {CallDetailsCreation, CallUpdate, CallDelete, callFilter, getAllCalls} = require('../controllers/CallController');
 const { checkTokenExpiration } = require('../middlewares/refreshMiddleware');
 
 
@@ -33,6 +33,7 @@ router.post('/queries', queryCreation);
 // Create a new call detail
 router.post('/calls',CallDetailsCreation );
 
+router.get('/getCalls', getAllCalls);
 //update calls
 router.put('/calls/:callId', CallUpdate);
 
