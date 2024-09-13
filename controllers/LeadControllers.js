@@ -110,19 +110,20 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
     const lastLead = await CustomerLead.findOne().sort({ leadId: -1 }).exec();
 
     let newLeadId = "K0-1000"; 
+    let newEmail = ""
 
     if (lastLead) {
       const lastLeadIdNumber = parseInt(lastLead.leadId.split("-")[1]);
       newLeadId = `K0-${lastLeadIdNumber + 1}`;
+      newLeadNumber=`${lastLeadIdNumber + 1}`;
     }
-
-
+    newEmail = `Katyayani${newLeadNumber}@gmail.com`;
     const  LatestLeadData = {
       leadId: newLeadId,   
       firstName: firstName,
       lastName: entity.lastName || null,
       contact: phoneNumbers,
-
+      email:newEmail,
     };
 
 
