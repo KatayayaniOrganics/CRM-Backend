@@ -1,9 +1,10 @@
 var express = require('express');
-const { createLead, searchLead ,allLeads, updateLead ,deleteLead,kylasLead } = require('../controllers/LeadControllers');
-const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, CreateUserRoles ,updateUserRole, updateCrop, deleteCrop}=require('../controllers/indexControllers');
+const { createLead, searchLead ,allLeads, updateLead ,deleteLead,kylasLead,interactLead } = require('../controllers/LeadControllers');
+const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, CreateUserRoles ,updateUserRole, updateCrop, deleteCrop, allCrops}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 const {CallDetailsCreation, CallUpdate, CallDelete, callFilter, getAllCalls} = require('../controllers/CallController');
 const { checkTokenExpiration } = require('../middlewares/refreshMiddleware');
+
 
 
 var router = express.Router();
@@ -27,6 +28,8 @@ router.delete("/deleteLead/:leadId", deleteLead);
 
 router.post("/kylas-assign-lead", kylasLead);
 
+router.post("/interact-lead", interactLead);
+
 // Create a new query
 router.post('/queries', queryCreation);
 
@@ -46,11 +49,16 @@ router.get("/callFilter",callFilter);
 // Create a new crop
 router.post('/crops',CropsCreation );
 
+//all Leads
+router.get('/getCrops',verifyToken,allCrops);
+
 //search crop
 router.get('/searchCrops',verifyToken,searchCrop);
 
 //Update Crop
 router.put("/updateCrop/:cropId",verifyToken,updateCrop);
+
+
 
 //Delete Crop
 router.delete("/deleteCrop/:cropId", deleteCrop);

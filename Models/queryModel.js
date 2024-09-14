@@ -11,7 +11,11 @@ const querySchema = new mongoose.Schema({
     reason_not_ordered: String,
     description: String,
     created_at: { type: Date, default: Date.now },
-    created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'Agents' }
+    created_by: { type: mongoose.Schema.Types.ObjectId, ref: 'Agent' },
+    updated_By:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Agent"
+      },
 });
 
 const Query = mongoose.model('Query', querySchema);

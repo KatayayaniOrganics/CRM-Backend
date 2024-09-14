@@ -6,7 +6,7 @@ exports.connectDatabase = async () =>{
     await mongoose.connect(process.env.MONGODB_URL);
     logger.info("Connection established to Database")
   } catch(error){
-     logger.error("not found")
+     logger.error("MongoDb URL Not Found")
   };
   
 }

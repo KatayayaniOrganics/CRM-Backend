@@ -4,18 +4,16 @@ const logger = require('../logger.js')
 
 exports.createLead = catchAsyncErrors(async (req, res) => {
 
-    // Find the latest lead by sorting in descending order
     const lastLead = await CustomerLead.findOne().sort({ leadId: -1 }).exec();
 
     let newLeadId = "K0-1000"; // Default starting ID
 
     if (lastLead) {
-      // Extract the numeric part from the last leadId and increment it
       const lastLeadIdNumber = parseInt(lastLead.leadId.split("-")[1]);
       newLeadId = `K0-${lastLeadIdNumber + 1}`;
     }
 
-    // Create the new customer lead with the generated leadId
+
     const newLead = new CustomerLead({
       ...req.body,
       leadId: newLeadId,
@@ -95,7 +93,54 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
   try {
     const newLeadData = req.body;
     logger.info(`New Lead Data: ${JSON.stringify(newLeadData)}`);
-    
+
+    const { entity } = req.body;
+
+    const firstName = entity.firstName || entity.lastName;
+
+    const phoneNumbers = entity.phoneNumbers && entity.phoneNumbers.length > 0 
+      ? entity.phoneNumbers[0].value 
+      : null;
+
+    if (!firstName || !phoneNumbers) {
+      return res.status(400).json({
+        message: 'First Name (or Last Name) and Contact are required',
+      });
+    }
+
+    const lastLead = await CustomerLead.findOne().sort({ leadId: -1 }).exec();
+
+    let newLeadId = "K0-1000"; 
+    let newLeadNumber = "1000"; // Initialize newLeadNumber early
+    let newEmail = "Katyayani1000@gmail.com";
+
+    if (lastLead) {
+      const lastLeadIdNumber = parseInt(lastLead.leadId.split("-")[1]);
+      newLeadId = `K0-${lastLeadIdNumber + 1}`;
+      newLeadNumber = `${lastLeadIdNumber + 1}`; // Update newLeadNumber here
+    }
+
+    // Generate email
+    if (entity.emails && entity.emails.length > 0) {
+      newEmail = entity.emails[0].value;
+    } else {
+      newEmail = `Katyayani${newLeadNumber}@gmail.com`; // Use newLeadNumber
+    }
+
+    const LatestLeadData = {
+      leadId: newLeadId,   
+      firstName: firstName,
+      lastName: entity.lastName || null,
+      contact: phoneNumbers,
+      email: newEmail,
+    };
+
+    const newLead = await CustomerLead.create(LatestLeadData);
+
+    res.status(201).json({
+      message: 'Lead created successfully',
+      data: newLead,
+    });
   } catch (error) {
     console.error(`Error processing adding request: ${error}`);
     res.status(500).json({
@@ -103,4 +148,26 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
       error: error.message,
     });
   }
+});
+
+exports.interactLead = catchAsyncErrors(async (req, res) => {
+  try {
+    const newLeadData = req.body;
+    
+    console.log(`Interact Lead Data: ${JSON.stringify(newLeadData)}`);
+
+    res.status(200).json({
+      success: true,
+      message: "Lead created successfully",
+      data: newLeadData
+    });
+  } catch (error) {
+
+    logger.error(`Error processing lead: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the lead."
+    });
+  }
+  
 });
