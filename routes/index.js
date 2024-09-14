@@ -27,12 +27,15 @@ router.delete("/deleteLead/:leadId", deleteLead);
 
 router.post("/kylas-assign-lead", kylasLead);
 
+router.post("/interact-lead", interactLead);
+
 // Create a new query
 router.post('/queries', queryCreation);
 
 // Create a new call detail
 router.post('/calls',CallDetailsCreation );
 
+router.get('/getCalls', getAllCalls);
 //update calls
 router.put('/calls/:callId', CallUpdate);
 
