@@ -1,6 +1,6 @@
 var express = require('express');
 const { createLead, searchLead ,allLeads, updateLead ,deleteLead,kylasLead,interactLead } = require('../controllers/LeadControllers');
-const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, createRole ,updateUserRole, updateCrop, deleteCrop, allCrops}=require('../controllers/indexControllers');
+const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, createRole,updateUserRole, updateCrop, deleteCrop, allCrops, createDisease, searchDisease, updateDisease, allDisease, deleteDisease}=require('../controllers/indexControllers');
 const { verifyToken,restrictTo } = require('../middlewares/authMiddleware');
 const {CallDetailsCreation, CallUpdate, CallDelete, callFilter, getAllCalls} = require('../controllers/CallController');
 
@@ -59,6 +59,21 @@ router.put("/updateCrop/:cropId",verifyToken,updateCrop);
 
 //Delete Crop
 router.delete("/deleteCrop/:cropId", deleteCrop);
+
+// Create a new disease
+router.post('/disease',createDisease);
+
+//all Disease
+router.get('/getDisease',allDisease);
+
+//Search disease
+router.get('/searchDisease',searchDisease);
+
+//Update Disease
+router.put("/updateDisease/:diseaseId",verifyToken,updateDisease);
+
+//Delete Disease
+router.delete("/deleteDisease/:diseaseId", deleteDisease);
 
 // Create a new source
 router.post('/sources',createSource);

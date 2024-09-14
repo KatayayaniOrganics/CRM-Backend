@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 
 const diseaseSchema = new mongoose.Schema({
-  diseaseName: { type: String, required: true }, 
+  diseaseId: {
+    type: String,
+    unique: true,
+    default: "DO-1000",
+  },
+  name: { type: String, required: true }, 
   diseaseImage: {
     type:String,
     default:null

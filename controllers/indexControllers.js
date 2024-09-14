@@ -4,8 +4,8 @@ const Source = require("../Models/sourceModel");
 const Tags = require("../Models/tagsModel");
 const Disease = require("../Models/diseaseModel");
 const logger = require("../logger");
-const UserRoles = require('../Models/userRolesModel');
-const Agent = require("../Models/agentModel")
+const UserRoles = require("../Models/userRolesModel");
+const Agent = require("../Models/agentModel");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 
 exports.queryCreation = catchAsyncErrors(async (req, res) => {
@@ -37,10 +37,11 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
   logger.info(query);
 });
 
+
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Crops creation Route");
 
-  // Fetch the last created crop to increment the ID
+  
   const lastCrop = await Crop.findOne().sort({ cropId: -1 }).exec();
 
   let newCropId = "CS-01";
@@ -50,35 +51,37 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
     newCropId = `CS-${newCropNumber.toString().padStart(2, "0")}`;
   }
 
-  const stages = req.body.stages; // Fetch stages from the request body
+  const stages = req.body.stages; 
   const cropStages = [];
 
-  // Loop through each stage and create diseases dynamically
   for (let stage of stages) {
-    const diseaseIds = [];
-    for (let diseaseData of stage.diseases) {
-      const disease = new Disease({
-        diseaseName: diseaseData.name,
-        diseaseImage: diseaseData.image,
-        solution: diseaseData.solutions,
-        prevention: diseaseData.prevention,
-        products: diseaseData.products,
-      });
+    const diseaseIds = stage.diseases; 
 
-      await disease.save();
-      diseaseIds.push(disease._id); // Add the saved disease ID to the stage
+    
+    logger.info(`Received disease IDs for stage '${stage.name}': ${diseaseIds.join(", ")}`);
+
+    
+    const foundDiseases = await Disease.find({ diseaseId: { $in: diseaseIds } });
+    const validDiseaseIds = foundDiseases.map(disease => disease.diseaseId);
+
+  
+    const invalidDiseaseIds = diseaseIds.filter(id => !validDiseaseIds.includes(id));
+    if (invalidDiseaseIds.length > 0) {
+      logger.warn(`Invalid diseaseIds provided for stage '${stage.name}': ${invalidDiseaseIds.join(", ")}`);
     }
 
-    // Add the dynamically created diseases to each stage
     cropStages.push({
-      name: stage.Name,
+      name: stage.name, 
       stage: stage.stage,
       duration: stage.duration,
-      diseases: diseaseIds,
+      diseases: validDiseaseIds, 
     });
+
+    
+    logger.info(`Storing valid disease IDs for stage '${stage.name}': ${validDiseaseIds.join(", ")}`);
   }
 
-  // Create the new crop with dynamic stages
+
   const crop = new Crop({
     ...req.body,
     cropId: newCropId,
@@ -92,82 +95,111 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   logger.info(crop);
 });
 
+
 exports.allCrops = catchAsyncErrors(async (req, res) => {
 
-  const allCrops = await Crop.find().populate({
-    path: 'stages.diseases', 
-    model: 'Disease',
-  });
+  const allCrops = await Crop.find();
+
+
+  const cropsWithPopulatedDiseases = await Promise.all(
+    allCrops.map(async (crop) => {
+      const populatedStages = await Promise.all(
+        crop.stages.map(async (stage) => {
+          const diseases = await Disease.find({ diseaseId: { $in: stage.diseases } });
+          return {
+            ...stage.toObject(), 
+            diseases, 
+          };
+        })
+      );
+
+      return {
+        ...crop.toObject(),
+        stages: populatedStages,
+      };
+    })
+  );
 
   res.status(200).json({
     success: true,
-    message: "All Crops that are available",
-    allCrops,
+    message: "All crops that are available",
+    crops: cropsWithPopulatedDiseases,
   });
 });
+
 
 exports.searchCrop = catchAsyncErrors(async (req, res) => {
   const query = {};
 
-  // Loop through the query parameters and add them to the search query
+  
   for (let key in req.query) {
     if (req.query[key]) {
       if (key === "cropId" || key === "name") {
-        query[key] = { $regex: req.query[key], $options: "i" }; // Case-insensitive partial match
+        query[key] = { $regex: req.query[key], $options: "i" }; 
       }
     }
   }
 
-  // If the user searches by disease name
   if (req.query.diseaseName) {
-    // Find disease IDs that match the search criteria
+    
     const diseases = await Disease.find({
-      diseaseName: { $regex: req.query.diseaseName, $options: "i" }, // Case-insensitive partial match
-    }).select("_id"); // Get only the IDs of the matching diseases
+      name: { $regex: req.query.diseaseName, $options: "i" }, 
+    }).select("diseaseId"); 
 
     if (diseases.length > 0) {
-      const diseaseIds = diseases.map(d => d._id);
+      const diseaseIds = diseases.map((d) => d.diseaseId); 
 
-      // Add a condition to search crops where any stage's diseases field contains the found disease IDs
-      query['stages.diseases'] = { $in: diseaseIds };
+      query["stages.diseases"] = { $in: diseaseIds };
     } else {
-      // If no diseases are found, return an empty array
       return res.json([]);
     }
   }
 
-  // Fetch crops and populate the diseases in the stages array
-  const crops = await Crop.find(query).populate({
-    path: 'stages.diseases', // Path to populate nested diseases within stages
-    model: 'Disease',        // Model name of Disease
-  });
 
-  res.json(crops);
+  const crops = await Crop.find(query);
+
+  const cropsWithPopulatedDiseases = await Promise.all(
+    crops.map(async (crop) => {
+      const populatedStages = await Promise.all(
+        crop.stages.map(async (stage) => {
+          const diseases = await Disease.find({ diseaseId: { $in: stage.diseases } });
+          return {
+            ...stage.toObject(),
+            diseases,
+          };
+        })
+      );
+
+      return {
+        ...crop.toObject(),
+        stages: populatedStages,
+      };
+    })
+  );
+
+  res.json(cropsWithPopulatedDiseases);
 });
 
 exports.updateCrop = catchAsyncErrors(async (req, res) => {
   const { cropId } = req.params;
   const updateCropData = req.body;
-  const agentId = req.user.id;  
+  const agentId = req.user.id;
   // console.log(agentId)
 
-    // Add the user who is updating the crop to the update data
-    updateCropData.updatedBy = agentId;   
+ 
+  updateCropData.updatedBy = agentId;
 
-    // Find the customer lead by leadId and update it
-    const updatedCrop = await Crop.findOneAndUpdate(
-      { cropId },
-      updateCropData,
-      { new: true, runValidators: true }
-    );
+  const updatedCrop = await Crop.findOneAndUpdate({ cropId }, updateCropData, {
+    new: true,
+    runValidators: true,
+  });
 
-    if (!updatedCrop) {
-      return res.status(404).json({ message: "Crop not found" });
-    }
+  if (!updatedCrop) {
+    return res.status(404).json({ message: "Crop not found" });
+  }
 
-    res.json(updatedCrop);
-    console.log(updatedCrop); 
-    
+  res.json(updatedCrop);
+  console.log(updatedCrop);
 });
 
 exports.deleteCrop = catchAsyncErrors(async (req, res) => {
@@ -181,6 +213,103 @@ exports.deleteCrop = catchAsyncErrors(async (req, res) => {
   }
 
   res.json({ message: "Crop deleted successfully" });
+});
+
+exports.createDisease = catchAsyncErrors(async (req, res) => {
+  try {
+    const lastDisease = await Disease.findOne().sort({ diseaseId: -1 }).exec();
+
+    let newDiseaseId = "DO-1000"; // Default starting ID
+
+    if (lastDisease && lastDisease.diseaseId) {
+      const lastDiseaseIdNumber = parseInt(lastDisease.diseaseId.split("-")[1]);
+      newDiseaseId = `DO-${lastDiseaseIdNumber + 1}`;
+    }
+
+    const newDisease = new Disease({
+      ...req.body,
+      diseaseId: newDiseaseId,
+    });
+
+
+    await newDisease.save();
+
+    res.status(201).json({
+      message: "Disease created successfully",
+      disease: newDisease,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "An error occurred while creating the disease",
+      error: error.message,
+    });
+  }
+});
+
+exports.allDisease = catchAsyncErrors(async (req, res) => {
+  const allDisease = await Disease.find()
+
+  res.status(200).json({
+    success: true,
+    message: "All Disease that are available",
+    allDisease,
+  });
+});
+
+exports.searchDisease = catchAsyncErrors(async (req, res) => {
+
+  const query = {};
+
+
+  for (let key in req.query) {
+    if (req.query[key]) {
+      if (key === 'diseaseId' || key === 'name') {
+        query[key] = { $regex: req.query[key], $options: 'i' }; 
+      } else {
+        query[key] = req.query[key];
+      }
+    }
+  }
+
+  const disease = await Disease.find(query) 
+  res.json(disease);
+
+});
+
+exports.updateDisease = catchAsyncErrors(async (req, res) => {
+  const { diseaseId } = req.params;
+  const updateDiseaseData = req.body;
+  const agentId = req.user.id;
+  // console.log(agentId)
+
+ 
+  updateDiseaseData.updatedBy = agentId;
+
+  
+  const updatedDisease = await Disease.findOneAndUpdate({ diseaseId }, updateDiseaseData, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!updatedDisease) {
+    return res.status(404).json({ message: "Disease not found" });
+  }
+
+  res.json(updatedDisease);
+  console.log(updatedDisease);
+});
+
+exports.deleteDisease = catchAsyncErrors(async (req, res) => {
+  const { diseaseId } = req.params;
+
+ 
+  const deletedDisease = await Disease.findOneAndDelete({ diseaseId });
+
+  if (!deletedDisease) {
+    return res.status(404).json({ message: "Disease not found" });
+  }
+
+  res.json({ message: "Disease deleted successfully" });
 });
 
 exports.createSource = catchAsyncErrors(async (req, res) => {
@@ -275,17 +404,23 @@ exports.updateUserRole = catchAsyncErrors(async (req, res) => {
   // Find the new role
   const newRole = await UserRoles.findById(newRoleId);
   if (!newRole) {
-    return res.status(404).json({ success: false, message: 'Role not found' });
+    return res.status(404).json({ success: false, message: "Role not found" });
   }
 
   // Find the agent and update the user_role
-  const agent = await Agent.findByIdAndUpdate(agentId, {
-    user_role: newRole._id
-  }, { new: true }); // `new: true` returns the updated agent
+  const agent = await Agent.findByIdAndUpdate(
+    agentId,
+    {
+      user_role: newRole._id,
+    },
+    { new: true }
+  ); // `new: true` returns the updated agent
 
   if (!agent) {
-    return res.status(404).json({ success: false, message: 'Agent not found' });
+    return res.status(404).json({ success: false, message: "Agent not found" });
   }
 
-  res.status(200).json({ success: true, message: 'User role updated successfully', agent });
+  res
+    .status(200)
+    .json({ success: true, message: "User role updated successfully", agent });
 });
