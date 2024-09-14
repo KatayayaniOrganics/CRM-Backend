@@ -1,30 +1,40 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const Agent = require("../Models/agentModel"); // Make sure this is the correct path
-const sendResetEmail = require("../controllers/sendMail");
+const Agent = require("../Models/agentModel"); 
 const logger = require('../logger');
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
 const ErrorHandler  = require('../utils/errorHandler');
-const UserRoles = ('../Models/userRolesModel.js')
+const UserRoles = require("../Models/userRolesModel");
 
+//SignUp Controller
 exports.signup = catchAsyncErrors(async (req, res) => {
-  const {password } = req.body;
+  const { password, user_role } = req.body;
   logger.info("You made a POST Request on Signup Route");
- // Find the latest lead by sorting in descending order
- const lastAgent = await Agent.findOne().sort({ agentId: -1 }).exec();
 
- let newAgentId = "A0-1000"; // Default starting ID
+   // Check if attempting to create or update to Super Admin role (USR-1000)
+   if (user_role === "USR-1000") {
+    // Check if any agent already has the Super Admin role
+    const existingSuperAdmin = await Agent.findOne({ user_role: "USR-1000" });
+    if (existingSuperAdmin) {
+      return res.status(400).json({ success: false, message: "Super Admin (USR-1000) already exists. Cannot create another Super Admin." });
+    }
+  }
 
- if (lastAgent) {
-   // Extract the numeric part from the last leadId and increment it
-   const lastagentIdNumber = parseInt(lastAgent.agentId.split("-")[1]);
-   newAgentId = `A0-${lastagentIdNumber + 1}`;
- }
+  // Find the latest agent by sorting in descending order
+  const lastAgent = await Agent.findOne().sort({ agentId: -1 }).exec();
+
+  let newAgentId = "A0-1000"; // Default starting ID
+
+  if (lastAgent) {
+    const lastAgentIdNumber = parseInt(lastAgent.agentId.split("-")[1]);
+    newAgentId = `A0-${lastAgentIdNumber + 1}`;
+  }
 
   const agent = new Agent({
-  ...req.body,
-    agentId : newAgentId
+    ...req.body,
+    agentId: newAgentId,
+    user_role
   });
 
   const salt = await bcrypt.genSalt(10);
@@ -32,9 +42,10 @@ exports.signup = catchAsyncErrors(async (req, res) => {
 
   await agent.save();
   logger.info({ message: 'Agent Signup successfully' });
-  
+
   res.status(201).json({ success: true, message: 'Agent registered successfully' });
 });
+
 // Login Controller
 exports.login = catchAsyncErrors(async (req, res, next) => {
     logger.info("You made a POST Request on Login Route");
@@ -61,7 +72,7 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({ success: true, token, message: 'Agent Logged successfully' });
     
     logger.info({ message: 'Agent LoggedIn successfully', });
-  });
+});
   
 // Forgot Password Controller
 exports.forgotPasswordController = catchAsyncErrors(async (req, res) => {
@@ -85,6 +96,7 @@ exports.forgotPasswordController = catchAsyncErrors(async (req, res) => {
     logger.info({ message: 'Agent LoggedIn successfully' });
 });
 
+
 exports.refreshToken = catchAsyncErrors(async (req, res, next) => {
     const { refreshToken } = req.cookies;
 
@@ -105,8 +117,8 @@ exports.refreshToken = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-  // Forgot Password Controller
-  exports.forgotPasswordController = catchAsyncErrors(async (req, res) => {
+// Forgot Password Controller
+exports.forgotPasswordController = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST Request on Forgot Route");
     const { email } = req.body;
   
@@ -146,8 +158,8 @@ exports.refreshToken = catchAsyncErrors(async (req, res, next) => {
     return res.status(200).send({ message: 'OTP sent successfully' });
   });
   
-  // OTP Verification Controller
-  exports.verifyOtpController = catchAsyncErrors(async (req, res) => {
+// OTP Verification Controller
+exports.verifyOtpController = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST Request on Verify OTP Route");
   
     const { email, otp } = req.body;
@@ -178,8 +190,8 @@ exports.refreshToken = catchAsyncErrors(async (req, res, next) => {
     return res.status(200).send({ message: 'OTP verified successfully' });
   });
   
-  // Reset Password Controller
-  exports.resetPasswordController = catchAsyncErrors(async (req, res) => {
+// Reset Password Controller
+exports.resetPasswordController = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST Request on Reset Route");
   
     const { email, newPassword } = req.body;
@@ -210,8 +222,8 @@ exports.refreshToken = catchAsyncErrors(async (req, res, next) => {
     return res.status(200).send({ message: 'Password reset successfully' });
   });
   
-  // Logout Controller
-  exports.logout = catchAsyncErrors(async (req, res) => {
+// Logout Controller
+exports.logout = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST Request on Logout Route");
   
     res.clearCookie('accessToken', { httpOnly: true });
@@ -220,7 +232,7 @@ exports.refreshToken = catchAsyncErrors(async (req, res, next) => {
     return res.status(200).json({ success: true, message: 'Logged out successfully!' });
   });
   
-  // Refresh Token Controller
+// Refresh Token Controller
 exports.refreshToken = catchAsyncErrors(async (req, res) => {
     const { refreshToken } = req.cookies;
   
@@ -243,4 +255,68 @@ exports.refreshToken = catchAsyncErrors(async (req, res) => {
         res.cookie("accessToken", newAccessToken, { httpOnly: true });
         res.status(200).json({ success: true, accessToken: newAccessToken });
     });
+});
+
+//get all Agents
+exports.getAllAgents = catchAsyncErrors(async (req, res) => {
+  try {
+    // Fetch all agents
+    const agents = await Agent.find();
+
+    // Manually populate the 'user_role' field using the UserRoleId string
+    const populatedAgents = await Promise.all(agents.map(async (agent) => {
+      if (agent.user_role) {
+        const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
+        agent.user_role = userRole;  // Replace with the populated user role
+      }
+      return agent;
+    }));
+
+    return res.status(200).json({
+      success: true,
+      message: 'All Agents retrieved successfully',
+      agents: populatedAgents,  // Return the fetched agents
+    });
+  } catch (err) {
+    // Handle any errors during the process
+    return res.status(500).json({ success: false, message: 'Error retrieving agents', error: err.message });
+  }
+});
+
+//update agent
+exports.updateAgent = catchAsyncErrors(async (req, res) => {
+  const { agentId } = req.params;
+  const updates = req.body;
+  
+
+  try {
+    // Check if attempting to update the user_role to Super Admin
+    if (updates.user_role === "USR-1000") {
+      // Check if any other agent already has the Super Admin role
+      const existingSuperAdmin = await Agent.findOne({ user_role: "USR-1000", agentId: { $ne: agentId } });
+      if (existingSuperAdmin) {
+        return res.status(400).json({ success: false, message: "Super Admin role (USR-1000) already exists. Cannot update another agent to Super Admin." });
+      }
+    }
+
+    // Find agent by agentId and update
+    const updatedAgent = await Agent.findOneAndUpdate(
+      { agentId: agentId },  // Search by agentId
+      updates,               // Apply the updates from the request body
+      { new: true, runValidators: true }  // Options: return the updated document and run validators
+    );
+
+    // If agent is not found
+    if (!updatedAgent) {
+      return res.status(404).json({ success: false, message: "Agent not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Agent updated successfully',
+      agent: updatedAgent
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: "Error updating agent", error: err.message });
+  }
 });
