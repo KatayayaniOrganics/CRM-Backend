@@ -342,40 +342,60 @@ exports.createTags = catchAsyncErrors(async (req, res) => {
   logger.info(tag);
 });
 
-exports.CreateUserRoles = catchAsyncErrors(async (req, res) => {
-  const { role_name, level } = req.body;
+// Role creation logic, controlled by Super Admin or Admin
+exports.createRole = catchAsyncErrors(async (req, res) => {
+  const { role_name } = req.body;
 
-  if (level <= 1) {
-    return res
-      .status(400)
-      .json({ message: "You cannot create roles with level 1" });
+  const agent = await Agent.findById(req.user.id)
+  if (agent.user_role) {
+    const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
+    agent.user_role = userRole;  // Replace with the populated user role
   }
-  const lastUserRoles = await UserRoles.findOne()
-    .sort({ UserRoleId: -1 })
-    .exec();
+
+    // Check if the user is an Admin and trying to create a Super Admin role
+    if (agent.user_role.role_name === "Admin" && role_name === "Super Admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Admins are not allowed to create the Super Admin role"
+      });
+    }
+
+    // If Super Admin, prevent creating another Super Admin
+    if (agent.user_role.role_name === "Super Admin" && role_name === "Super Admin") {
+      const existingSuperAdmin = await UserRoles.findOne({ role_name: "Super Admin" });
+      if (existingSuperAdmin) {
+        return res.status(400).json({ success: false, message: "Super Admin role already exists" });
+      }
+    }
+  const lastUserRoles = await UserRoles.findOne().sort({ UserRoleId: -1 }).exec();
 
   let newUserRoleId = "USR-1000"; // Default starting ID
-
+ 
   if (lastUserRoles) {
     // Extract the numeric part from the last leadId and increment it
-    const lastUserRolesNumber = parseInt(
-      lastUserRoles.UserRoleId.split("-")[1]
-    );
+    const lastUserRolesNumber = parseInt(lastUserRoles.UserRoleId.split("-")[1]);
     newUserRoleId = `USR-${lastUserRolesNumber + 1}`;
   }
-  // Create the new role
+  // Create a new role
   const newRole = new UserRoles({
     role_name,
-    level,
-    UserRoleId: newUserRoleId,
+    UserRoleId:newUserRoleId
   });
+
   await newRole.save();
-  res.status(201).json({ message: "User role created successfully", newRole });
+
+  res.status(201).json({
+    success: true,
+    message: "Role created successfully",
+    data: newRole
+  });
 });
 
 exports.getAlluserRoles = catchAsyncErrors(async (req, res) => {
+  
   const userRoles = await UserRoles.find();
   res.status(200).json(userRoles);
+
 });
 
 exports.updateUserRole = catchAsyncErrors(async (req, res) => {

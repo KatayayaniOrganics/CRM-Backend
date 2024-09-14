@@ -7,7 +7,6 @@ const userRolesSchema = new mongoose.Schema({
         default:"USR-1000",  
       },
     role_name: { type: String, required: true},
-    level: { type: Number, required: true}
 });
 
 const UserRoles = mongoose.model('UserRoles', userRolesSchema);

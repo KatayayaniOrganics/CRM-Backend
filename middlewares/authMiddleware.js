@@ -1,6 +1,8 @@
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const Agent = require("../Models/agentModel");
+const UserRoles = require("../Models/userRolesModel")
 
-exports.verifyToken = async (req, res, next) => {
+ const verifyToken = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     console.log(authHeader);
     
@@ -20,7 +22,24 @@ exports.verifyToken = async (req, res, next) => {
       }
       req.user = decoded;
       next();
+      
     });
   };
   
+  
+  // Middleware to restrict access based on user role
+  const restrictTo = (roles) => async (req, res, next) => {
+    const agent = await Agent.findById(req.user.id)
+    if (agent.user_role) {
+      const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
+      agent.user_role = userRole;  // Replace with the populated user role
+    }
 
+    if (!roles.includes(agent.user_role.role_name)) {
+      return res.status(403).json({ success: false, message: "Access Denied, Insufficient Privileges" });
+    }
+    next();
+  };
+  
+  module.exports = { verifyToken, restrictTo };
+  
