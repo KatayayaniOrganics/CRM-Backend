@@ -11,7 +11,6 @@ const callDetailsSchema = new mongoose.Schema({
         default:null
     },
     isMissedCall: { type: Boolean, default: false },
-    order_amount: { type: Number, default: null },
     outcome: { type: String, default: null },
     phoneNumber: { type: String, default: null },
     callRecording: { type: String, default: null }
