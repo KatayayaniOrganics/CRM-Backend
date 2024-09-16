@@ -1,6 +1,6 @@
 var express = require('express');
 const { createLead, searchLead ,allLeads, updateLead ,deleteLead,kylasLead,interactLead } = require('../controllers/LeadControllers');
-const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, CreateUserRoles ,updateUserRole, updateCrop, deleteCrop, allCrops}=require('../controllers/indexControllers');
+const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, CreateUserRoles ,updateUserRole, updateCrop, deleteCrop, allCrops,getQuery,deleteQuery,updateQuery}=require('../controllers/indexControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 const {CallDetailsCreation, CallUpdate, CallDelete, callFilter} = require('../controllers/CallController');
 const { checkTokenExpiration } = require('../middlewares/refreshMiddleware');
@@ -30,8 +30,14 @@ router.post("/kylas-assign-lead", kylasLead);
 
 router.post("/interact-lead", interactLead);
 
-// Create a new query
+// Create a new queries
 router.post('/queries', queryCreation);
+
+router.get('/getqueries', getQuery);
+
+router.delete('/deletequeries', deleteQuery);
+
+router.put('/updatequeries', updateQuery);
 
 // Create a new call detail
 router.post('/calls',CallDetailsCreation );
@@ -75,6 +81,8 @@ router.post('/userRoles',CreateUserRoles);
 router.get('/userRoles',getAlluserRoles);
 
 router.put('/update-role', updateUserRole);
+
+
 
 
 module.exports = router;
