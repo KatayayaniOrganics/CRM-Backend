@@ -13,7 +13,8 @@ const callDetailsSchema = new mongoose.Schema({
     isMissedCall: { type: Boolean, default: false },
     outcome: { type: String, default: null },
     phoneNumber: { type: String, default: null },
-    callRecording: { type: String, default: null }
+    callRecording: { type: String, default: null },
+    countryCode:{type:String, default:null},
 });
 
 const CallDetails = mongoose.model('CallDetails', callDetailsSchema);
