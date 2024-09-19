@@ -10,30 +10,11 @@ const callDetailsSchema = new mongoose.Schema({
         type: Number,
         default:null
     },
-    desposition:{
-        type:String,
-        default:null
-    },
-    reason_not_connected: String,
-    order_amount:{
-        type:Number,
-        default:null
-    },
-    outcome:{
-        type:String,
-        default:null
-    },
-   startTime: {
-    type: Date
-   },
-   phoneNumber: {
-    type:String,
-    default: null
-},
-   callType:{
-    type:String,
-    default: null
-}  
+    isMissedCall: { type: Boolean, default: false },
+    outcome: { type: String, default: null },
+    phoneNumber: { type: String, default: null },
+    callRecording: { type: String, default: null },
+    countryCode:{type:String, default:null},
 });
 
 const CallDetails = mongoose.model('CallDetails', callDetailsSchema);

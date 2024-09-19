@@ -1,12 +1,11 @@
-
 const mongoose = require('mongoose');
 
 const agentSchema = new mongoose.Schema({
-    agentId:{
-      type: String,
-      unique:true,
-      default:"A0-1000",
-    },
+  agentId:{
+    type: String,
+    unique:true,
+    default:"AO-1000",
+  },
   firstname: {
     type: String,
     trim: true,
@@ -38,15 +37,16 @@ const agentSchema = new mongoose.Schema({
     required: [true, "Address is required"]
   },
   user_role: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "UserRoles",
+    type: String,
+    default:"USR-1002",
+    ref: "UserRoles" // Reference the UserRoles schema
   },
   otp: String,
-    otpExpirationTime: Date,
-    otpVerified: {
-        type: Boolean,
-        default: false,
-    },
+  otpExpirationTime: Date,
+  otpVerified: {
+    type: Boolean,
+    default: false,
+  },
   call_history: [
     {
       call_id: { type: mongoose.Schema.Types.ObjectId, ref: "CallDetails" }
