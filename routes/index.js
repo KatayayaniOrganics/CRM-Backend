@@ -1,14 +1,10 @@
 var express = require('express');
 const { createLead, searchLead ,allLeads, updateLead ,deleteLead,kylasLead,interactLead } = require('../controllers/LeadControllers');
-const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, CreateUserRoles ,updateUserRole, updateCrop, deleteCrop, allCrops,getQuery,deleteQuery,updateQuery}=require('../controllers/indexControllers');
-const { verifyToken } = require('../middlewares/authMiddleware');
-const {CallDetailsCreation, CallUpdate, CallDelete, callFilter} = require('../controllers/CallController');
-const { checkTokenExpiration } = require('../middlewares/refreshMiddleware');
-
-
+const {createSource,createTags,queryCreation,CropsCreation,searchCrop, getAlluserRoles, createRole,updateUserRole, updateCrop, deleteCrop, allCrops, createDisease, searchDisease, updateDisease, allDisease, deleteDisease,getQuery,deleteQuery,updateQuery}=require('../controllers/indexControllers');
+const { verifyToken,restrictTo } = require('../middlewares/authMiddleware');
+const {CallDetailsCreation, CallUpdate, CallDelete, callFilter, getAllCalls} = require('../controllers/CallController');
 
 var router = express.Router();
-
 
  //create lead
  router.post('/createLead',verifyToken,createLead);
@@ -28,6 +24,7 @@ router.delete("/deleteLead/:leadId", deleteLead);
 
 router.post("/kylas-assign-lead", kylasLead);
 
+
 router.post("/interact-lead", interactLead);
 
 // Create a new queries
@@ -41,6 +38,9 @@ router.put('/updatequeries', updateQuery);
 
 // Create a new call detail
 router.post('/calls',CallDetailsCreation );
+
+//all calls 
+router.get('/getCalls', getAllCalls);
 
 //update calls
 router.put('/calls/:callId', CallUpdate);
@@ -63,10 +63,23 @@ router.get('/searchCrops',verifyToken,searchCrop);
 //Update Crop
 router.put("/updateCrop/:cropId",verifyToken,updateCrop);
 
-
-
 //Delete Crop
 router.delete("/deleteCrop/:cropId", deleteCrop);
+
+// Create a new disease
+router.post('/disease',createDisease);
+
+//all Disease
+router.get('/getDisease',allDisease);
+
+//Search disease
+router.get('/searchDisease',searchDisease);
+
+//Update Disease
+router.put("/updateDisease/:diseaseId",verifyToken,updateDisease);
+
+//Delete Disease
+router.delete("/deleteDisease/:diseaseId", deleteDisease);
 
 // Create a new source
 router.post('/sources',createSource);
@@ -75,10 +88,12 @@ router.post('/sources',createSource);
 router.post('/tags', createTags);
 
 
-router.post('/userRoles',CreateUserRoles);
+// Define the route for creating roles
+router.post('/userRoles', verifyToken, restrictTo(['Super Admin','Admin']), createRole);
 
-
+//All user Roles
 router.get('/userRoles',getAlluserRoles);
+
 
 router.put('/update-role', updateUserRole);
 
@@ -86,11 +101,4 @@ router.put('/update-role', updateUserRole);
 
 
 module.exports = router;
- 
-// PUT /update-role
-// Content-Type: application/json
 
-// {
-//   "agentId": "some-agent-id",
-//   "newRoleId": "new-role-id" 
-// }

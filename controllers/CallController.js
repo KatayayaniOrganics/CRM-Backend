@@ -43,6 +43,11 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     logger.info(`callId received: ${callId}`);
     logger.info(`Data to update: ${JSON.stringify(updatedData)}`);
 
+    if (updatedData.countryCode && !/^[+]\d{1,4}$/.test(updatedData.countryCode)) {
+      logger.warn("Invalid countryCode format");
+      return res.status(400).send({ success: false, message: "Invalid countryCode format" });
+  }
+
     const updatedCallDetails = await CallDetails.findOneAndUpdate(
         { callId: callId }, 
         { $set: updatedData }, 
@@ -78,11 +83,9 @@ exports.CallDelete = catchAsyncErrors(async (req, res) => {
 exports.callFilter = catchAsyncErrors(async (req, res) => {
 
     const query = {};
-
-    // Loop through the query parameters and add them to the search query
     for (let key in req.query) {
       if (req.query[key]) {
-        if (key === 'phoneNumber' || key === 'callId' || key=== 'query_id'  ) {
+        if (key === 'phoneNumber' || key === 'callId' || key=== 'query_id' || key === 'countryCode') {
           query[key] = { $regex: req.query[key], $options: 'i' }; // Case-insensitive partial match
         } else {
           query[key] = req.query[key];
@@ -96,3 +99,7 @@ exports.callFilter = catchAsyncErrors(async (req, res) => {
 });
 
 
+exports.getAllCalls = catchAsyncErrors(async (req, res) => {
+  const allCalls = await CallDetails.find();
+  res.status(200).json(allCalls);
+});
