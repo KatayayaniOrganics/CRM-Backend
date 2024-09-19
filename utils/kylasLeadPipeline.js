@@ -1,4 +1,53 @@
 const CustomerLead = require('../Models/customerLeadModel');
+const async = require('async');
+const logger = require('../logger.js'); 
+
+
+// Create a queue to process one lead at a time
+const leadQueue = async.queue(async (task, done) => {
+  const { req, res } = task;
+
+  try {
+    logger.info("YOU MADE A REQ ON KYLAS POST ROUTE");
+    const { entity } = req.body;
+    let processedData = { entity };
+    logger.info(`New Lead Data: ${JSON.stringify(processedData)}`);
+    
+    // Define the pipeline stages
+    const stages = [
+      validateRequiredFields,
+      generateLeadId,
+      generateOrUseEmail,
+      checkForDuplicates,
+      createLeadInDatabase,
+    ];
+
+    // Process the data through the pipeline
+    for (const stage of stages) {
+      processedData = await stage(processedData);
+      if (processedData.error) {
+        return res.status(processedData.status).json({
+          message: processedData.message,
+        });
+      }
+    }
+
+    // Send the successful response
+    res.status(201).json({
+      message: 'Lead created successfully',
+      data: processedData.newLead,
+    });
+
+  } catch (error) {
+    logger.error(`Error processing adding request: ${error.message}`);
+    res.status(500).json({
+      message: 'Error processing adding request',
+      error: error.message,
+    });
+  } finally {
+    done();  // Mark the task as done to move to the next in the queue
+  }
+}, 1);
 
 // Stage 1: Validate Required Fields (First Name and Contact)
 async function validateRequiredFields(data) {
@@ -102,4 +151,4 @@ async function validateRequiredFields(data) {
   }
 
 
-  module.exports = { validateRequiredFields,generateLeadId,generateOrUseEmail,checkForDuplicates,createLeadInDatabase};
+  module.exports = { leadQueue};

@@ -65,6 +65,10 @@ const customerLeadSchema = new mongoose.Schema(
       type: String,
       default: null, 
     },
+    countryCode:{
+      type:String,
+      default:null,
+    },
     contact: {
       type: String,
       unique: true,
