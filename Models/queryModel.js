@@ -24,18 +24,16 @@ const querySchema = new mongoose.Schema({
         type: String, 
         required: [true, "Description is required"]
     },
-    created_at: { 
-        type: Date, 
-        default: Date.now 
-    },
-    created_by: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Agent' 
-    },
-    updated_By: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Agent'
-    }
+    created_at: { type: Date, default: Date.now },
+    updated_By: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    updated_history: [
+        {
+            updated_at: { type: Date, default: Date.now },
+            updated_data: { type: Object },
+            updated_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+        }
+    ]
+   
 });
 
 const Query = mongoose.model('Query', querySchema);

@@ -49,29 +49,23 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
 exports.getQuery = catchAsyncErrors(async (req, res) => {
     const { customer_id } = req.query;
 
-    // If customer_id is provided, return the specific query
     if (customer_id) {
         const query = await Query.findOne({ customer_id });
 
-        // If the query is not found, return 404
         if (!query) {
             return res.status(404).json({
                 success: false,
                 message: 'Query not found for the given customer ID',
             });
         }
-
-        // Return the specific query
+        
         return res.status(200).json({
             success: true,
             query,
         });
     }
 
-    // If no customer_id is provided, return all queries
     const queries = await Query.find();
-
-    // If no queries exist, return 404
     if (queries.length === 0) {
         return res.status(404).json({
             success: false,
@@ -79,7 +73,6 @@ exports.getQuery = catchAsyncErrors(async (req, res) => {
         });
     }
 
-    // Return all queries
     res.status(200).json({
         success: true,
         queries,
@@ -87,24 +80,20 @@ exports.getQuery = catchAsyncErrors(async (req, res) => {
 });
 
 exports.deleteQuery = catchAsyncErrors(async (req, res) => {
-  // Log the incoming request
+
   console.log('Request query:', req.query);
 
-  // Destructure the customer_id from req.query
+
   const { customer_id } = req.query;
 
-  // Check if customer_id exists
   if (!customer_id) {
       return res.status(400).json({
           success: false,
           message: 'Customer ID must be provided to delete a query',
       });
   }
-
-  // Attempt to find and delete the query by customer_id
   const query = await Query.findOneAndDelete({ customer_id });
 
-  // If no query is found, return a 404 error
   if (!query) {
       return res.status(404).json({
           success: false,
@@ -112,7 +101,6 @@ exports.deleteQuery = catchAsyncErrors(async (req, res) => {
       });
   }
 
-  // If successfully deleted, return a success response
   return res.status(200).json({
       success: true,
       message: 'Query successfully deleted',
@@ -121,32 +109,16 @@ exports.deleteQuery = catchAsyncErrors(async (req, res) => {
 
 exports.updateQuery = catchAsyncErrors(async (req, res) => {
   const { customer_id } = req.query;
-
-  // Check if customer_id is provided
-  if (!customer_id) {
-      return res.status(400).json({
-          success: false,
-          message: 'Customer ID must be provided to update a query',
-      });
-  }
-
-  // Check if request body contains any updates
   const updateData = req.body;
-  if (Object.keys(updateData).length === 0) {
+
+  if (!customer_id || Object.keys(updateData).length === 0) {
       return res.status(400).json({
           success: false,
-          message: 'Update data must be provided',
+          message: 'Customer ID and update data are required',
       });
   }
 
-  // Find the query by customer_id and update it
-  const query = await Query.findOneAndUpdate(
-      { customer_id },  // Find by customer_id
-      updateData,       // Data to update
-      { new: true, runValidators: true }  // Return the updated document, and apply schema validation
-  );
-
-  // If the query is not found, return a 404 error
+  let query = await Query.findOne({ customer_id });
   if (!query) {
       return res.status(404).json({
           success: false,
@@ -154,18 +126,25 @@ exports.updateQuery = catchAsyncErrors(async (req, res) => {
       });
   }
 
-  // Return the updated query
+  query.updated_history.push({
+      updated_at: new Date(),
+      updated_data: updateData,
+      updated_by: req.body.updated_By
+  });
+
+  Object.assign(query, updateData);
+  await query.save();
+
   return res.status(200).json({
       success: true,
       message: 'Query successfully updated',
-      query,
+      query
   });
 });
 
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Crops creation Route");
 
-  // Fetch the last created crop to increment the ID
   const lastCrop = await Crop.findOne().sort({ cropId: -1 }).exec();
 
   let newCropId = "CS-01";
@@ -175,10 +154,9 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
     newCropId = `CS-${newCropNumber.toString().padStart(2, "0")}`;
   }
 
-  const stages = req.body.stages; // Fetch stages from the request body
+  const stages = req.body.stages;
   const cropStages = [];
 
-  // Loop through each stage and create diseases dynamically
   for (let stage of stages) {
     const diseaseIds = [];
     for (let diseaseData of stage.diseases) {
@@ -191,10 +169,9 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
       });
 
       await disease.save();
-      diseaseIds.push(disease._id); // Add the saved disease ID to the stage
+      diseaseIds.push(disease._id);
     }
 
-    // Add the dynamically created diseases to each stage
     cropStages.push({
       name: stage.Name,
       stage: stage.stage,
@@ -203,7 +180,6 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
     });
   }
 
-  // Create the new crop with dynamic stages
   const crop = new Crop({
     ...req.body,
     cropId: newCropId,
