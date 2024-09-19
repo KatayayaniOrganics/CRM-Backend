@@ -288,27 +288,6 @@ exports.searchCrop = catchAsyncErrors(async (req, res) => {
   res.json(cropsWithPopulatedDiseases);
 });
 
-// exports.updateCrop = catchAsyncErrors(async (req, res) => {
-//   const { cropId } = req.params;
-//   const updateCropData = req.body;
-//   const agentId = req.user.id;
-//   // console.log(agentId)
-
- 
-//   updateCropData.updatedBy = agentId;
-
-//   const updatedCrop = await Crop.findOneAndUpdate({ cropId }, updateCropData, {
-//     new: true,
-//     runValidators: true,
-//   });
-
-//   if (!updatedCrop) {
-//     return res.status(404).json({ message: "Crop not found" });
-//   }
-
-//   res.json(updatedCrop);
-//   console.log(updatedCrop);
-// });
 
 exports.updateCrop = catchAsyncErrors(async (req, res) => {
   const { cropId } = req.params; // Extract cropId from request params
