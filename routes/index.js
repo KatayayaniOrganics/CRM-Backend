@@ -43,7 +43,7 @@ router.post('/calls',CallDetailsCreation );
 router.get('/getCalls', getAllCalls);
 
 //update calls
-router.put('/calls/:callId', CallUpdate);
+router.put('/calls/:callId',verifyToken, CallUpdate);
 
 //delete calls
 router.delete('/calls/:callId', CallDelete);

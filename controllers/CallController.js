@@ -1,6 +1,7 @@
 const CallDetails = require("../Models/callDetails");
 const logger = require("../logger");
-const {catchAsyncErrors} = require('../middlewares/catchAsyncErrors')
+const {catchAsyncErrors} = require('../middlewares/catchAsyncErrors');
+const Agent = require('../Models/agentModel');
 
 exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST Request on CallDeatails creation Route");
@@ -35,33 +36,59 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
 
 
   exports.CallUpdate = catchAsyncErrors(async (req, res) => {
-    logger.info("You made a PUT Request on CallDetails update Route");
-
-    const callId = req.params.callId; 
-    const updatedData = req.body; 
-
-    logger.info(`callId received: ${callId}`);
-    logger.info(`Data to update: ${JSON.stringify(updatedData)}`);
-
-    if (updatedData.countryCode && !/^[+]\d{1,4}$/.test(updatedData.countryCode)) {
-      logger.warn("Invalid countryCode format");
-      return res.status(400).send({ success: false, message: "Invalid countryCode format" });
-  }
-
-    const updatedCallDetails = await CallDetails.findOneAndUpdate(
-        { callId: callId }, 
-        { $set: updatedData }, 
-        { new: true, runValidators: true } 
-    );
-
-    if (!updatedCallDetails) {
-        logger.warn(`No CallDetails found for callId: ${callId}`);
-        return res.status(404).send({ success: false, message: "CallDetails not found" });
+    const { callId } = req.params;
+    const updateData = req.body;
+  
+    // Check if the updateData contains callId - prevent updating it
+    if (updateData.callId && updateData.callId !== callId) {
+      return res.status(400).json({ message: "callId cannot be updated." });
     }
+  
+    // Find the existing lead
+    const existingcall = await CallDetails.findOne({ callId });
+  
+    if (!existingcall) {
+      return res.status(404).json({ message: "Call Details not found" });
+    }
+  
+    // Find which fields are being updated
+    const updatedFields = {};
+    for (let key in updateData) {
+      if (key !== "callId" && updateData[key] !== existingcall[key]) {
+        updatedFields[key] = updateData[key];
+      }
+    }
+    const agent = await Agent.findById(req.user.id);
+  
+  
+    // Update the lead and add the changes to the updatedData field, using agentId
+    const updatedCall = await CallDetails.findOneAndUpdate(
+      { callId },
+      {
+        $set: {  ...updateData, // Update the fields in the lead
+          LastUpdated_By: agent.agentId}, // Store the agentId of the updating agent},
+        $push: {
+          updatedData: {
+            updatedBy: agent.agentId, // Assuming req.user contains the agentId
+            updatedFields,
+            updatedAt: Date.now(),
+          },
+        },
+      },
+      { new: true, runValidators: true }
+    );
+  
+    // If update was successful, return a success response with status code 200
+    if (updatedCall) {
+      return res.status(200).json({
+        success: true,
+        message: "CAll updated successfully",
+        data: updatedCall,
+      });
+    }
+  });
 
-    logger.info("CallDetails updated:", updatedCallDetails);
-    res.status(200).send({ success: true, message: "CallDetails updated successfully", data: updatedCallDetails });
-});
+
 
 
 exports.CallDelete = catchAsyncErrors(async (req, res) => {
