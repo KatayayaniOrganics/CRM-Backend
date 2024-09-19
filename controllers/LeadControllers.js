@@ -131,6 +131,7 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
   try {
     const { entity } = req.body;
     let processedData = { entity };
+  logger.info(`New Lead Data: ${JSON.stringify(processedData)}`);
 
     // Define the pipeline stages
     const stages = [
