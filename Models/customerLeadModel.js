@@ -98,11 +98,17 @@ const customerLeadSchema = new mongoose.Schema(
     },
     call_history: [{ type: mongoose.Schema.Types.ObjectId, ref: "CallDetails" }], 
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tags" }],
-    updated_By:{
-      type:mongoose.Schema.Types.ObjectId,
-      ref:"Agent"
+    updatedData: [
+      {
+        updatedBy: { type: String, ref: "Agents"}, // Using agentId instead of ObjectId
+        updatedFields: { type: Object },
+        updatedAt: { type: Date, default: Date.now },
+      },
+    ],
+    LastUpdated_By: {
+      type: String, // Use agentId here
+      ref: "Agents", // Reference the Agent schema using agentId
     },
-
     // For additional fields that may be added dynamically
     additionalFields: { type: mongoose.Schema.Types.Mixed, default: {} },
   },

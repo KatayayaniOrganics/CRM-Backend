@@ -54,7 +54,7 @@ const agentSchema = new mongoose.Schema({
   ],
   updated_By:{
     type:mongoose.Schema.Types.ObjectId,
-    ref:"Agent"
+    ref:"Agents"
   },
   talktime_day:{type:Number,default:null},
   total_talktime: {type:Number,default:null},
