@@ -71,6 +71,8 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
           updatedData: {
             updatedBy: agent.agentId, // Assuming req.user contains the agentId
             updatedFields,
+            ipAddress:IpAddress,
+            updatedByEmail:agent.email,
             updatedAt: Date.now(),
           },
         },

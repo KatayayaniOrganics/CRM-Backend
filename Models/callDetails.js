@@ -18,8 +18,10 @@ const callDetailsSchema = new mongoose.Schema({
     updatedData: [
         {
           updatedBy: { type: String, ref: "Agents"}, // Using agentId instead of ObjectId
-          updatedFields: { type: Object },
-          updatedAt: { type: Date, default: Date.now },
+        updatedByEmail:{type:String},
+        updatedFields: { type: Object },
+        ipAddress:{type:String},
+        updatedAt: { type: Date, default: Date.now },
         },
       ],
       LastUpdated_By: {
