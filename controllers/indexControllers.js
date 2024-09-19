@@ -7,6 +7,7 @@ const logger = require("../logger");
 const UserRoles = require("../Models/userRolesModel");
 const Agent = require("../Models/agentModel");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
+const { messaging } = require("firebase-admin");
 
 exports.queryCreation = catchAsyncErrors(async (req, res) => {
   const { description, query_category, order, tags, reason_not_ordered, created_by, updated_By } = req.body;
@@ -201,6 +202,8 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
 });
 
 
+
+
 exports.allCrops = catchAsyncErrors(async (req, res) => {
 
   const allCrops = await Crop.find();
@@ -285,27 +288,53 @@ exports.searchCrop = catchAsyncErrors(async (req, res) => {
   res.json(cropsWithPopulatedDiseases);
 });
 
-exports.updateCrop = catchAsyncErrors(async (req, res) => {
-  const { cropId } = req.params;
-  const updateCropData = req.body;
-  const agentId = req.user.id;
-  // console.log(agentId)
+// exports.updateCrop = catchAsyncErrors(async (req, res) => {
+//   const { cropId } = req.params;
+//   const updateCropData = req.body;
+//   const agentId = req.user.id;
+//   // console.log(agentId)
 
  
+//   updateCropData.updatedBy = agentId;
+
+//   const updatedCrop = await Crop.findOneAndUpdate({ cropId }, updateCropData, {
+//     new: true,
+//     runValidators: true,
+//   });
+
+//   if (!updatedCrop) {
+//     return res.status(404).json({ message: "Crop not found" });
+//   }
+
+//   res.json(updatedCrop);
+//   console.log(updatedCrop);
+// });
+
+exports.updateCrop = catchAsyncErrors(async (req, res) => {
+  const { cropId } = req.params; // Extract cropId from request params
+  const updateCropData = req.body; // Get the data to be updated from the request body
+  const agentId = req.user.id; // Get the agentId of the user making the update
+
+  // Add the agentId to updatedBy field to track who made the update
   updateCropData.updatedBy = agentId;
 
-  const updatedCrop = await Crop.findOneAndUpdate({ cropId }, updateCropData, {
-    new: true,
-    runValidators: true,
-  });
+  // Find the crop by cropId and update only the fields passed in the request body
+  const updatedCrop = await Crop.findOneAndUpdate(
+    { cropId },  // Find the crop by its cropId
+    { $set: updateCropData },  // Use $set to only update the fields provided in updateCropData
+    { new: true, runValidators: true }  // Return the updated document and run validators
+  );
 
   if (!updatedCrop) {
     return res.status(404).json({ message: "Crop not found" });
   }
 
-  res.json(updatedCrop);
-  console.log(updatedCrop);
+  res.json({
+    message: "Crop updated successfully",
+    data: updatedCrop
+  });
 });
+
 
 exports.deleteCrop = catchAsyncErrors(async (req, res) => {
   const { cropId } = req.params;
@@ -383,25 +412,61 @@ exports.searchDisease = catchAsyncErrors(async (req, res) => {
 
 exports.updateDisease = catchAsyncErrors(async (req, res) => {
   const { diseaseId } = req.params;
-  const updateDiseaseData = req.body;
-  const agentId = req.user.id;
-  // console.log(agentId)
+  const updateData = req.body;
 
- 
-  updateDiseaseData.updatedBy = agentId;
+  // Check if the updateData contains diseaseId - prevent updating it
+  if (updateData.diseaseId && updateData.diseaseId !== diseaseId) {
+    return res.status(400).json({ message: "diseaseId cannot be updated." });
+  }
 
-  
-  const updatedDisease = await Disease.findOneAndUpdate({ diseaseId }, updateDiseaseData, {
-    new: true,
-    runValidators: true,
-  });
+  // Find the existing disease
+  const existingDisease = await Disease.findOne({ diseaseId });
 
-  if (!updatedDisease) {
+  if (!existingDisease) {
     return res.status(404).json({ message: "Disease not found" });
   }
 
-  res.json(updatedDisease);
-  console.log(updatedDisease);
+  // Find which fields are being updated
+  const updatedFields = {};
+  for (let key in updateData) {
+    if (key !== "diseaseId" && updateData[key] !== existingDisease[key]) {
+      updatedFields[key] = updateData[key];
+    }
+  }
+
+  const agent = await Agent.findById(req.user.id);
+
+  // Capture the full IP address from the request
+  const ipAddress = req.headers['x-forwarded-for'] || req.ip;
+
+  // Update the disease and add the changes to the updatedData field, using agentId and IP address
+  const updatedDisease = await Disease.findOneAndUpdate(
+    { diseaseId },
+    {
+      $set: {
+        ...updateData, // Update the fields in the disease
+        LastUpdated_By: agent.agentId, // Store the agentId of the updating agent
+      },
+      $push: {
+        updatedData: {
+          updatedBy: agent.agentId,  // Assuming req.user contains the agentId
+          updatedFields,
+          updatedByEmail:agent.email,
+          updatedAt: Date.now(),
+          ipAddress,  // Store the full IP address
+        },
+      },
+    },
+    { new: true, runValidators: true }
+  );
+
+  if (updatedDisease) {
+    return res.status(200).json({
+      success: true,
+      message: "Disease updated successfully",
+      data: updatedDisease,
+    });
+  }
 });
 
 exports.deleteDisease = catchAsyncErrors(async (req, res) => {
