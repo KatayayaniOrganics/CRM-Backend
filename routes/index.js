@@ -16,7 +16,7 @@ router.get('/searchLead',verifyToken,searchLead);
 router.get('/getLeads',verifyToken,allLeads);
   
 //Update leads
-router.put("/updateLead/:leadId",updateLead);
+router.put("/updateLead/:leadId",verifyToken,updateLead);
 
 //delete leads
 router.delete("/deleteLead/:leadId", deleteLead);

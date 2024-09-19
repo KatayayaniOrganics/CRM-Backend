@@ -1,6 +1,8 @@
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
 const CustomerLead = require('../Models/customerLeadModel');
-const logger = require('../logger.js')
+const{validateRequiredFields,generateLeadId,generateOrUseEmail,checkForDuplicates,createLeadInDatabase} = require("../utils/kylasLeadPipeline.js")
+const logger = require('../logger.js');
+const Agent = require("../Models/agentModel.js")
 
 exports.createLead = catchAsyncErrors(async (req, res) => {
 
@@ -33,20 +35,55 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
   const { leadId } = req.params;
   const updateData = req.body;
 
-    // Find the customer lead by leadId and update it
-    const updatedLead = await CustomerLead.findOneAndUpdate(
-      { leadId },
-      updateData,
-      { new: true, runValidators: true }
-    );
+  // Check if the updateData contains leadId - prevent updating it
+  if (updateData.leadId && updateData.leadId !== leadId) {
+    return res.status(400).json({ message: "leadId cannot be updated." });
+  }
 
-    if (!updatedLead) {
-      return res.status(404).json({ message: "Customer lead not found" });
+  // Find the existing lead
+  const existingLead = await CustomerLead.findOne({ leadId });
+
+  if (!existingLead) {
+    return res.status(404).json({ message: "Customer lead not found" });
+  }
+
+  // Find which fields are being updated
+  const updatedFields = {};
+  for (let key in updateData) {
+    if (key !== "leadId" && updateData[key] !== existingLead[key]) {
+      updatedFields[key] = updateData[key];
     }
+  }
+  const agent = await Agent.findById(req.user.id);
 
-    res.json(updatedLead);
-  
-})
+
+  // Update the lead and add the changes to the `updatedData` field, using agentId
+  const updatedLead = await CustomerLead.findOneAndUpdate(
+    { leadId },
+    {
+      $set: {  ...updateData, // Update the fields in the lead
+        LastUpdated_By: agent.agentId}, // Store the `agentId` of the updating agent},
+      $push: {
+        updatedData: {
+          updatedBy: agent.agentId, // Assuming req.user contains the agentId
+          updatedFields,
+          updatedAt: Date.now(),
+        },
+      },
+    },
+    { new: true, runValidators: true }
+  );
+
+  // If update was successful, return a success response with status code 200
+  if (updatedLead) {
+    return res.status(200).json({
+      success: true,
+      message: "Lead updated successfully",
+      data: updatedLead,
+    });
+  }
+});
+
 
 exports.searchLead = catchAsyncErrors(async (req, res) => {
 
@@ -89,58 +126,37 @@ exports.deleteLead = catchAsyncErrors(async (req, res) => {
   res.json({ message: "Customer lead deleted successfully" });
 });
 
+
 exports.kylasLead = catchAsyncErrors(async (req, res) => {
   try {
-    const newLeadData = req.body;
-    logger.info(`New Lead Data: ${JSON.stringify(newLeadData)}`);
-
     const { entity } = req.body;
+    let processedData = { entity };
 
-    const firstName = entity.firstName || entity.lastName;
+    // Define the pipeline stages
+    const stages = [
+      validateRequiredFields,
+      generateLeadId,
+      generateOrUseEmail,
+      checkForDuplicates,
+      createLeadInDatabase,
+    ];
 
-    const phoneNumbers = entity.phoneNumbers && entity.phoneNumbers.length > 0 
-      ? entity.phoneNumbers[0].value 
-      : null;
-
-    if (!firstName || !phoneNumbers) {
-      return res.status(400).json({
-        message: 'First Name (or Last Name) and Contact are required',
-      });
+    // Process the data through the pipeline
+    for (const stage of stages) {
+      processedData = await stage(processedData);
+      if (processedData.error) {
+        return res.status(processedData.status).json({
+          message: processedData.message,
+        });
+      }
     }
 
-    const lastLead = await CustomerLead.findOne().sort({ leadId: -1 }).exec();
-
-    let newLeadId = "K0-1000"; 
-    let newLeadNumber = "1000"; // Initialize newLeadNumber early
-    let newEmail = "Katyayani1000@gmail.com";
-
-    if (lastLead) {
-      const lastLeadIdNumber = parseInt(lastLead.leadId.split("-")[1]);
-      newLeadId = `K0-${lastLeadIdNumber + 1}`;
-      newLeadNumber = `${lastLeadIdNumber + 1}`; // Update newLeadNumber here
-    }
-
-    // Generate email
-    if (entity.emails && entity.emails.length > 0) {
-      newEmail = entity.emails[0].value;
-    } else {
-      newEmail = `Katyayani${newLeadNumber}@gmail.com`; // Use newLeadNumber
-    }
-
-    const LatestLeadData = {
-      leadId: newLeadId,   
-      firstName: firstName,
-      lastName: entity.lastName || null,
-      contact: phoneNumbers,
-      email: newEmail,
-    };
-
-    const newLead = await CustomerLead.create(LatestLeadData);
-
+    // Send the successful response
     res.status(201).json({
       message: 'Lead created successfully',
-      data: newLead,
+      data: processedData.newLead,
     });
+
   } catch (error) {
     console.error(`Error processing adding request: ${error}`);
     res.status(500).json({
@@ -149,6 +165,7 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
     });
   }
 });
+
 
 exports.interactLead = catchAsyncErrors(async (req, res) => {
   try {
