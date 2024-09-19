@@ -3,12 +3,13 @@ const logger = require('../logger');
 
 exports.connectDatabase = async () =>{
   try {
-    await mongoose.connect(process.env.MONGODB_URL);
-    logger.info("Connection established to Database")
+    const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URL}`);
+    logger.info(`Connection established to Database !!`);
+    logger.info(`DB HOST:${connectionInstance.connection.host}`);
   } catch(error){
-     logger.error("MongoDb URL Not Found")
+     logger.error("MongoDb Connection Failed:",error);
+     process.exit(1);
   };
-  
 }
   
 

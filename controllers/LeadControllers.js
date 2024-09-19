@@ -1,6 +1,6 @@
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
 const CustomerLead = require('../Models/customerLeadModel');
-const{validateRequiredFields,generateLeadId,generateOrUseEmail,checkForDuplicates,createLeadInDatabase} = require("../utils/kylasLeadPipeline.js")
+const{leadQueue}= require("../utils/kylasLeadPipeline.js")
 const logger = require('../logger.js');
 const Agent = require("../Models/agentModel.js")
 
@@ -128,42 +128,8 @@ exports.deleteLead = catchAsyncErrors(async (req, res) => {
 
 
 exports.kylasLead = catchAsyncErrors(async (req, res) => {
-  try {
-    const { entity } = req.body;
-    let processedData = { entity };
-
-    // Define the pipeline stages
-    const stages = [
-      validateRequiredFields,
-      generateLeadId,
-      generateOrUseEmail,
-      checkForDuplicates,
-      createLeadInDatabase,
-    ];
-
-    // Process the data through the pipeline
-    for (const stage of stages) {
-      processedData = await stage(processedData);
-      if (processedData.error) {
-        return res.status(processedData.status).json({
-          message: processedData.message,
-        });
-      }
-    }
-
-    // Send the successful response
-    res.status(201).json({
-      message: 'Lead created successfully',
-      data: processedData.newLead,
-    });
-
-  } catch (error) {
-    console.error(`Error processing adding request: ${error}`);
-    res.status(500).json({
-      message: 'Error processing adding request',
-      error: error.message,
-    });
-  }
+  // Push the request to the queue
+  leadQueue.push({ req, res });
 });
 
 

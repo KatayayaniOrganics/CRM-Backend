@@ -10,7 +10,7 @@ const UserRoles = require("../Models/userRolesModel");
 //SignUp Controller
 exports.signup = catchAsyncErrors(async (req, res) => {
   const { password, user_role } = req.body;
-  logger.info("You made a POST Request on Signup Route");
+  console.log("You made a POST Request on Signup Route",req.user,req.ip);
 
    // Check if attempting to create or update to Super Admin role (USR-1000)
    if (user_role === "USR-1000") {
@@ -58,7 +58,7 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
     }
 
     if (!(await bcrypt.compare(password, agent.password))) {
-        return res.status(404).json({ success: false, message: 'Invalid credentials' });
+        return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
 
   
