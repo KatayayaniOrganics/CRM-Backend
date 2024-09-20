@@ -72,8 +72,8 @@ async function validateRequiredFields(data) {
     return data;
   }
   
-  // Stage 2: Generate Lead ID
-  async function generateLeadId(data) {
+// Stage 2: Generate Lead ID
+async function generateLeadId(data) {
     const lastLead = await CustomerLead.findOne().sort({ leadId: -1 }).exec();
     let newLeadId = "K0-1000"; 
     let newLeadNumber = "1000"; 
@@ -90,8 +90,8 @@ async function validateRequiredFields(data) {
     return data;
   }
   
-  // Stage 3: Generate or Use Provided Email
-  async function generateOrUseEmail(data) {
+// Stage 3: Generate or Use Provided Email
+async function generateOrUseEmail(data) {
     const { entity, leadNumber } = data;
   
     data.email = entity.emails && entity.emails.length > 0 
