@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const customerLeadSchema = new mongoose.Schema(
+const LeadsSchema = new mongoose.Schema(
   {
     leadId: {
       type: String,
@@ -123,6 +123,6 @@ const customerLeadSchema = new mongoose.Schema(
   }
 );
 
-const CustomerLead = mongoose.model("CustomerLead", customerLeadSchema);
+const Leads = mongoose.model("Leads", LeadsSchema);
 
-module.exports = CustomerLead;
+module.exports = Leads;

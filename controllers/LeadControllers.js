@@ -1,12 +1,12 @@
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
-const CustomerLead = require('../Models/customerLeadModel');
+const Leads = require('../models/LeadsModel.js');
 const{leadQueue}= require("../utils/kylasLeadPipeline.js")
 const logger = require('../logger.js');
-const Agent = require("../Models/agentModel.js")
+const Agent = require("../models/agentModel.js")
 
 exports.createLead = catchAsyncErrors(async (req, res) => {
 
-    const lastLead = await CustomerLead.findOne().sort({ leadId: -1 }).exec();
+    const lastLead = await Leads.findOne().sort({ leadId: -1 }).exec();
 
     let newLeadId = "K0-1000"; // Default starting ID
 
@@ -16,7 +16,7 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
     }
 
 
-    const newLead = new CustomerLead({
+    const newLead = new Leads({
       ...req.body,
       leadId: newLeadId,
     });
@@ -41,7 +41,7 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
   }
 
   // Find the existing lead
-  const existingLead = await CustomerLead.findOne({ leadId });
+  const existingLead = await Leads.findOne({ leadId });
 
   if (!existingLead) {
     return res.status(404).json({ message: "Customer lead not found" });
@@ -58,7 +58,7 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
   const IpAddress = req.ip
 
   // Update the lead and add the changes to the `updatedData` field, using agentId
-  const updatedLead = await CustomerLead.findOneAndUpdate(
+  const updatedLead = await Leads.findOneAndUpdate(
     { leadId },
     {
       $set: {  ...updateData, // Update the fields in the lead
@@ -102,14 +102,14 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
       }
     }
 
-    const lead = await CustomerLead.find(query) // Exclude password field
+    const lead = await Leads.find(query) // Exclude password field
     res.json(lead);
   
 });
 
 exports.allLeads = catchAsyncErrors(async(req,res)=>{
 
-  const allLeads = await CustomerLead.find();
+  const allLeads = await Leads.find();
 
   res.status(200).json({success:true,message:"All Leads that are available",allLeads})
 
@@ -119,7 +119,7 @@ exports.deleteLead = catchAsyncErrors(async (req, res) => {
   const { leadId } = req.params;
 
   // Find the customer lead by leadId and delete it
-  const deletedLead = await CustomerLead.findOneAndDelete({ leadId });
+  const deletedLead = await Leads.findOneAndDelete({ leadId });
 
   if (!deletedLead) {
     return res.status(404).json({ message: "Customer lead not found" });

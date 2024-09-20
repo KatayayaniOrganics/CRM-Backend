@@ -8,10 +8,17 @@ const morgan = require ("morgan");
 const cors = require('cors');
 
 
-require("./Models/Database").connectDatabase();
+require("./models/Database.js").connectDatabase();
 
-const indexRouter = require('./routes/index');
-const authRouter = require('./routes/auth');
+const leadRouter = require('./routes/Lead-routes');
+const agentRouter = require('./routes/agent-routes.js');
+const queryRouter = require('./routes/Query-routes');
+const cropRouter = require('./routes/Crop-routes');
+const userRolesRouter = require('./routes/UserRoles-routes');
+const diseaseRouter = require('./routes/Disease-routes');
+const tagsRouter = require('./routes/Tags-routes');
+const sourceRouter = require('./routes/Sources-routes');
+const callRouter = require('./routes/Call-routes');
 
 const app = express();
 
@@ -25,7 +32,7 @@ const morganFormat = ":method :url :status :response-time ms";
 
 app.use(
   morgan(morganFormat, {
-    stream: {
+      stream: {
       write: (message) => {
         const logObject = {
           method: message.split(" ")[0],
@@ -45,8 +52,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 
-app.use('/', indexRouter); // For API routes
-app.use('/api/auth', authRouter); // For API routes
+app.use('/agent', agentRouter); // For agent routes
+app.use('/lead', leadRouter); // For lead routes
+app.use('/query', queryRouter); // For query routes
+app.use('/crop', cropRouter); // For crop routes
+app.use('/userRoles', userRolesRouter); // For user roles routes    
+app.use('/disease', diseaseRouter); // For disease routes    
+app.use('/tags', tagsRouter); // For tags routes    
+app.use('/source', sourceRouter); // For source routes    
+app.use('/call', callRouter); // For call routes    
+
 
 app.use(function(req, res, next) {
   next(createError(404));

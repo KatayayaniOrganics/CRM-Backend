@@ -1,4 +1,4 @@
-const CustomerLead = require('../Models/customerLeadModel');
+const Leads = require('../models/LeadsModel.js');
 const async = require('async');
 const logger = require('../logger.js'); 
 
@@ -99,10 +99,10 @@ async function generateOrUseEmail(data) {
       : `Katyayani${leadNumber}@gmail.com`;
   
     return data;
-  }
+}
   
   // Stage 4: Check for Duplicates
-  async function checkForDuplicates(data) {
+async function checkForDuplicates(data) {
     const { email, contact, leadId } = data;
   
     const duplicateLead = await CustomerLead.findOne({
