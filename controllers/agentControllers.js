@@ -65,11 +65,17 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
     // Log to check if the JWT_SECRET is defined
     logger.info(`JWT_SECRET is defined: ${!!process.env.JWT_SECRET}`);
   
-    const token = jwt.sign({ id: agent._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  
-    // Store the token in cookies
-    res.cookie("token", token, { httpOnly: true });
-    res.status(200).json({ success: true, token, message: 'Agent Logged successfully' });
+    const accessToken = jwt.sign({ id: agent._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const refreshToken = jwt.sign({ id: agent._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
+
+    // Store the refresh token in the database
+    agent.refreshToken = refreshToken;
+    await agent.save();
+
+    // Store the tokens in cookies
+    res.cookie("token", accessToken, { httpOnly: true,secure: true });
+    res.cookie("refreshToken", refreshToken, { httpOnly: true,secure: true });
+    res.status(200).json({ success: true, token: accessToken, message: 'Agent Logged successfully' });
     
     logger.info({ message: 'Agent LoggedIn successfully', });
 });
@@ -95,27 +101,6 @@ exports.forgotPasswordController = catchAsyncErrors(async (req, res) => {
     res.status(200).json({ success: true, accessToken, refreshToken, message: 'Agent Logged successfully' });
     logger.info({ message: 'Agent LoggedIn successfully' });
 });
-
-
-exports.refreshToken = catchAsyncErrors(async (req, res, next) => {
-    const { refreshToken } = req.cookies;
-
-    if (!refreshToken) {
-        return next(new ErrorHandler("Refresh Token not provided", 401));
-    }
-
-    try {
-        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-        const newAccessToken = jwt.sign({ id: decoded.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        // Send the new access token
-        res.cookie("token", newAccessToken, { httpOnly: true, secure: true });
-        res.status(200).json({ success: true, accessToken: newAccessToken });
-    } catch (error) {
-        return next(new ErrorHandler("Invalid Refresh Token", 401));
-    }
-});
-
 
 // Forgot Password Controller
 exports.forgotPasswordController = catchAsyncErrors(async (req, res) => {
@@ -232,31 +217,6 @@ exports.logout = catchAsyncErrors(async (req, res) => {
     return res.status(200).json({ success: true, message: 'Logged out successfully!' });
   });
   
-// Refresh Token Controller
-exports.refreshToken = catchAsyncErrors(async (req, res) => {
-    const { refreshToken } = req.cookies;
-  
-    if (!refreshToken) {
-        return res.status(401).json({ success: false, message: 'Refresh token not found' });
-    }
-  
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ success: false, message: 'Invalid refresh token' });
-        }
-  
-        const agent = await Agent.findById(decoded.id);
-        if (!agent || agent.refreshToken !== refreshToken) {
-            return res.status(403).json({ success: false, message: 'Invalid refresh token' });
-        }
-  
-        const newAccessToken = jwt.sign({ id: agent._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  
-        res.cookie("accessToken", newAccessToken, { httpOnly: true });
-        res.status(200).json({ success: true, accessToken: newAccessToken });
-    });
-});
-
 //get all Agents
 exports.getAllAgents = catchAsyncErrors(async (req, res) => {
   try {
@@ -319,4 +279,29 @@ exports.updateAgent = catchAsyncErrors(async (req, res) => {
   } catch (err) {
     return res.status(500).json({ success: false, message: "Error updating agent", error: err.message });
   }
+});
+
+// Refresh Token Controller
+exports.refreshToken = catchAsyncErrors(async (req, res) => {
+  const { refreshToken } = req.cookies;
+
+  if (!refreshToken) {
+      return res.status(401).json({ success: false, message: 'Refresh token not found' });
+  }
+
+  jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, decoded) => {
+      if (err) {
+          return res.status(403).json({ success: false, message: 'Invalid refresh token' });
+      }
+
+      const agent = await Agent.findById(decoded.id);
+      if (!agent || agent.refreshToken !== refreshToken) {
+          return res.status(403).json({ success: false, message: 'Invalid refresh token' });
+      }
+
+      const newAccessToken = jwt.sign({ id: agent._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      res.cookie("accessToken", newAccessToken, { httpOnly: true,secure: true });
+      res.status(200).json({ success: true, accessToken: newAccessToken });
+  });
 });

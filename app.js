@@ -68,11 +68,11 @@ app.use(function(req, res, next) {
 });
 //error Handling
 const ErrorHandler = require("./utils/errorHandler.js");
-const generateError = require("./middlewares/errors.js");
+const {generatedErrors} = require("./middlewares/errors.js");
 app.all("*", (req, res, next) => {
   next(new ErrorHandler(`Requested URL Not Found: ${req.url}`, 404));
 });
-app.use(generateError)
+app.use(generatedErrors);
 
 
 module.exports = app;

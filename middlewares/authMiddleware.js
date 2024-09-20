@@ -2,7 +2,9 @@ const jwt = require("jsonwebtoken");
 const Agent = require("../models/agentModel");
 const UserRoles = require("../models/userRolesModel")
 
- const verifyToken = async (req, res, next) => {
+
+//verify token
+const verifyToken = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     console.log(authHeader);
     
@@ -24,11 +26,10 @@ const UserRoles = require("../models/userRolesModel")
       next();
       
     });
-  };
+};
   
-  
-  // Middleware to restrict access based on user role
-  const restrictTo = (roles) => async (req, res, next) => {
+// Middleware to restrict access based on user role
+const restrictTo = (roles) => async (req, res, next) => {
     const agent = await Agent.findById(req.user.id)
     if (agent.user_role) {
       const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
@@ -39,7 +40,21 @@ const UserRoles = require("../models/userRolesModel")
       return res.status(403).json({ success: false, message: "Access Denied, Insufficient Privileges" });
     }
     next();
-  };
-  
-  module.exports = { verifyToken, restrictTo };
-  
+};
+
+//verify refresh token
+const verifyRefreshToken = async (req, res, next) => {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) {
+        return res.status(401).json({ message: "Refresh token not provided" });
+    }
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: "Invalid refresh token" });
+        }
+        req.user = decoded; // Store user info for further use
+        next();
+    });
+};
+
+  module.exports = { verifyToken, restrictTo, verifyRefreshToken };
