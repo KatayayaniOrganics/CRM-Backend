@@ -55,7 +55,7 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
     }
   }
   const agent = await Agent.findById(req.user.id);
-
+  const IpAddress = req.ip
 
   // Update the lead and add the changes to the `updatedData` field, using agentId
   const updatedLead = await CustomerLead.findOneAndUpdate(
@@ -67,6 +67,8 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
         updatedData: {
           updatedBy: agent.agentId, // Assuming req.user contains the agentId
           updatedFields,
+          ipAddress:IpAddress,
+          updatedByEmail:agent.email,
           updatedAt: Date.now(),
         },
       },

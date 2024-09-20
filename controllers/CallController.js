@@ -71,7 +71,7 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
           updatedData: {
             updatedBy: agent.agentId, // Assuming req.user contains the agentId
             updatedFields,
-            updatedAt: Date.now(),
+            updatedAt: Date.now(),            
           },
         },
       },
@@ -80,7 +80,7 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
   
     // If update was successful, return a success response with status code 200
     if (updatedCall) {
-      return res.status(200).json({
+      return res.status(200).json({ 
         success: true,
         message: "CAll updated successfully",
         data: updatedCall,
