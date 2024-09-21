@@ -1,6 +1,6 @@
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
-const UserRoles = require("../models/userRolesModel");
-const Agent = require("../models/agentModel");
+const UserRoles = require("../Models/userRolesModel");
+const Agent = require("../Models/agentModel");
     
 
 

@@ -1,4 +1,4 @@
-const Query = require("../models/queryModel");
+const Query = require("../Models/queryModel");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 
 exports.queryCreation = catchAsyncErrors(async (req, res) => {

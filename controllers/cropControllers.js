@@ -1,7 +1,7 @@
-const Crop = require("../models/cropModel");            
+const Crop = require("../Models/cropModel");            
 const logger = require("../logger");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
-const Disease = require("../models/diseaseModel");                  
+const Disease = require("../Models/diseaseModel");                  
             
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST Request on Crops creation Route");

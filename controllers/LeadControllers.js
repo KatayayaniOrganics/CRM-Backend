@@ -1,8 +1,8 @@
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
-const Leads = require('../models/LeadsModel.js');
+const Leads = require('../Models/LeadsModel.js');
 const{leadQueue}= require("../utils/kylasLeadPipeline.js")
 const logger = require('../logger.js');
-const Agent = require("../models/agentModel.js")
+const Agent = require("../Models/agentModel.js")
 
 exports.createLead = catchAsyncErrors(async (req, res) => {
 
@@ -110,10 +110,11 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
 exports.allLeads = catchAsyncErrors(async(req,res)=>{
 
   const allLeads = await Leads.find();
+  console.log(`Number of leads found: ${allLeads.length}`); // Log the number of leads
 
   res.status(200).json({success:true,message:"All Leads that are available",allLeads})
 
-})
+});
 
 exports.deleteLead = catchAsyncErrors(async (req, res) => {
   const { leadId } = req.params;

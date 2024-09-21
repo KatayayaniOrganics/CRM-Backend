@@ -1,5 +1,5 @@
-const Disease = require("../models/diseaseModel.js");
-const Agent = require("../models/agentModel.js");
+const Disease = require("../Models/diseaseModel.js");
+const Agent = require("../Models/agentModel.js");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors.js");
 const logger = require('../logger.js');
 

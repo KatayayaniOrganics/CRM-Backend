@@ -1,7 +1,7 @@
-const Calls = require("../models/callsModel");
+const Calls = require("../Models/callsModel");
 const logger = require("../logger");
 const {catchAsyncErrors} = require('../middlewares/catchAsyncErrors');
-const Agent = require('../models/agentModel');
+const Agent = require('../Models/agentModel');
 
 exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST Request on CallDeatails creation Route");

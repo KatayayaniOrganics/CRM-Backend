@@ -1,4 +1,4 @@
-const Source = require("../models/sourceModel");
+const Source = require("../Models/sourceModel");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 const logger = require("../logger");
 

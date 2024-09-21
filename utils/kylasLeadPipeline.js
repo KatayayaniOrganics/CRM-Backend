@@ -1,4 +1,4 @@
-const Leads = require('../models/LeadsModel.js');
+const Leads = require('../Models/LeadsModel.js');
 const async = require('async');
 const logger = require('../logger.js'); 
 
