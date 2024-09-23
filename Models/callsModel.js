@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const callDetailsSchema = new mongoose.Schema({
+const callSchema = new mongoose.Schema({
     callId: {type:String , unique:true, default:"CO-1001"},
     query_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Query' },
     customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'CustomerLead' },
@@ -28,6 +28,6 @@ const callDetailsSchema = new mongoose.Schema({
       },
 });
 
-const CallDetails = mongoose.model('CallDetails', callDetailsSchema);
-module.exports = CallDetails;
+const Calls = mongoose.model('Calls', callSchema);
+module.exports = Calls;
 

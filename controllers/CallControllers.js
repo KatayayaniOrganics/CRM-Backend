@@ -1,4 +1,4 @@
-const CallDetails = require("../Models/callDetails");
+const Calls = require("../Models/callsModel");
 const logger = require("../logger");
 const {catchAsyncErrors} = require('../middlewares/catchAsyncErrors');
 const Agent = require('../Models/agentModel');
@@ -6,7 +6,7 @@ const Agent = require('../Models/agentModel');
 exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST Request on CallDeatails creation Route");
   
-    const lastCall = await CallDetails.findOne().sort({ callId: -1 }).exec();
+    const lastCall = await Calls.findOne().sort({ callId: -1 }).exec();
   
     let newCallId = "CO-1001";
   
@@ -21,7 +21,7 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
       newCallId = `CO-${newCallNumber.toString().padStart(2, "0")}`;
     }
   
-    const callDetails = new CallDetails({
+    const callDetails = new Calls({
       ...req.body,
       callId: newCallId,
     });
@@ -29,7 +29,7 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     await callDetails.save();
     res
       .status(201)
-      .send({ success: true, message: "CallDetails created successfully" });
+      .send({ success: true, message: "Calls created successfully" });
     logger.info(callDetails);
   });
 
@@ -45,7 +45,7 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     }
   
     // Find the existing lead
-    const existingcall = await CallDetails.findOne({ callId });
+    const existingcall = await Calls.findOne({ callId });
   
     if (!existingcall) {
       return res.status(404).json({ message: "Call Details not found" });
@@ -62,7 +62,7 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
   
   
     // Update the lead and add the changes to the updatedData field, using agentId
-    const updatedCall = await CallDetails.findOneAndUpdate(
+    const updatedCall = await Calls.findOneAndUpdate(
       { callId },
       {
         $set: {  ...updateData, // Update the fields in the lead
@@ -92,22 +92,22 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
 
 
 exports.CallDelete = catchAsyncErrors(async (req, res) => {
-    logger.info("You made a DELETE Request on CallDetails delete Route");
+    logger.info("You made a DELETE Request on Calls delete Route");
   
     const callId = req.params.callId; 
   
-    const result = await CallDetails.deleteOne({ callId: callId });
+    const result = await Calls.deleteOne({ callId: callId });
   
     if (result.deletedCount === 0) {
-      return res.status(404).send({ success: false, message: "CallDetails not found" });
+      return res.status(404).send({ success: false, message: "Calls not found" });
     }
   
-    res.status(200).send({ success: true, message: "CallDetails deleted successfully" });
-    logger.info(`CallDetails with callId ${callId} deleted successfully`);
+    res.status(200).send({ success: true, message: "Calls deleted successfully" });
+    logger.info(`Calls with callId ${callId} deleted successfully`);
   });
   
 
-exports.callFilter = catchAsyncErrors(async (req, res) => {
+exports.callsearch = catchAsyncErrors(async (req, res) => {
 
     const query = {};
     for (let key in req.query) {
@@ -120,13 +120,13 @@ exports.callFilter = catchAsyncErrors(async (req, res) => {
       }
     }
 
-    const call = await CallDetails.find(query) // Exclude password field
+    const call = await Calls.find(query) // Exclude password field
     res.json(call);
   
 });
 
 
 exports.getAllCalls = catchAsyncErrors(async (req, res) => {
-  const allCalls = await CallDetails.find();
+  const allCalls = await Calls.find();
   res.status(200).json(allCalls);
 });

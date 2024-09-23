@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { verifyToken,restrictTo } = require('../middlewares/authMiddleware');
-const { signup, login, updateAgent,forgotPasswordController,resetPasswordController , verifyOtpController,logout, refreshToken, getAllAgents} = require('../controllers/authController');
+const { verifyToken,restrictTo, verifyRefreshToken } = require('../middlewares/authMiddleware');
+const { signup, login, updateAgent,forgotPasswordController,resetPasswordController , 
+    verifyOtpController,logout, refreshToken, getAllAgents} = require('../controllers/agentControllers');
 
 // Define your API routes
 router.post('/signup',verifyToken ,restrictTo(['Super Admin', 'Admin']),signup);
-
 
 //login route
 router.post('/login', login);
@@ -23,13 +23,12 @@ router.post('/reset-password', resetPasswordController);
 router.post('/logout', logout);
 
 //getAll agents
-router.get('/getAgents', getAllAgents);
-
-// Token refresh route
-router.post("/refresh-token", refreshToken);
+router.get('/all', getAllAgents);
 
 //update
-router.put('/updateAgent/:agentId', updateAgent);
+router.put('/:agentId', updateAgent);
 
+// Token refresh route
+router.post("/refresh-token", verifyRefreshToken, refreshToken);
 
 module.exports = router;
