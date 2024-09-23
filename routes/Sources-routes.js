@@ -3,6 +3,6 @@ const express = require('express');
 const router = express.Router();
 
 // Create a new source
-router.post('/',createSource);
+router.post('/create',createSource);
 
 module.exports = router;

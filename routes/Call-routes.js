@@ -3,11 +3,11 @@ var router = express.Router();
 const {CallDetailsCreation, CallUpdate, CallDelete, callsearch, getAllCalls} = require('../controllers/CallControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 
-// Create a new call detail
-router.post('/',CallDetailsCreation );
-
 //all calls 
 router.get('/all', getAllCalls);
+
+// Create a new call detail
+router.post('/create',CallDetailsCreation );
 
 //search Calls
 router.get("/search",callsearch);
