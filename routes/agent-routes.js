@@ -30,6 +30,6 @@ router.post('/logout', logout);
 router.put('/:agentId', updateAgent);
 
 // Token refresh route
-router.post("/refresh-token", verifyRefreshToken, refreshToken);
+router.post("/refresh-token",verifyRefreshToken, refreshToken);
 
 module.exports = router;
