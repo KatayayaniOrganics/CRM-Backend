@@ -113,8 +113,8 @@ exports.allLeads = catchAsyncErrors(async(req,res)=>{
 
   if (leadId) {
     // If leadId is provided, find the specific lead
-    allLeads = await Leads.findOne({ leadId });
-    if (!allLeads) {
+    singleLead = await Leads.findOne({ leadId });
+    if (!singleLead) {
       return res.status(404).json({ success: false, message: "Lead not found" });
     }
   } else {
