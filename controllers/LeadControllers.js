@@ -108,12 +108,21 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
 });
 
 exports.allLeads = catchAsyncErrors(async(req,res)=>{
+  const { leadId } = req.params; // Destructure leadId from params
+  let allLeads;
 
-  const allLeads = await Leads.find();
-  console.log(`Number of leads found: ${allLeads.length}`); // Log the number of leads
-
-  res.status(200).json({success:true,message:"All Leads that are available",allLeads})
-
+  if (leadId) {
+    // If leadId is provided, find the specific lead
+    singleLead = await Leads.findOne({ leadId });
+    if (!singleLead) {
+      return res.status(404).json({ success: false, message: "Lead not found" });
+    }
+  } else {
+    // If no leadId, find all leads
+    allLeads = await Leads.find();
+    console.log(`Number of leads found: ${allLeads.length}`); // Log the number of leads
+  }
+  res.status(200).json({ success: true, message: "Leads retrieved successfully", allLeads });
 });
 
 exports.deleteLead = catchAsyncErrors(async (req, res) => {
