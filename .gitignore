@@ -1,8 +1,5 @@
 .env
 logs
 node_modules
-<<<<<<< HEAD
 .cursorrules
-=======
-.cursorrules
->>>>>>> 6c76257dc927097ae3622638dc26e84c3d4ff4f9
+

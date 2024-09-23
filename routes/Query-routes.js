@@ -3,7 +3,7 @@ var router = express.Router();
 const { queryCreation, getQuery, deleteQuery, updateQuery } = require('../controllers/queryControllers');
 
 // Create a new queries
-router.post('/', queryCreation);
+router.post('/create', queryCreation);
 
 //get queries
 router.get('/all', getQuery);
