@@ -9,6 +9,9 @@ router.post('/',CropsCreation );
 //all crops
 router.get('/all',verifyToken,allCrops);
 
+//all crops by id
+router.get('/all/:cropId',verifyToken,allCrops);
+
 //search crop
 router.get('/search',verifyToken,searchCrop);
 

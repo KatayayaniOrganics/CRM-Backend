@@ -9,6 +9,9 @@ router.post('/',createDisease);
 //all Disease
 router.get('/all',allDisease);
 
+//all Disease by id
+router.get('/all/:diseaseId',allDisease);
+
 //Search disease
 router.get('/search',searchDisease);
 
