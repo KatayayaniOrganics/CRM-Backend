@@ -4,6 +4,10 @@ const { verifyToken,restrictTo, verifyRefreshToken } = require('../middlewares/a
 const { signup, login, updateAgent,forgotPasswordController,resetPasswordController , 
     verifyOtpController,logout, refreshToken, getAllAgents} = require('../controllers/agentControllers');
 
+
+//getAll agents
+router.get('/all', getAllAgents);
+
 // Define your API routes
 router.post('/signup',verifyToken ,restrictTo(['Super Admin', 'Admin']),signup);
 
@@ -21,9 +25,6 @@ router.post('/reset-password', resetPasswordController);
 
 //Logout Route
 router.post('/logout', logout);
-
-//getAll agents
-router.get('/all', getAllAgents);
 
 //update
 router.put('/:agentId', updateAgent);

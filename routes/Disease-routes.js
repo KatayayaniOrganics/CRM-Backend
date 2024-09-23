@@ -4,7 +4,7 @@ const { createDisease, allDisease, searchDisease, updateDisease, deleteDisease }
 const { verifyToken } = require('../middlewares/authMiddleware');
 
 // Create a new disease
-router.post('/',createDisease);
+router.post('/create',createDisease);
 
 //all Disease
 router.get('/all',allDisease);

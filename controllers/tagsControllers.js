@@ -1,6 +1,6 @@
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 const logger = require("../logger");
-const Tags = require("../models/tagsModel");
+const Tags = require("../Models/tagsModel");
 
 exports.createTags = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST )Request on Tags creation Route");

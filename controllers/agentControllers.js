@@ -1,11 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const Agent = require("../models/agentModel"); 
+const Agent = require("../Models/agentModel"); 
 const logger = require('../logger');
 const { catchAsyncErrors } = require('../middlewares/catchAsyncErrors');
 const ErrorHandler  = require('../utils/errorHandler');
-const UserRoles = require("../models/userRolesModel");
+const UserRoles = require("../Models/userRolesModel");
 
 //SignUp Controller
 exports.signup = catchAsyncErrors(async (req, res) => {

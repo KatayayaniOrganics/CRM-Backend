@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-const Agent = require("../models/agentModel");
-const UserRoles = require("../models/userRolesModel")
+const Agent = require("../Models/agentModel");
+const UserRoles = require("../Models/userRolesModel")
 
 
 //verify token

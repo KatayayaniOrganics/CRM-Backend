@@ -8,7 +8,7 @@ const morgan = require ("morgan");
 const cors = require('cors');
 
 
-require("./models/Database.js").connectDatabase();
+require("./Models/Database.js").connectDatabase();
 
 const leadRouter = require('./routes/Lead-routes');
 const agentRouter = require('./routes/agent-routes.js');
