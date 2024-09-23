@@ -3,11 +3,14 @@ const router = express.Router();
 const { createDisease, allDisease, searchDisease, updateDisease, deleteDisease } = require('../controllers/diseaseControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
 
+// Create a new disease
+router.post('/create',createDisease);
+
 //all Disease
 router.get('/all',allDisease);
 
-// Create a new disease
-router.post('/create',createDisease);
+//all Disease by id
+router.get('/all/:diseaseId',allDisease);
 
 //Search disease
 router.get('/search',searchDisease);
