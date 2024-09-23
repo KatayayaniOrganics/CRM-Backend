@@ -35,13 +35,34 @@ exports.createDisease = catchAsyncErrors(async (req, res) => {
   }
 });
 
+
 exports.allDisease = catchAsyncErrors(async (req, res) => {
-  const allDisease = await Disease.find()
+  const { diseaseId } = req.params; // Get diseaseId from query parameters
+
+  if (diseaseId) {
+      // Fetch a specific disease by diseaseId
+      const disease = await Disease.findOne({ diseaseId });
+      if (!disease) {
+          return res.status(404).json({
+              success: false,
+              message: "Disease not found",
+          });
+      }
+
+      return res.status(200).json({
+          success: true,
+          message: "Disease retrieved successfully",
+          disease,
+      });
+  }
+
+  // Fetch all customers if no customerId is provided
+  const allDisease = await Disease.find();
 
   res.status(200).json({
-    success: true,
-    message: "All Disease that are available",
-    allDisease,
+      success: true,
+      message: "All diseases that are available",
+      allDisease,
   });
 });
 
