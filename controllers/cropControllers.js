@@ -65,31 +65,67 @@ exports.allCrops = catchAsyncErrors(async (req, res) => {
   const { cropId } = req.params; // Get cropId from query parameters
 
   if (cropId) {
-      // Fetch a specific customer by customerId
-      const crop = await Crop.findOne({ cropId });
-      if (!crop) {
-          return res.status(404).json({
-              success: false,
-              message: "Crop not found",
-          });
-      }
-
-      return res.status(200).json({
-          success: true,
-          message: "Crop retrieved successfully",
-          crop,
+    // Fetch a specific crop by cropId
+    const crop = await Crop.findOne({ cropId });
+    if (!crop) {
+      return res.status(404).json({
+        success: false,
+        message: "Crop not found",
       });
+    }
+
+    // Manually populate diseases for the specific crop's stages
+    const populatedStages = await Promise.all(
+      crop.stages.map(async (stage) => {
+        const diseases = await Disease.find({ diseaseId: { $in: stage.diseases } });
+        return {
+          ...stage.toObject(),
+          diseases, // Populate diseases for each stage
+        };
+      })
+    );
+
+    // Return the crop with populated diseases in stages
+    return res.status(200).json({
+      success: true,
+      message: "Crop retrieved successfully",
+      crop: {
+        ...crop.toObject(),
+        stages: populatedStages,
+      },
+    });
   }
 
-  // Fetch all customers if no customerId is provided
+  // Fetch all crops if no cropId is provided
   const allCrops = await Crop.find();
 
+  // Manually populate diseases for each crop's stages
+  const cropsWithPopulatedDiseases = await Promise.all(
+    allCrops.map(async (crop) => {
+      const populatedStages = await Promise.all(
+        crop.stages.map(async (stage) => {
+          const diseases = await Disease.find({ diseaseId: { $in: stage.diseases } });
+          return {
+            ...stage.toObject(),
+            diseases, // Populate diseases for each stage
+          };
+        })
+      );
+
+      return {
+        ...crop.toObject(),
+        stages: populatedStages,
+      };
+    })
+  );
+
   res.status(200).json({
-      success: true,
-      message: "All crops that are available",
-      allCrops,
+    success: true,
+    message: "All crops that are available",
+    cropsWithPopulatedDiseases,
   });
 });
+
   
   exports.searchCrop = catchAsyncErrors(async (req, res) => {
     const query = {};
@@ -201,4 +237,3 @@ exports.updateCrop = catchAsyncErrors(async (req, res) => {
   
     res.json({ message: "Crop deleted successfully" });
   });
-  

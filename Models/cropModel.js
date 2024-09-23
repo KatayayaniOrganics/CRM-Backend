@@ -44,6 +44,7 @@ const cropSchema = new mongoose.Schema({
       diseases: [
         {
           type: String, 
+          ref: 'Disease'
         }
       ],
     }
