@@ -5,6 +5,9 @@ const { verifyToken,restrictTo } = require('../middlewares/authMiddleware');
 var router = express.Router();
 
 //all Leads
+router.get('/all',verifyToken,allLeads);
+
+//all Leads
 router.get('/all/:leadId',verifyToken,allLeads);
 
  //create lead
