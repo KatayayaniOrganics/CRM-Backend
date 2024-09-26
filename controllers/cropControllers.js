@@ -2,64 +2,63 @@ const Crop = require("../Models/cropModel");
 const logger = require("../logger");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 const Disease = require("../Models/diseaseModel");                  
-            
+
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
-    logger.info("You made a POST Request on Crops creation Route");
-    const lastCrop = await Crop.findOne().sort({ cropId: -1 }).exec();
+  logger.info("You made a POST Request on Crops creation Route");
+
+  // Get the last crop and generate a new crop ID
+  const lastCrop = await Crop.findOne().sort({ cropId: -1 }).exec();
   
-    let newCropId = "CS-01";
-    if (lastCrop) {
-      const lastCropNumber = parseInt(lastCrop.cropId.split("-")[1], 10);
-      const newCropNumber = lastCropNumber + 1;
-      newCropId = `CS-${newCropNumber.toString().padStart(2, "0")}`;
+  let newCropId = "CS-01";
+  if (lastCrop) {
+    const lastCropNumber = parseInt(lastCrop.cropId.split("-")[1], 10);
+    const newCropNumber = lastCropNumber + 1;
+    newCropId = `CS-${newCropNumber.toString().padStart(2, "0")}`;
+  }
+
+  const stages = req.body.stages; 
+  const cropStages = [];
+
+  // Loop through the stages and process each one
+  for (let stage of stages) {
+    const diseaseIds = stage.diseases;
+
+    logger.info(`Received disease IDs for stage '${stage.name}': ${diseaseIds.join(", ")}`);
+
+    // Find the diseases by their IDs
+    const foundDiseases = await Disease.find({ diseaseId: { $in: diseaseIds } });
+    const validDiseaseIds = foundDiseases.map(disease => disease.diseaseId);
+
+    // Filter out invalid disease IDs
+    const invalidDiseaseIds = diseaseIds.filter(id => !validDiseaseIds.includes(id));
+    if (invalidDiseaseIds.length > 0) {
+      logger.warn(`Invalid diseaseIds provided for stage '${stage.name}': ${invalidDiseaseIds.join(", ")}`);
     }
-  
-    const stages = req.body.stages; 
-    const cropStages = [];
-  
-    for (let stage of stages) {
-      const diseaseIds = stage.diseases; 
-  
-        await disease.save();
-        diseaseIds.push(disease._id);
-  
-      
-      logger.info(`Received disease IDs for stage '${stage.name}': ${diseaseIds.join(", ")}`);
-  
-      
-      const foundDiseases = await Disease.find({ diseaseId: { $in: diseaseIds } });
-      const validDiseaseIds = foundDiseases.map(disease => disease.diseaseId);
-  
-    
-      const invalidDiseaseIds = diseaseIds.filter(id => !validDiseaseIds.includes(id));
-      if (invalidDiseaseIds.length > 0) {
-        logger.warn(`Invalid diseaseIds provided for stage '${stage.name}': ${invalidDiseaseIds.join(", ")}`);
-      }
-  
-      cropStages.push({
-        name: stage.name, 
-        stage: stage.stage,
-        duration: stage.duration,
-        diseases: validDiseaseIds, 
-      });
-  
-      
-      logger.info(`Storing valid disease IDs for stage '${stage.name}': ${validDiseaseIds.join(", ")}`);
-    }
-  
-    const crop = new Crop({
-      ...req.body,
-      cropId: newCropId,
-      cropImage: req.body.cropImage,
-      stages: cropStages,
+
+    // Push valid disease IDs into crop stages
+    cropStages.push({
+      name: stage.name, 
+      stage: stage.stage,
+      duration: stage.duration,
+      diseases: validDiseaseIds, 
     });
-  
-    await crop.save();
-  
-    res.status(201).send({ success: true, message: "Crop created successfully", crop });
-    logger.info(crop);
+
+    logger.info(`Storing valid disease IDs for stage '${stage.name}': ${validDiseaseIds.join(", ")}`);
+  }
+
+  // Create and save the new crop
+  const crop = new Crop({
+    ...req.body,
+    cropId: newCropId,
+    cropImage: req.body.cropImage,
+    stages: cropStages,
   });
-  
+
+  await crop.save();
+
+  res.status(201).send({ success: true, message: "Crop created successfully", crop });
+  logger.info(crop);
+}); 
 
 exports.allCrops = catchAsyncErrors(async (req, res) => {
   const { cropId } = req.params; // Get cropId from query parameters
