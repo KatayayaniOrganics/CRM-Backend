@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const CustomerSchema = new mongoose.Schema(
   {
+    leadId: {
+      type: String,
+      unique: true,
+      ref: "Lead",
+    },
     customerId: {
       type: String,
       unique: true,
@@ -64,6 +69,14 @@ const CustomerSchema = new mongoose.Schema(
       required: [true, "Contact is required"],
       minLength: [10, "Contact should be at least 10 numbers"],
       maxLength: [13, "Contact should be at most 13 numbers"],
+    },
+    GST_Number:{
+      type:String,
+      default:null,
+    },
+    Tags:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"Tags",
     },
     order_history: [
       {

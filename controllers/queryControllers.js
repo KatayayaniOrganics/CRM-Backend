@@ -38,7 +38,7 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
         query: newQuery
     });
   });
-
+  
 
 exports.getQuery = catchAsyncErrors(async (req, res) => {
     const { lot = 1, size = 10 } = req.query;
