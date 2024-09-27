@@ -1,7 +1,8 @@
 const Crop = require("../Models/cropModel");            
 const logger = require("../logger");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
-const Disease = require("../Models/diseaseModel");                  
+const Disease = require("../Models/diseaseModel"); 
+const Agent = require("../Models/agentModel");
 
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   logger.info("You made a POST Request on Crops creation Route");
@@ -126,7 +127,7 @@ exports.allCrops = catchAsyncErrors(async (req, res) => {
 });
 
   
-  exports.searchCrop = catchAsyncErrors(async (req, res) => {
+exports.searchCrop = catchAsyncErrors(async (req, res) => {
     const query = {};
   
     
@@ -176,52 +177,71 @@ exports.allCrops = catchAsyncErrors(async (req, res) => {
     );
   
     res.json(cropsWithPopulatedDiseases);
-  });
+});
   
 
+
 exports.updateCrop = catchAsyncErrors(async (req, res) => {   
-    const { cropId } = req.params; // Extract cropId from request params
-    const updateCropData = req.body; // Get the data to be updated from the request body
-    const agentId = req.user.id; // Get the agentId of the user making the update
+  const { cropId } = req.params; // Extract cropId from request params
+  const updateCropData = req.body; // Get the data to be updated from the request body
+  const agent = await Agent.findById(req.user.id); // Get the agent making the update
 
-    // Add the agentId to updatedBy field to track who made the update
-    updateCropData.updatedBy = agentId;
+  // Ensure agent exists
+  if (!agent) {
+      return res.status(404).json({ message: "Agent not found" });
+  }
 
-    // Check if stages need to be updated
-    if (updateCropData.stages) {
-        const { stages } = updateCropData;
-        for (const stage of stages) {
-            if (stage._id) { // Check if _id is provided
-                // Update the specific stage by _id
-                await Crop.updateOne(
-                    { cropId, "stages._id": stage._id }, // Find the specific stage by _id
-                    { $set: { 
-                        [`stages.$.name`]: stage.name, 
-                        [`stages.$.stage`]: stage.stage, 
-                        [`stages.$.duration`]: stage.duration, 
-                        [`stages.$.diseases`]: stage.diseases 
-                    }} // Update the specific fields of the stage
-                );
-            }
-        }
-    }
+  // Capture the full IP address from the request
+  const ipAddress = req.headers['x-forwarded-for'] || req.ip;
 
-    // Find the crop by cropId and update only the fields passed in the request body (excluding stages)
-    const { stages: _, ...remainingUpdateData } = updateCropData; // Exclude stages from remaining update data
-    const updatedCrop = await Crop.findOneAndUpdate(
-        { cropId },  // Find the crop by its cropId
-        { $set: remainingUpdateData },  // Use $set to only update the fields provided in updateCropData
-        { new: true, runValidators: true }  // Return the updated document and run validators
-    );
+  // Check if stages need to be updated
+  if (updateCropData.stages) {
+      const { stages } = updateCropData;
+      for (const stage of stages) {
+          if (stage._id) { // Check if _id is provided
+              // Update the specific stage by _id
+              await Crop.updateOne(
+                  { cropId, "stages._id": stage._id }, // Find the specific stage by _id
+                  { $set: { 
+                      [`stages.$.name`]: stage.name, 
+                      [`stages.$.stage`]: stage.stage, 
+                      [`stages.$.duration`]: stage.duration, 
+                      [`stages.$.diseases`]: stage.diseases 
+                  }} // Update the specific fields of the stage
+              );
+          }
+      }
+  }
 
-    if (!updatedCrop) {
-        return res.status(404).json({ message: "Crop not found" });
-    }
+  // Find the crop by cropId and update only the fields passed in the request body (excluding stages)
+  const { stages: _, ...remainingUpdateData } = updateCropData; // Exclude stages from remaining update data
+  const updatedCrop = await Crop.findOneAndUpdate(
+      { cropId },  // Find the crop by its cropId
+      { 
+          $set: {
+              ...remainingUpdateData,  // Use $set to only update the fields provided in updateCropData
+              LastUpdated_By: agent.agentId, // Store the agentId of the updating agent
+          },
+          $push: {
+              updatedData: {
+                  updatedFields: remainingUpdateData, // Store the updated fields
+                  updatedByEmail: agent.email,
+                  updatedAt: Date.now(),
+                  ipAddress,  // Store the full IP address
+              },
+          },
+      },
+      { new: true, runValidators: true }  // Return the updated document and run validators
+  );
 
-    res.json({
-        message: "Crop updated successfully",
-        data: updatedCrop
-    });
+  if (!updatedCrop) {
+      return res.status(404).json({ message: "Crop not found" });
+  }
+
+  res.json({
+      message: "Crop updated successfully",
+      data: updatedCrop
+  });
 });
   
   exports.deleteCrop = catchAsyncErrors(async (req, res) => {
