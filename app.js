@@ -6,7 +6,7 @@ const createError = require('http-errors');
 const logger = require("./logger");
 const morgan = require("morgan");
 const cors = require('cors');
-// const helmet = require('helmet'); // Add helmet for security
+const helmet = require('helmet'); // Add helmet for security
 
 // Connect to the database
 require("./Models/Database.js").connectDatabase();
@@ -21,6 +21,7 @@ const diseaseRouter = require('./routes/Disease-routes');
 const tagsRouter = require('./routes/Tags-routes');
 const sourceRouter = require('./routes/Sources-routes');
 const callRouter = require('./routes/Call-routes');
+const customerRouter = require('./routes/Customer-routes');
 
 const app = express();
 
@@ -50,7 +51,7 @@ app.use(
 );
 
 // Middleware setup
-// app.use(helmet()); // Add helmet middleware for security
+app.use(helmet()); // Add helmet middleware for security
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -67,6 +68,7 @@ app.use('/disease', diseaseRouter); // For disease routes
 app.use('/tags', tagsRouter); // For tags routes    
 app.use('/source', sourceRouter); // For source routes    
 app.use('/call', callRouter); // For call routes
+app.use('/customer', customerRouter); // For customer routes
 
 // Handle 404 errors
 app.use(function(req, res, next) {
