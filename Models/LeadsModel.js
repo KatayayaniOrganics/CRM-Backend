@@ -9,7 +9,8 @@ const LeadsSchema = new mongoose.Schema(
     },
     leadOwner: {
       type: String,
-      default: 'Katyayani', 
+      default: 'Katyayani',
+      ref: 'Agents',
     },
     firstName: {
       type: String,
@@ -99,6 +100,10 @@ const LeadsSchema = new mongoose.Schema(
         default: null, 
       },
       crops: [{ type: mongoose.Schema.Types.ObjectId, ref: "Crop" }], 
+      waterType: { type: String, default: null },
+      soilType: { type: String, default: null },
+      weather: { type: String, default: null },
+      farmSize: { type: String, default: null },
     },
     call_history: [{ type: mongoose.Schema.Types.ObjectId, ref: "CallDetails" }], 
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tags" }],
@@ -115,6 +120,9 @@ const LeadsSchema = new mongoose.Schema(
       type: String, // Use agentId here
       ref: "Agents", // Reference the Agent schema using agentId
     },
+    status:{type:String,enum:['Active','Inactive'],default:'Inactive',},
+    callStatus: { type: String, enum: ['Answered', 'Not Answered', 'Busy', 'Not Reachable','New'],default:'New'},
+    followUpTime: { type: Date, default: null }, // Ensure this field is present
     // For additional fields that may be added dynamically
     additionalFields: { type: mongoose.Schema.Types.Mixed, default: {} },
   },

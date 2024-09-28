@@ -1,5 +1,6 @@
 var express = require('express');
-const { createLead, searchLead ,allLeads, updateLead ,deleteLead,kylasLead,interactLead } = require('../controllers/LeadControllers');
+const { createLead, searchLead ,allLeads, 
+    updateLead ,deleteLead,kylasLead,interactLead,assignLead,updateLeadStatus } = require('../controllers/LeadControllers');
 const { verifyToken,restrictTo } = require('../middlewares/authMiddleware');
 
 var router = express.Router();
@@ -20,7 +21,7 @@ router.get('/search',verifyToken,searchLead);
 router.put("/:leadId",verifyToken,updateLead);
 
 //delete leads
-router.delete("/:leadId", deleteLead);
+router.delete("/:leadId",verifyToken,deleteLead);
 
 //kylas assign lead
 router.post("/kylas-assign-lead", kylasLead);
@@ -28,6 +29,9 @@ router.post("/kylas-assign-lead", kylasLead);
 //interact lead
 router.post("/interact-lead", interactLead);
 
+
+// Route to update lead status
+router.post('/update-lead-status', verifyToken,updateLeadStatus);
 
 module.exports = router;
 

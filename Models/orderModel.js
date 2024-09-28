@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
     order_amount: Number,
     updated_By:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Agent"
+        ref:"Agents"
       },
 });
 

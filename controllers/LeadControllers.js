@@ -3,6 +3,7 @@ const Leads = require('../Models/LeadsModel.js');
 const { leadQueue } = require("../utils/kylasLeadPipeline.js");
 const logger = require('../logger.js');
 const Agent = require("../Models/agentModel.js");
+const UserRoles = require("../Models/userRolesModel.js");
 
 // Create a new lead
 exports.createLead = catchAsyncErrors(async (req, res) => {
@@ -17,6 +18,12 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
 
     await newLead.save();
     logger.info(`Lead created successfully with ID: ${newLeadId}`);
+
+    // Set follow-up time based on status
+    if (newLead.status !== 'Answered') {
+        newLead.followUpTime = new Date(Date.now() + 24 * 60 * 60 * 1000); // Set follow-up time to 24 hours later
+        followUpQueue.push({ lead: newLead, res }); // Add to follow-up queue
+    }
 
     res.status(201).json({
         message: "Lead created successfully",
@@ -76,6 +83,12 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
             data: updatedLead,
         });
     }
+
+    // Similar logic should be added in the updateLead function to handle status changes and set follow-up times.
+    if (updatedLead.status !== 'Answered' && updatedLead.followUpTime === null) {
+        updatedLead.followUpTime = new Date(Date.now() + 24 * 60 * 60 * 1000); // Adjust follow-up time as needed
+        followUpQueue.push({ lead: updatedLead, res }); // Re-add to follow-up queue if status changes
+    }
 });
 
 // Search for leads based on query parameters
@@ -100,6 +113,7 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
 exports.allLeads = catchAsyncErrors(async (req, res) => {
     const { leadId } = req.params;
 
+
     if (leadId) {
         logger.info(`Retrieving lead with ID: ${leadId}`);
         const lead = await Leads.findOne({ leadId });
@@ -114,9 +128,16 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
     const limit = parseInt(req.query.limit) || 100;
     const skip = (page - 1) * limit;
 
+    const agent = await Agent.findById(req.user.id);
+    if (agent.user_role) {
+        const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
+        agent.user_role = userRole;  // Replace with the populated user role
+      }
+    // Corrected conditional logic for retrieving leads based on user role
+    const query = (agent.user_role.role_name === 'Super Admin' || agent.user_role.role_name === 'Admin') ? {} : { leadOwner: agent.agentId };
     const [allLeads, totalLeads] = await Promise.all([
-        Leads.find().skip(skip).limit(limit),
-        Leads.countDocuments()
+        Leads.find(query).skip(skip).limit(limit),
+        Leads.countDocuments(query)
     ]);
 
     logger.info(`Retrieved ${allLeads.length} leads (page ${page}, limit ${limit})`);
@@ -171,4 +192,25 @@ exports.interactLead = catchAsyncErrors(async (req, res) => {
             message: "An error occurred while processing the lead."
         });
     }
+});
+
+// Function to assign a lead to an agent
+exports.assignLead = catchAsyncErrors(async (req, res) => {
+    const { leadId, agentId } = req.body;
+    const lead = await Leads.findById(leadId);
+    if (!lead) return res.status(404).json({ message: "Lead not found" });
+    lead.assignedAgent = agentId;
+    lead.status = 'Assigned';
+    await lead.save();
+    res.status(200).json({ message: "Lead assigned successfully", lead });
+});
+
+// Function to update lead status
+exports.updateLeadStatus = catchAsyncErrors(async (req, res) => {
+    const { leadId, status } = req.body;
+    const lead = await Leads.findById(leadId);
+    if (!lead) return res.status(404).json({ message: "Lead not found" });
+    lead.status = status;
+    await lead.save();
+    res.status(200).json({ message: "Lead status updated successfully", lead });
 });
