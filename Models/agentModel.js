@@ -62,6 +62,9 @@ const agentSchema = new mongoose.Schema({
   total_breaktime: {type:Number,default:null},
   resetPasswordToken: String,
   resetPasswordExpires: Date,
+  city:{type:String,default:null},
+  state:{type:String,default:null}, 
+  country:{type:String,default:null},
   refreshToken: {
     type: String,
     default: null

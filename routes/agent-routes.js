@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { verifyToken,restrictTo, verifyRefreshToken } = require('../middlewares/authMiddleware');
 const { signup, login, updateAgent,forgotPasswordController,resetPasswordController , 
-    verifyOtpController,logout, refreshToken, getAllAgents} = require('../controllers/agentControllers');
+    verifyOtpController,logout, refreshToken, getAllAgents, searchAgents} = require('../controllers/agentControllers');
 
 
 //getAll agents
@@ -28,6 +28,9 @@ router.post('/logout', logout);
 
 //update
 router.put('/:agentId', updateAgent);
+
+//search agent 
+router.get('/search', verifyToken, searchAgents);
 
 // Token refresh route
 router.post("/refresh-token",verifyRefreshToken, refreshToken);
