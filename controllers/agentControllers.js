@@ -281,6 +281,33 @@ exports.updateAgent = catchAsyncErrors(async (req, res) => {
   }
 });
 
+
+//search agent
+exports.searchAgents = catchAsyncErrors(async (req, res) => {
+  const query = {};
+  for (let key in req.query) {
+    if (req.query[key]) {
+      if (key === 'email' || key === 'agentId' || key === 'phoneNumber') {
+        query[key] = { $regex: req.query[key], $options: 'i' }; // Case-insensitive partial match
+      } else {
+        query[key] = req.query[key];
+      }
+    }
+  }
+
+  const agents = await Agent.find(query).select('-password -refreshToken -otp -otpExpirationTime');
+  
+  res.status(200).json({
+    success: true,
+    count: agents.length,
+    agents: agents
+  });
+});
+
+
+
+
+
 // Refresh Token Controller
 exports.refreshToken = catchAsyncErrors(async (req, res) => {
   const { refreshToken } = req.cookies;

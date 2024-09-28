@@ -49,9 +49,18 @@ const cropSchema = new mongoose.Schema({
       ],
     }
   ],
-  updatedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Agents',
+  updatedData: [
+    {
+      updatedBy: { type: String, ref: "Agents" }, // Using agentId instead of ObjectId
+      updatedFields: { type: Object },
+      updatedAt: { type: Date, default: Date.now },
+      ipAddress: { type: String },  // New field to store IP address
+      updatedByEmail: { type: String }
+    },
+  ],
+  LastUpdated_By: {
+    type: String, // Use agentId here
+    ref: "Agents", // Reference the Agent schema using agentId
   },
 });
 
