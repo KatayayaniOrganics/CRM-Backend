@@ -19,12 +19,14 @@ const CustomerSchema = new mongoose.Schema(
     lastName: {
       type: String,
       default: null,
+      required: [true, "Last Name is required"],
     },
     email: {
       type: String,
       sparse: true,
       unique: true,
       default: null, 
+      required: [true, "Email is required"],
       match: [
         /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/,
         "Please fill a valid email address",
@@ -73,6 +75,11 @@ const CustomerSchema = new mongoose.Schema(
     GST_Number:{
       type:String,
       default:null,
+    },
+    status:{
+      type:String,
+      enum:["Active","Inactive"],
+      default:"Active",
     },
     Tags:{
       type:mongoose.Schema.Types.ObjectId,
