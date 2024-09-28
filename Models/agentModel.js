@@ -4,7 +4,7 @@ const agentSchema = new mongoose.Schema({
   agentId:{
     type: String,
     unique:true,
-    default:"AO-1000",
+    default:"A0-1000",
   },
   firstname: {
     type: String,
@@ -27,6 +27,12 @@ const agentSchema = new mongoose.Schema({
       "Please fill a valid email address"
     ],
   },
+  contact:{
+    countryCode:{type:String,default:null},
+    phoneNumber:{type:Number,default:null},
+  },
+  state:{type:String,default:null},
+  city:{type:String,default:null},
   password: {
     type: String,
     required: [true, "Password is required"],
@@ -49,7 +55,7 @@ const agentSchema = new mongoose.Schema({
   },
   call_history: [
     {
-      call_id: { type: mongoose.Schema.Types.ObjectId, ref: "CallDetails" }
+      call_id: { type: mongoose.Schema.Types.ObjectId, ref: "Calls" }
     }
   ],
   updated_By:{
@@ -69,5 +75,5 @@ const agentSchema = new mongoose.Schema({
   
 });
 
-const Agent = mongoose.model("Agents", agentSchema);
-module.exports = Agent;
+const Agents = mongoose.model("Agents", agentSchema);
+module.exports = Agents;

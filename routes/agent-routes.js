@@ -27,7 +27,7 @@ router.post('/reset-password', resetPasswordController);
 router.post('/logout', logout);
 
 //update
-router.put('/:agentId', updateAgent);
+router.put('/:agentId', verifyToken,restrictTo(['Super Admin', 'Admin']), updateAgent);
 
 // Token refresh route
 router.post("/refresh-token",verifyRefreshToken, refreshToken);
