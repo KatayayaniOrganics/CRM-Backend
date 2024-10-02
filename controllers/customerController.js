@@ -85,23 +85,23 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
 });
 
 exports.searchCustomer = catchAsyncErrors(async (req, res) => {
-
   const query = {};
-
 
   for (let key in req.query) {
     if (req.query[key]) {
-      if (key === 'customerId' || key === 'firstName' || key === 'lastName' || key === 'number' || key === 'email' || key === 'leadId') {
+      // Check if the key is one of the expected fields
+      if (key === 'customerId' || key === 'firstName' || key === 'lastName' || key === 'email' || key === 'leadId') {
         query[key] = { $regex: req.query[key], $options: 'i' }; 
+      } else if (key === 'number') { // Assuming you want to search by a field named 'number'
+        query[key] = req.query[key]; // Directly assign the number value
       } else {
         query[key] = req.query[key];
       }
     }
   }
 
-  const customer = await Customer.find(query) 
+  const customer = await Customer.find(query);
   res.json(customer);
-
 });
 
 exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
