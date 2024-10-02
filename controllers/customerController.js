@@ -91,7 +91,7 @@ exports.searchCustomer = catchAsyncErrors(async (req, res) => {
 
   for (let key in req.query) {
     if (req.query[key]) {
-      if (key === 'customerId' || key === 'firstName' || key === 'lastName' || key === 'phoneNumber' || key === 'email' || key === 'leadId') {
+      if (key === 'customerId' || key === 'firstName' || key === 'lastName' || key === 'number' || key === 'email' || key === 'leadId') {
         query[key] = { $regex: req.query[key], $options: 'i' }; 
       } else {
         query[key] = req.query[key];
