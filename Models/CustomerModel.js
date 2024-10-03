@@ -96,7 +96,7 @@ const CustomerSchema = new mongoose.Schema(
         updatedByEmail:{type:String},
         updatedFields: { type: Object },
         ipAddress:{type:String},
-        updatedAt: { type: Date, default: Date.now },
+        updatedAt: { type: Date, default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000)},
       },
     ],
     LastUpdated_By: {

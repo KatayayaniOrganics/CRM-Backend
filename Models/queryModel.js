@@ -24,11 +24,11 @@ const querySchema = new mongoose.Schema({
         type: String, 
         required: [true, "Description is required"]
     },
-    created_at: { type: Date, default: Date.now },
+    created_at: { type: Date, default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) },
     updated_By: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     updated_history: [
         {
-            updated_at: { type: Date, default: Date.now },
+            updated_at: { type: Date, default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) },
             updated_data: { type: Object },
             updated_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
         }
