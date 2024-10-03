@@ -117,6 +117,11 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
     if (leadId) {
         logger.info(`Retrieving lead with ID: ${leadId}`);
         const lead = await Leads.findOne({ leadId });
+        if(lead.leadOwner){
+            const agent = await Agent.findOne({ agentId: lead.leadOwner }).select('agentId firstname lastname email');
+            console.log(agent);
+            lead.leadOwner = agent;
+        }
         if (!lead) {
             logger.warn(`Lead not found with ID: ${leadId}`);
             return res.status(404).json({ success: false, message: "Lead not found" });
@@ -150,6 +155,8 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
         data: allLeads,
     });
 });
+
+
 
 // Delete a lead by lead ID
 exports.deleteLead = catchAsyncErrors(async (req, res) => {
