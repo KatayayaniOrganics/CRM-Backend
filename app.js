@@ -7,7 +7,7 @@ const logger = require("./logger");
 const morgan = require("morgan");
 const cors = require('cors');
 const helmet = require('helmet'); // Add helmet for security
-const { io } = require('./socketapi');
+
 
 
 // Connect to the database
