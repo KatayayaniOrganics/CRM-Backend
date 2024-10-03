@@ -40,19 +40,32 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
   });
   
 
-exports.getQuery = catchAsyncErrors(async (req, res) => {
-    const { lot = 1, size = 10 } = req.query;
+  exports.getQuery = catchAsyncErrors(async (req, res) => {
+    const { lot, size } = req.query;
 
-    // Pagination logic
-    const pageSize = parseInt(size);         // Number of queries per lot (default: 10)
-    const skip = (parseInt(lot) - 1) * pageSize; // Skip the previous lots' queries
+    let queries;
+    let totalQueries;
+    let totalLots;
 
-    // Fetch queries based on the current lot
-    const queries = await Query.find().skip(skip).limit(pageSize);
+    if (!lot && !size) {
+        // Fetch all queries if no pagination parameters are provided
+        queries = await Query.find();
 
-    // Count the total number of queries for pagination
-    const totalQueries = await Query.countDocuments(); // Total number of queries
-    const totalLots = Math.ceil(totalQueries / pageSize); // Calculate total lots
+        totalQueries = queries.length;  // Total number of queries
+        totalLots = 1; // Since we're fetching all, we can consider it as 1 lot
+    } else {
+        // Pagination logic if lot and size are provided
+        const pageSize = parseInt(size) || 10;         // Number of queries per lot (default: 10)
+        const currentLot = parseInt(lot) || 1;         // Current lot (default: 1)
+        const skip = (currentLot - 1) * pageSize;      // Skip the previous lots' queries
+
+        // Fetch queries based on the current lot
+        queries = await Query.find().skip(skip).limit(pageSize);
+
+        // Count the total number of queries for pagination
+        totalQueries = await Query.countDocuments();   // Total number of queries
+        totalLots = Math.ceil(totalQueries / pageSize); // Calculate total lots
+    }
 
     // If no queries found, return a 404 response
     if (queries.length === 0) {
@@ -67,9 +80,11 @@ exports.getQuery = catchAsyncErrors(async (req, res) => {
         success: true,
         queries,
         totalLots,  // Total number of lots (pages)
-        currentLot: parseInt(lot),  // Current lot number
+        currentLot: lot ? parseInt(lot) : 1,  // Current lot number (defaults to 1)
+        totalQueries,  // Total number of queries
     });
 });
+
 exports.searchQuery = catchAsyncErrors(async (req, res) => {
     const { customer_id } = req.query; // Get customer_id from the query parameters
 
