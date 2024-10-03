@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const tagsSchema = new mongoose.Schema({
     name: { type: String, required: [true,"Tag Name is Required"] },
-    create_at:Date,
+    create_at:{type:Date,default:()=>new Date(Date.now() + 5.5 * 60 * 60 * 1000)},
     created_by:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Agent"

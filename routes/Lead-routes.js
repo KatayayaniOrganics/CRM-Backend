@@ -29,9 +29,8 @@ router.post("/kylas-assign-lead", kylasLead);
 //interact lead
 router.post("/interact-lead", interactLead);
 
-
 // Route to update lead status
-router.post('/update-lead-status', verifyToken,updateLeadStatus);
+router.patch('/update-callstatus', verifyToken,updateLeadStatus);
 
 module.exports = router;
 

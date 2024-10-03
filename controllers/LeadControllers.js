@@ -4,6 +4,7 @@ const { leadQueue } = require("../utils/kylasLeadPipeline.js");
 const logger = require('../logger.js');
 const Agent = require("../Models/agentModel.js");
 const UserRoles = require("../Models/userRolesModel.js");
+const Task = require("../Models/taskModel.js");
 
 // Create a new lead
 exports.createLead = catchAsyncErrors(async (req, res) => {
@@ -19,7 +20,7 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
     await newLead.save();
     logger.info(`Lead created successfully with ID: ${newLeadId}`);
 
-    // Set follow-up time based on status
+    // Set follow-up time based on callStatus
     if (newLead.status !== 'Answered') {
         newLead.followUpTime = new Date(Date.now() + 24 * 60 * 60 * 1000); // Set follow-up time to 24 hours later
         followUpQueue.push({ lead: newLead, res }); // Add to follow-up queue
@@ -58,6 +59,19 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
         }
     }
 
+    // Check if leadOwner has changed and update assigned_leads of the new agent
+    if (updateData.leadOwner && updateData.leadOwner !== existingLead.leadOwner) {
+        const newOwnerAgent = await Agent.findOne({ agentId: updateData.leadOwner });
+        if (newOwnerAgent) {
+            // Check if the leadId is already assigned to prevent duplicates
+            const isAlreadyAssigned = newOwnerAgent.assigned_leads.some(assignedLead => assignedLead.lead_id === leadId);
+            if (!isAlreadyAssigned) {
+                newOwnerAgent.assigned_leads.push({ lead_id: leadId });
+                await newOwnerAgent.save();
+            }
+        }
+    }
+
     const updatedLead = await Leads.findOneAndUpdate(
         { leadId },
         {
@@ -82,12 +96,6 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
             message: "Lead updated successfully",
             data: updatedLead,
         });
-    }
-
-    // Similar logic should be added in the updateLead function to handle status changes and set follow-up times.
-    if (updatedLead.status !== 'Answered' && updatedLead.followUpTime === null) {
-        updatedLead.followUpTime = new Date(Date.now() + 24 * 60 * 60 * 1000); // Adjust follow-up time as needed
-        followUpQueue.push({ lead: updatedLead, res }); // Re-add to follow-up queue if status changes
     }
 });
 
@@ -201,23 +209,88 @@ exports.interactLead = catchAsyncErrors(async (req, res) => {
     }
 });
 
-// Function to assign a lead to an agent
-exports.assignLead = catchAsyncErrors(async (req, res) => {
-    const { leadId, agentId } = req.body;
-    const lead = await Leads.findById(leadId);
-    if (!lead) return res.status(404).json({ message: "Lead not found" });
-    lead.assignedAgent = agentId;
-    lead.status = 'Assigned';
-    await lead.save();
-    res.status(200).json({ message: "Lead assigned successfully", lead });
-});
-
-// Function to update lead status
+// Function to update lead status and create a task if the status is not 'Answered'
 exports.updateLeadStatus = catchAsyncErrors(async (req, res) => {
-    const { leadId, status } = req.body;
-    const lead = await Leads.findById(leadId);
-    if (!lead) return res.status(404).json({ message: "Lead not found" });
-    lead.status = status;
-    await lead.save();
-    res.status(200).json({ message: "Lead status updated successfully", lead });
+    const { leadId, callStatus } = req.body;
+    const agent = await Agent.findById(req.user.id)
+    if (agent.user_role) {
+      const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
+      agent.user_role = userRole;  // Replace with the populated user role
+    } 
+
+
+    // Retrieve the lead to check ownership
+    const lead = await Leads.findOne({ leadId });
+
+    if (!lead) {
+        return res.status(404).json({ message: "Lead not found" });
+    }
+
+    // Check if the agent is the lead's owner, an admin, or a superadmin
+    if (lead.leadOwner !== agent.agentId && !['Admin', 'Super Admin'].includes(agent.user_role.role_name)) {
+        return res.status(403).json({ message: "Not authorized to update this lead's status" });
+    }
+
+    // Update the lead's callStatus using findOneAndUpdate
+    const updatedLead = await Leads.findOneAndUpdate(
+        { leadId },
+        { $set: { callStatus: callStatus } },
+        { new: true, runValidators: true }
+    );
+
+    if (!updatedLead) {
+        return res.status(404).json({ message: "Lead not found" });
+    }
+
+    let newTask = null; // Define newTask outside the conditional block
+
+    // Check if the callStatus is not 'Answered' and create a task
+    if (callStatus !== 'Answered') {
+        const taskPriority = {
+            'Not Answered': 'Low',
+            'Busy': 'Medium',
+            'Not Reachable': 'High'
+        };
+
+        // Determine due date based on priority
+        const dueDateOffset = {
+            'Low': 24 * 60 * 60 * 1000, // 1 day in milliseconds
+            'Medium': 4 * 60 * 60 * 1000, // 4 hours in milliseconds
+            'High': 2 * 60 * 60 * 1000  // 2 hours in milliseconds
+        };
+
+        const priority = taskPriority[callStatus];
+        const currentTime = Date.now();
+        const offsetTime = dueDateOffset[priority];
+
+        // Calculate due date in UTC
+        const dueDateUTC = new Date(currentTime + offsetTime);
+
+        // Convert UTC to IST (UTC+5:30)
+        const ISTOffset = 5.5 * 60 * 60 * 1000; // 5 hours and 30 minutes in milliseconds
+        const dueDateIST = new Date(dueDateUTC.getTime() + ISTOffset);
+        const taskNameDe = {
+            'Not Answered': '1 Day',
+            'Busy': '4 Hours',
+            'Not Reachable': '2 Hours'
+        };
+        const taskName = `Follow-up for Lead ID: ${leadId} in ${taskNameDe[callStatus]}`;
+
+        newTask = new Task({
+            task_name: taskName,
+            task_description: `This task is created to follow-up on the lead with ID: ${leadId} which was ${callStatus}.`,
+            task_status: 'Open',
+            task_priority: priority,
+            task_due_date: dueDateIST,
+            task_created_by: agent.agentId, // Assuming req.user.id is the ID of the logged-in agent
+        });
+
+        await newTask.save();
+    }
+
+    res.status(200).json({
+        message: "Lead callStatus updated and task created successfully",
+        lead: updatedLead,
+        task: newTask // Return the task if it was created
+    });
 });
