@@ -2,6 +2,7 @@ const Customer = require("../Models/CustomerModel.js");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors.js");
 const logger = require('../logger.js');
 const Agent = require('../Models/agentModel.js');
+const Calls = require("../Models/callsModel");
 
 
 exports.createCustomer = catchAsyncErrors(async (req, res) => {
@@ -46,10 +47,10 @@ exports.createCustomer = catchAsyncErrors(async (req, res) => {
 
 exports.allCustomer = catchAsyncErrors(async (req, res) => {
   const { customerId } = req.params; // Get customerId from query parameters
-
   if (customerId) {
       // Fetch a specific customer by customerId
       const customer = await Customer.findOne({ customerId });
+
       if (!customer) {
           return res.status(404).json({
               success: false,
@@ -57,10 +58,29 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
           });
       }
 
+      // Map over call_history to fetch call details
+      const populatedCallHistory = await Promise.all(
+        customer.call_history.map(async (call) => {
+          const callDetails = await Calls.find({ callId: { $in: call.callId } });
+          return {
+            ...call.toObject(),
+            callDetails, // Populate call details for each call
+          };
+        })
+      );
+      console.log(populatedCallHistory);
+  
+
+      // Save the updated customer document
+      await customer.save();
+
       return res.status(200).json({
           success: true,
           message: "Customer retrieved successfully",
-          customer,
+          customer: {
+            ...customer.toObject(),
+            call_history: populatedCallHistory,
+          },
       });
   }
 
@@ -74,15 +94,40 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
       Customer.countDocuments() // Get total number of customers
   ]);
 
+
+  // Manually populate diseases for each crop's stages
+  const customersWithPopulatedCallHistory = await Promise.all(
+    allCustomers.map(async (customer) => {
+      const populatedCallHistory = await Promise.all(
+        customer.call_history.map(async (call) => {
+          const callDetails = await Calls.find({ callId: { $in: call.callId } });
+          return {
+            ...call.toObject(),
+            callDetails, // Populate call details for each call
+          };
+        })
+      );
+
+      return {
+        ...customer.toObject(),
+        call_history: populatedCallHistory,
+      };
+    })
+  );
+
+
+
   res.status(200).json({
       success: true,
       message: "All customers that are available",
-      total: totalCustomers,
+      total: allCustomers.length,
       page,
       limit,
-      data: allCustomers,
+      data: customersWithPopulatedCallHistory,
   });
 });
+
+
 
 exports.searchCustomer = catchAsyncErrors(async (req, res) => {
   const query = {};

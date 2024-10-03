@@ -5,12 +5,12 @@ const LeadsSchema = new mongoose.Schema(
     leadId: {
       type: String,
       unique: true,
-      default: "K0-1000", 
+      default: "K0-1000",
     },
     leadOwner: {
       type: String,
-      default: 'Katyayani',
-      ref: 'Agents',
+      default: "Katyayani",
+      ref: "Agents",
     },
     firstName: {
       type: String,
@@ -24,7 +24,7 @@ const LeadsSchema = new mongoose.Schema(
       type: String,
       sparse: true,
       unique: true,
-      default: null, 
+      default: null,
       match: [
         /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/,
         "Please fill a valid email address",
@@ -32,11 +32,11 @@ const LeadsSchema = new mongoose.Schema(
     },
     cast: {
       type: String,
-      default: null, 
+      default: null,
     },
     address1: {
       type: String,
-      default: null, 
+      default: null,
     },
     address2: {
       type: String,
@@ -44,27 +44,28 @@ const LeadsSchema = new mongoose.Schema(
     },
     city: {
       type: String,
-      default: null, 
+      default: null,
     },
     State: {
       type: String,
-      default: null, 
+      default: null,
     },
     country: {
       type: String,
-      default: null, 
+      default: null,
     },
+
     last_active: {
       type: Date,
-      default: null, 
+      default: null,
     },
     lead_category: {
       type: String,
-      default: null, 
+      default: null,
     },
-    countryCode:{
-      type:String,
-      default:null,
+    countryCode: {
+      type: String,
+      default: null,
     },
     contact: {
       type: String,
@@ -75,25 +76,24 @@ const LeadsSchema = new mongoose.Schema(
     },
     source: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Source", 
+      ref: "Source",
     },
     created_at: {
       type: Date,
-      default: Date.now, 
-    },
-    query: {
-      type: String,
-      ref: "Query", 
-    },
+      default: Date.now,     
+    },  
+    query: [
+      { type: String, ref: "Query" }
+    ],
     order_history: [
       {
-        order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" }, 
+        order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
       },
     ],
     farm_details: {
       area: {
         type: String,
-        default: null, 
+        default: null,
       },
       crops: [{ type: String, ref: "Crop" }], 
       waterType: { type: String, default: null },
@@ -101,14 +101,16 @@ const LeadsSchema = new mongoose.Schema(
       weather: { type: String, default: null },
       farmSize: { type: String, default: null },
     },
-    call_history: [{ type: mongoose.Schema.Types.ObjectId, ref: "CallDetails" }], 
+    call_history: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "CallDetails" },
+    ],
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tags" }],
     updatedData: [
       {
-        updatedBy: { type: String, ref: "Agents"}, // Using agentId instead of ObjectId
-        updatedByEmail:{type:String},
+        updatedBy: { type: String, ref: "Agents" }, // Using agentId instead of ObjectId
+        updatedByEmail: { type: String },
         updatedFields: { type: Object },
-        ipAddress:{type:String},
+        ipAddress: { type: String },
         updatedAt: { type: Date, default: Date.now },
       },
     ],
@@ -116,6 +118,7 @@ const LeadsSchema = new mongoose.Schema(
       type: String, // Use agentId here
       ref: "Agents", // Reference the Agent schema using agentId
     },
+
     LeadStatus:{
       status:{
         type:String,
@@ -127,7 +130,7 @@ const LeadsSchema = new mongoose.Schema(
     callStatus: { type: String, enum: ['Answered', 'Not Answered', 'Busy', 'Not Reachable']},
     followUpTime: { type: Date, default: null }, // Ensure this field is present
     // For additional fields that may be added dynamically
-    additionalFields: { type: mongoose.Schema.Types.Mixed, default: {} },
+    miscellaneousFields: { type: mongoose.Schema.Types.Mixed, default: {} },
   },
   {
     timestamps: true,
