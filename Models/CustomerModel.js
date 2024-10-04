@@ -85,9 +85,14 @@ const CustomerSchema = new mongoose.Schema(
       type:mongoose.Schema.Types.ObjectId,
       ref:"Tags",
     },
+    call_history:[
+      {
+        callId:{type:String,ref:"Calls"}
+      }
+    ],
     order_history: [
       {
-        order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" }, 
+        order: { type:String, ref: "Order" }, 
       },
     ],
     updatedData: [
