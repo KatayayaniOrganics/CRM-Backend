@@ -54,7 +54,6 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
 
     // Retrieve the user role
     const userRole = await UserRoles.findOne({UserRoleId:agent.user_role});
- console.log(userRole)
     // Check if the agent is the lead's owner or has admin privileges
     if (existingLead.leadOwner !== agent.agentId && !['Admin', 'Super Admin'].includes(userRole.role_name)) {
         return res.status(403).json({ message: "Not authorized to update this lead" });
@@ -111,22 +110,31 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
         }
     }
 
+    const callStatusHistory = updateData.callStatus ? updateData.callStatus.status : null;
+
+    // Prepare update operations
+    const updateOperations = {
+        $set: { ...updateData, LastUpdated_By: agent.agentId },
+        $push: {
+            updatedData: {
+                updatedBy: agent.agentId,
+                updatedFields,
+                ipAddress: req.ip,
+                updatedByEmail: agent.email,
+                updatedAt: Date.now() + 5.5 * 60 * 60 * 1000,
+            }
+        }
+    };
+
+    // Conditionally push to callStatusHistory if not null
+    if (callStatusHistory) {
+        updateOperations.$push.callStatusHistory = callStatusHistory;
+    }
+
     // Ensure callStatusHistory is updated in the database
     const updatedLead = await Leads.findOneAndUpdate(
         { leadId },
-        {
-            $set: { ...updateData, LastUpdated_By: agent.agentId },
-            $push: {
-                callStatusHistory: updateData.callStatus.status, // Push the new status to the history
-                updatedData: {
-                    updatedBy: agent.agentId,
-                    updatedFields,
-                    ipAddress: req.ip,
-                    updatedByEmail: agent.email,
-                    updatedAt: Date.now() + 5.5 * 60 * 60 * 1000,
-                },
-            },
-        },
+        updateOperations,
         { new: true, runValidators: true }
     );
 
