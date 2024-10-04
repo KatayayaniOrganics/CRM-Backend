@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const callSchema = new mongoose.Schema({
     callId: {type:String , unique:true, default:"CO-1001"},
-    query_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Query' },
-    customer_id: { type: mongoose.Schema.Types.ObjectId, ref: 'CustomerLead' },
-    agent_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Agents' },
-    datetime: { type: Date, default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) },
+    query_id: { type: String, ref: 'Query' },
+    customer_id: { type: String, ref: 'CustomerLead' },
+    agent_id: { type: String, ref: 'Agent' },
+    datetime: { type: Date, default: Date.now },
     duration: {
         type: Number,
         default:null
@@ -21,7 +21,7 @@ const callSchema = new mongoose.Schema({
         updatedByEmail:{type:String},
         updatedFields: { type: Object },
         ipAddress:{type:String},
-        updatedAt: { type: Date, default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) },
+        updatedAt: { type: Date, default: Date.now },
         },
       ],
       LastUpdated_By: {
@@ -32,4 +32,3 @@ const callSchema = new mongoose.Schema({
 
 const Calls = mongoose.model('Calls', callSchema);
 module.exports = Calls;
-
