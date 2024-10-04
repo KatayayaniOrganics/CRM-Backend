@@ -32,4 +32,3 @@ const callSchema = new mongoose.Schema({
 
 const Calls = mongoose.model('Calls', callSchema);
 module.exports = Calls;
-

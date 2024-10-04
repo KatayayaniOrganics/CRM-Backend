@@ -151,4 +151,20 @@ async function checkForDuplicates(data) {
   }
 
 
-  module.exports = { leadQueue};
+  // New follow-up queue
+  const followUpQueue = async.queue(async (task, done) => {
+    const { lead, res } = task;
+    try {
+      // Logic to handle follow-up based on priority
+      logger.info(`Handling follow-up for lead ID: ${lead.leadId} with follow-up time: ${lead.followUpTime}`);
+      // Simulate follow-up task
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
+      logger.info(`Follow-up completed for lead ID: ${lead.leadId}`);
+    } catch (error) {
+      logger.error(`Error in follow-up queue: ${error.message}`);
+    } finally {
+      done();
+    }
+  }, 1);
+
+  module.exports = { leadQueue, followUpQueue };

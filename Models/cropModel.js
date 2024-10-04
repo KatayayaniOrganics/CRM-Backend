@@ -44,13 +44,23 @@ const cropSchema = new mongoose.Schema({
       diseases: [
         {
           type: String, 
+          ref: 'Disease'
         }
       ],
     }
   ],
-  updatedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Agent',
+  updatedData: [
+    {
+      updatedBy: { type: String, ref: "Agents" }, // Using agentId instead of ObjectId
+      updatedFields: { type: Object },
+      updatedAt: { type: Date, default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) },
+      ipAddress: { type: String },  // New field to store IP address
+      updatedByEmail: { type: String }
+    },
+  ],
+  LastUpdated_By: {
+    type: String, // Use agentId here
+    ref: "Agents", // Reference the Agent schema using agentId
   },
 });
 
