@@ -52,6 +52,14 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
         return res.status(404).json({ message: "Lead not found" });
     }
 
+    // Retrieve the user role
+    const userRole = await UserRoles.findOne({UserRoleId:agent.user_role});
+ console.log(userRole)
+    // Check if the agent is the lead's owner or has admin privileges
+    if (existingLead.leadOwner !== agent.agentId && !['Admin', 'Super Admin'].includes(userRole.role_name)) {
+        return res.status(403).json({ message: "Not authorized to update this lead" });
+    }
+
     const updatedFields = {};
     for (let key in updateData) {
         if (key !== "leadId" && updateData[key] !== existingLead[key]) {
@@ -72,17 +80,50 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
         }
     }
 
+    // Handling updates to callStatus and followUpPriority
+    if (updateData.callStatus && updateData.callStatus.status) {
+        updateData.callStatus.callTime = Date.now() + 5.5 * 60 * 60 * 1000; // Store the call time whenever status is updated
+
+        // Set followUpPriority based on the call status
+        switch (updateData.callStatus.status) {
+            case 'Answered':
+                updateData.followUpPriority = 'Completed';
+                break;
+            case 'Not Answered':
+                updateData.followUpPriority = 'Medium';
+                break;
+            case 'Busy':
+            case 'Not Reachable':
+                updateData.followUpPriority = 'High';
+                break;
+        }
+
+        // Track consecutive 'Not Answered' statuses to potentially close the follow-up
+        if (!existingLead.callStatusHistory) {
+            existingLead.callStatusHistory = [];
+        }
+        existingLead.callStatusHistory.push(updateData.callStatus.status);
+
+        // Check the last three statuses for 'Not Answered'
+        const recentStatuses = existingLead.callStatusHistory.slice(-3);
+        if (recentStatuses.length === 3 && recentStatuses.every(status => status === 'Not Answered')) {
+            updateData.followUpPriority = 'Closed';
+        }
+    }
+
+    // Ensure callStatusHistory is updated in the database
     const updatedLead = await Leads.findOneAndUpdate(
         { leadId },
         {
             $set: { ...updateData, LastUpdated_By: agent.agentId },
             $push: {
+                callStatusHistory: updateData.callStatus.status, // Push the new status to the history
                 updatedData: {
                     updatedBy: agent.agentId,
                     updatedFields,
                     ipAddress: req.ip,
                     updatedByEmail: agent.email,
-                    updatedAt: Date.now(),
+                    updatedAt: Date.now() + 5.5 * 60 * 60 * 1000,
                 },
             },
         },
@@ -146,12 +187,23 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
         const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
         agent.user_role = userRole;  // Replace with the populated user role
       }
+
+    // Define a priority map for sorting
+    const priorityMap = {
+        high: 1,
+        medium: 2,
+        low: 3,
+        complete: 4,
+        closed: 5
+    };
+
     // Corrected conditional logic for retrieving leads based on user role
     const query = (agent.user_role.role_name === 'Super Admin' || agent.user_role.role_name === 'Admin') ? {} : { leadOwner: agent.agentId };
-    const [allLeads, totalLeads] = await Promise.all([
-        Leads.find(query).skip(skip).limit(limit),
-        Leads.countDocuments(query)
-    ]);
+    const allLeads = await Leads.find(query).skip(skip).limit(limit);
+    const totalLeads = await Leads.countDocuments(query);
+
+    // Sort leads in memory based on the priority map
+    allLeads.sort((a, b) => (priorityMap[a.followUpPriority] || 999) - (priorityMap[b.followUpPriority] || 999));
 
     logger.info(`Retrieved ${allLeads.length} leads (page ${page}, limit ${limit})`);
     res.status(200).json({

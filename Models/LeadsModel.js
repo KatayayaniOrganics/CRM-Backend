@@ -75,19 +75,25 @@ const LeadsSchema = new mongoose.Schema(
       maxLength: [13, "Contact should be at most 13 numbers"],
     },
     source: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Source",
+      type: String,
+      ref: "Source", 
     },
     created_at: {
       type: Date,
-      default: Date.now,     
-    },  
-    query: [
-      { type: String, ref: "Query" }
-    ],
+      default: Date.now, 
+    },
+    query: {
+      type: String,
+      ref: "Query", 
+      default:null,
+    },
     order_history: [
       {
-        order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
+        order: { 
+          type: String, 
+          ref: "Order",
+          default:null,
+         }, 
       },
     ],
     farm_details: {
@@ -95,28 +101,28 @@ const LeadsSchema = new mongoose.Schema(
         type: String,
         default: null,
       },
-      crops: [{ type: String, ref: "Crop" }], 
+      crops: [{ type: String, ref: "Crop",default:null }], 
       waterType: { type: String, default: null },
       soilType: { type: String, default: null },
       weather: { type: String, default: null },
       farmSize: { type: String, default: null },
     },
-    call_history: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "CallDetails" },
-    ],
-    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tags" }],
+
+    call_history: [{ type: String, ref: "CallDetails",default:null }], 
+    tags: [{ type: String, ref: "Tags",default:null }],
     updatedData: [
       {
-        updatedBy: { type: String, ref: "Agents" }, // Using agentId instead of ObjectId
-        updatedByEmail: { type: String },
+        updatedBy: { type: String, ref: "Agents",default:null}, // Using agentId instead of ObjectId
+        updatedByEmail:{type:String},
         updatedFields: { type: Object },
-        ipAddress: { type: String },
+        ipAddress:{type:String},      
         updatedAt: { type: Date, default: Date.now },
       },
     ],
     LastUpdated_By: {
       type: String, // Use agentId here
       ref: "Agents", // Reference the Agent schema using agentId
+      default:null,
     },
 
     LeadStatus:{
@@ -127,9 +133,17 @@ const LeadsSchema = new mongoose.Schema(
     },
       LastUpdated:{type:Date,default:Date.now},
     },
-    callStatus: { type: String, enum: ['Answered', 'Not Answered', 'Busy', 'Not Reachable']},
-    followUpTime: { type: Date, default: null }, // Ensure this field is present
-    // For additional fields that may be added dynamically
+    callStatus: [{ 
+      status:{type: String, enum: ['Answered', 'Not Answered', 'Busy', 'Not Reachable'],default:null},
+      callTime:{type:Date,default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000)},
+  }],
+    followUpPriority: { type: String, enum: ['High', 'Medium', 'Low','Closed','Completed'],default:'Medium'},
+    callStatusHistory: [{
+      type: String,
+      enum: ['Answered', 'Not Answered', 'Busy', 'Not Reachable'],
+      default: []
+    }],
+     // For additional fields that may be added dynamically
     miscellaneousFields: { type: mongoose.Schema.Types.Mixed, default: {} },
   },
   {
