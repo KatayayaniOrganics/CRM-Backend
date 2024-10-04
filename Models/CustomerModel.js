@@ -92,7 +92,7 @@ const CustomerSchema = new mongoose.Schema(
     ],
     order_history: [
       {
-        order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" }, 
+        order: { type:String, ref: "Order" }, 
       },
     ],
     updatedData: [
