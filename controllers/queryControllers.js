@@ -38,9 +38,7 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
         message: 'Query created successfully',
         query: newQuery
     });
-  });
-  
-
+  }); 
 exports.getQuery = catchAsyncErrors(async (req, res) => {
     const { lot = 1, size = 10 } = req.query;
 
@@ -72,31 +70,25 @@ exports.getQuery = catchAsyncErrors(async (req, res) => {
     });
 });
 exports.searchQuery = catchAsyncErrors(async (req, res) => {
-    const { customer_id } = req.query; // Get customer_id from the query parameters
+    const { queryId } = req.params; // Get queryId from URL
 
-    if (!customer_id) {
-        return res.status(400).json({
-            success: false,
-            message: 'Customer ID is required',
-        });
-    }
+    // Find the query with the given queryId
+    const query = await Query.findOne({ customer_id: queryId });
 
-    // Fetch a specific query by customer_id
-    const query = await Query.findOne({ customer_id });
-
+    // If the query does not exist, return a 404 error
     if (!query) {
         return res.status(404).json({
             success: false,
-            message: 'Query not found for the given customer ID',
+            message: `Query with customer_id ${queryId} not found`,
         });
     }
 
-    return res.status(200).json({
+    // Return the query details
+    res.status(200).json({
         success: true,
-        query,
+        query
     });
 });
-  
 exports.deleteQuery = catchAsyncErrors(async (req, res) => {
   
     console.log('Request query:', req.query);
@@ -124,7 +116,6 @@ exports.deleteQuery = catchAsyncErrors(async (req, res) => {
         message: 'Query successfully deleted',
     });
 });
-  
 exports.updateQuery = catchAsyncErrors(async (req, res) => {
     const { customer_id } = req.query;
     const updateData = req.body;
