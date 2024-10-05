@@ -2,6 +2,7 @@ const Query = require("../Models/queryModel");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 
 exports.queryCreation = catchAsyncErrors(async (req, res) => {
+    logger.info(`Creating new query from IP: ${req.ip}`);
     const { description, query_category, order, tags, reason_not_ordered, created_by, updated_By } = req.body;
   
     // Check if description is provided (customer_id will be generated automatically)

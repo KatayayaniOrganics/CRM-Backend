@@ -2,35 +2,36 @@ var express = require('express');
 const { createLead, searchLead ,allLeads, 
     updateLead ,deleteLead,kylasLead,interactLead,assignLead,updateLeadStatus } = require('../controllers/LeadControllers');
 const { verifyToken,restrictTo } = require('../middlewares/authMiddleware');
+const { logRequest } = require('../middlewares/logDetails');
 
 var router = express.Router();
 
 //all Leads
-router.get('/all',verifyToken,allLeads);
+router.get('/all',logRequest,verifyToken,allLeads);
 
 //all Leads
-router.get('/all/:leadId',verifyToken,allLeads);
+router.get('/all/:leadId',logRequest,verifyToken,allLeads);
 
  //create lead
- router.post('/create',verifyToken,createLead);
+ router.post('/create',logRequest,verifyToken,createLead);
 
 //search lead
-router.get('/search',verifyToken,searchLead);
+router.get('/search',logRequest,verifyToken,searchLead);
   
 //Update leads
-router.put("/:leadId",verifyToken,updateLead);
+router.put("/:leadId",logRequest,verifyToken,updateLead);
 
 //delete leads
-router.delete("/:leadId",verifyToken,deleteLead);
+router.delete("/:leadId",logRequest,verifyToken,deleteLead);
 
 //kylas assign lead
-router.post("/kylas-assign-lead", kylasLead);
+router.post("/kylas-assign-lead",logRequest, kylasLead);
 
 //interact lead
-router.post("/interact-lead", interactLead);
+router.post("/interact-lead",logRequest, interactLead);
 
 // Route to update lead status
-router.patch('/update-callstatus', verifyToken,updateLeadStatus);
+router.patch('/update-callstatus',logRequest, verifyToken,updateLeadStatus);
 
 module.exports = router;
 

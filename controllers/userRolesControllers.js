@@ -7,6 +7,7 @@ const Agent = require("../Models/agentModel");
 
 // Role creation logic, controlled by Super Admin or Admin
 exports.createRole = catchAsyncErrors(async (req, res) => {
+  logger.info(`Creating new role from IP: ${req.ip}`);
     const { role_name } = req.body;
   
     const agent = await Agent.findById(req.user.id)
@@ -54,14 +55,14 @@ exports.createRole = catchAsyncErrors(async (req, res) => {
     });
   });
   
-  exports.getAlluserRoles = catchAsyncErrors(async (req, res) => {
+exports.getAlluserRoles = catchAsyncErrors(async (req, res) => {
     
     const userRoles = await UserRoles.find();
     res.status(200).json(userRoles);
   
   });
   
-  exports.updateUserRole = catchAsyncErrors(async (req, res) => {
+exports.updateUserRole = catchAsyncErrors(async (req, res) => {
     const { agentId, newRoleId } = req.body;
   
     // Find the new role

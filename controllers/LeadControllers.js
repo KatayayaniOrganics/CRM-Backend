@@ -8,7 +8,7 @@ const Task = require("../Models/taskModel.js");
 
 // Create a new lead
 exports.createLead = catchAsyncErrors(async (req, res) => {
-    logger.info('Creating a new lead');
+    logger.info('Creating new lead');
     const lastLead = await Leads.findOne().sort({ leadId: -1 }).exec();
     const newLeadId = lastLead ? `K0-${parseInt(lastLead.leadId.split("-")[1]) + 1}` : "K0-1000";
 
@@ -34,6 +34,7 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
 
 // Update an existing lead
 exports.updateLead = catchAsyncErrors(async (req, res) => {
+    logger.info(`Updating lead with ID: ${req.params.leadId}`);
     const { leadId } = req.params;
     const updateData = req.body;
 
@@ -168,6 +169,7 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
 
 // Retrieve all leads with optional pagination
 exports.allLeads = catchAsyncErrors(async (req, res) => {
+    logger.info('Fetching all leads');
     const { leadId } = req.params;
 
 
@@ -224,12 +226,10 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
     });
 });
 
-
-
 // Delete a lead by lead ID
 exports.deleteLead = catchAsyncErrors(async (req, res) => {
+    logger.info(`Deleting lead with ID: ${req.params.leadId}`);
     const { leadId } = req.params;
-    logger.info(`Deleting lead with ID: ${leadId}`);
 
     const deletedLead = await Leads.findOneAndDelete({ leadId });
 
@@ -250,6 +250,7 @@ exports.kylasLead = catchAsyncErrors(async (req, res) => {
 
 // Interact with a lead (for demonstration purposes)
 exports.interactLead = catchAsyncErrors(async (req, res) => {
+    logger.info('Interacting with lead');
     try {
         const newLeadData = req.body;
 
@@ -271,6 +272,7 @@ exports.interactLead = catchAsyncErrors(async (req, res) => {
 
 // Function to update lead status and create a task if the status is not 'Answered'
 exports.updateLeadStatus = catchAsyncErrors(async (req, res) => {
+    logger.info(`Updating lead status for ID: ${req.body.leadId}`);
     const { leadId, callStatus } = req.body;
     const agent = await Agent.findById(req.user.id)
     if (agent.user_role) {

@@ -3,7 +3,8 @@ const logger = require("../logger");
 const Tags = require("../Models/tagsModel");
 
 exports.createTags = catchAsyncErrors(async (req, res) => {
-    logger.info("You made a POST )Request on Tags creation Route");
+  logger.info("You made a POST Request on Tags creation Route");
+  logger.info(`Creating new tags from IP: ${req.ip}`);
   
     const { name } = req.body;
     const tag = new Tags({ name });
