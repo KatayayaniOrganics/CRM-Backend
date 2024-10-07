@@ -25,7 +25,8 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
         newLead.followUpTime = new Date(Date.now() + 24 * 60 * 60 * 1000); // Set follow-up time to 24 hours later
         followUpQueue.push({ lead: newLead, res }); // Add to follow-up queue
     }
-
+    const io = req.app.get('socketio'); // Get Socket.IO instance
+    io.emit('new-lead', newLead); // Emit event to all connected clients
     res.status(201).json({
         message: "Lead created successfully",
         lead: newLead,
