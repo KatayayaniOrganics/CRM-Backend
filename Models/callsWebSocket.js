@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const logger = require('../utils/logger');
+const logger = require('../logger');
 const CallControllers = require('../controllers/CallControllers');
 
 function setupCallsWebSocket(server) {
