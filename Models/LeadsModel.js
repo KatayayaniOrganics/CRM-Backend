@@ -144,7 +144,42 @@ const LeadsSchema = new mongoose.Schema(
       default: []
     }],
      // For additional fields that may be added dynamically
-    miscellaneousFields: { type: mongoose.Schema.Types.Mixed, default: {} },
+    miscellaneousFields: { 
+      farmer_type:{
+        type:String,
+        enum:["High Potential Farmer","Preogressive Farmer","Farmer Registered"],
+        default:null
+      },
+      whatsApp_use:{
+        type:String,
+        enum:["Yes","No","Relative Number"],
+        default:null
+      },
+      sms_alert:{
+        type:String,
+        enum:["Yes","No"],
+        default:null
+      },
+      other_income_sources:{
+        type:String,
+        default:null
+      },
+      mobile_type:{
+        type:String,
+        enum:["Smart","Basic"],
+        default:null
+      },
+      whatsApp_number_same:{
+        type:String,
+        enum:["Yes","No"],
+        default:null
+      },
+      adding_whatsApp:{
+        type:String,
+        enum:["Yes","No"],
+        default:null
+      }
+     },
   },
   {
     timestamps: true,
