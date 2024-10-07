@@ -2,21 +2,22 @@ const express = require('express');
 var router = express.Router();
 const {CallDetailsCreation, CallUpdate, CallDelete, callsearch, getAllCalls} = require('../controllers/CallControllers');
 const { verifyToken } = require('../middlewares/authMiddleware');
+const { logRequest } = require('../middlewares/logDetails');
 
 //all calls 
-router.get('/all', getAllCalls);
+router.get('/all',logRequest,getAllCalls);
 
 // Create a new call detail
-router.post('/create',CallDetailsCreation );
+router.post('/create',logRequest,CallDetailsCreation );
 
 //search Calls
-router.get("/search",callsearch);
+router.get("/search",logRequest,callsearch);
 
 //update calls
-router.put('/:callId',verifyToken, CallUpdate);
+router.put('/:callId',logRequest,verifyToken, CallUpdate);
 
 //delete calls
-router.delete('/:callId', CallDelete);
+router.delete('/:callId',logRequest,CallDelete);
 
 
 

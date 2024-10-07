@@ -85,9 +85,14 @@ const CustomerSchema = new mongoose.Schema(
       type:mongoose.Schema.Types.ObjectId,
       ref:"Tags",
     },
+    call_history:[
+      {
+        callId:{type:String,ref:"Calls"}
+      }
+    ],
     order_history: [
       {
-        order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" }, 
+        order: { type:String, ref: "Order" }, 
       },
     ],
     updatedData: [
@@ -96,7 +101,7 @@ const CustomerSchema = new mongoose.Schema(
         updatedByEmail:{type:String},
         updatedFields: { type: Object },
         ipAddress:{type:String},
-        updatedAt: { type: Date, default: Date.now },
+        updatedAt: { type: Date, default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000)},
       },
     ],
     LastUpdated_By: {

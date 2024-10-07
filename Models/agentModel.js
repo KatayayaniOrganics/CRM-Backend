@@ -62,10 +62,7 @@ const agentSchema = new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"Agents"
   },
-  talktime_day:{type:Number,default:null},
-  total_talktime: {type:Number,default:null},
-  breaktime_day: {type:Number,default:null},
-  total_breaktime: {type:Number,default:null},
+
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   city:{type:String,default:null},
@@ -74,7 +71,10 @@ const agentSchema = new mongoose.Schema({
   refreshToken: {
     type: String,
     default: null
-  }
+  },
+  assigned_leads:[
+    {lead_id:{type:String,default:null,ref:"Leads"}}
+  ]
   
 });
 

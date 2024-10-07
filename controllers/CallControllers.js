@@ -5,6 +5,7 @@ const Agent = require('../Models/agentModel');
 
 exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST Request on CallDeatails creation Route");
+    logger.info("Creating new call details");
   
     const lastCall = await Calls.findOne().sort({ callId: -1 }).exec();
   
@@ -38,6 +39,7 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
   exports.CallUpdate = catchAsyncErrors(async (req, res) => {
     const { callId } = req.params;
     const updateData = req.body;
+    logger.info(`Updating call with ID: ${callId}`);
   
     // Check if the updateData contains callId - prevent updating it
     if (updateData.callId && updateData.callId !== callId) {
@@ -93,6 +95,7 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
 
 exports.CallDelete = catchAsyncErrors(async (req, res) => {
     logger.info("You made a DELETE Request on Calls delete Route");
+    logger.info(`Deleting call with ID: ${callId}`);
   
     const callId = req.params.callId; 
   
@@ -122,6 +125,7 @@ exports.callsearch = catchAsyncErrors(async (req, res) => {
 
     const call = await Calls.find(query) // Exclude password field
     res.json(call);
+    logger.info("Searching for calls");
   
 });
 
@@ -129,4 +133,5 @@ exports.callsearch = catchAsyncErrors(async (req, res) => {
 exports.getAllCalls = catchAsyncErrors(async (req, res) => {
   const allCalls = await Calls.find();
   res.status(200).json(allCalls);
+  logger.info("Fetching all calls");
 });

@@ -5,6 +5,7 @@ const Disease = require("../Models/diseaseModel");
 const Agent = require("../Models/agentModel");
 
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
+  logger.info("Creating new crop");
   logger.info("You made a POST Request on Crops creation Route");
 
   // Get the last crop and generate a new crop ID
@@ -62,6 +63,8 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
 }); 
 
 exports.allCrops = catchAsyncErrors(async (req, res) => {
+  logger.info("Fetching all crops");
+
   const { cropId } = req.params; // Get cropId from query parameters
 
   if (cropId) {
@@ -128,9 +131,7 @@ exports.allCrops = catchAsyncErrors(async (req, res) => {
 
   
 exports.searchCrop = catchAsyncErrors(async (req, res) => {
-    const query = {};
-  
-    
+    const query = {};    
     for (let key in req.query) {
       if (req.query[key]) {
         if (key === "cropId" || key === "name") {
@@ -182,6 +183,7 @@ exports.searchCrop = catchAsyncErrors(async (req, res) => {
 
 
 exports.updateCrop = catchAsyncErrors(async (req, res) => {   
+  logger.info("updating crops")
   const { cropId } = req.params; // Extract cropId from request params
   const updateCropData = req.body; // Get the data to be updated from the request body
   const agent = await Agent.findById(req.user.id); // Get the agent making the update
@@ -244,9 +246,9 @@ exports.updateCrop = catchAsyncErrors(async (req, res) => {
   });
 });
   
-  exports.deleteCrop = catchAsyncErrors(async (req, res) => {
+exports.deleteCrop = catchAsyncErrors(async (req, res) => {
     const { cropId } = req.params;
-  
+  logger.info(`Trying to Delete crop with this : ${cropId}`)
     // Find the customer lead by leadId and delete it
     const deletedCrop = await Crop.findOneAndDelete({ cropId });
   

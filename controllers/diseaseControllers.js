@@ -5,6 +5,7 @@ const logger = require('../logger.js');
 
 
 exports.createDisease = catchAsyncErrors(async (req, res) => {
+  
   try {
     const lastDisease = await Disease.findOne().sort({ diseaseId: -1 }).exec();
 
