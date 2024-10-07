@@ -6,7 +6,7 @@ const createError = require('http-errors');
 const logger = require("./logger");
 const morgan = require("morgan");
 const cors = require('cors');
-const helmet = require('helmet'); // Add helmet for security
+
 
 
 
@@ -53,7 +53,6 @@ app.use(
 );
 
 // Middleware setup
-app.use(helmet()); // Add helmet middleware for security
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
