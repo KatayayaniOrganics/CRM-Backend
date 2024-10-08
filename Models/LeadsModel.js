@@ -97,18 +97,26 @@ const LeadsSchema = new mongoose.Schema(
       },
     ],
     farm_details: {
-      area: {
-        type: String,
-        default: null,
-      },
-      crops: [{ type: String, ref: "Crop",default:null }], 
-      waterType: { type: String, default: null },
-      soilType: { type: String, default: null },
-      weather: { type: String, default: null },
-      farmSize: { type: String, default: null },
+      farm_name: { type: String, default: null },
+      area: { type: String,default: null },
+      farm_unit: { type: String, default: null },
+      Crop_name: [
+        {crop_id: { type: String, default: null }, crop_name:{type: String, default: null }},
+      ],
+      showing_date: { type: Date, default: null },
+      day_after_showing: { type: Date, default: null },
+      expected_quntity:{ type: Date, default: null },
+      sell_unit: { type: Date, default: null },
+      unit_selling_price: { type: Date, default: null },
     },
 
-    call_history: [{ type: String, ref: "CallDetails",default:null }], 
+    call_history: [
+           {
+        callID:{type:String,default:null},
+        callDate:{type:Date,default:null}
+      },
+   
+    ], 
     tags: [{ type: String, ref: "Tags",default:null }],
     updatedData: [
       {
@@ -143,6 +151,11 @@ const LeadsSchema = new mongoose.Schema(
       enum: ['Answered', 'Not Answered', 'Busy', 'Not Reachable'],
       default: []
     }],
+    dispossession_status: {type:Boolean,
+      default:true,
+    },
+  dispossession: { type:String,enum:["follow Up","Completed","Push to agri adviser"], default:null },
+  follow_Up_date: {type:Date ,default:null},
      // For additional fields that may be added dynamically
     miscellaneousFields: { type: mongoose.Schema.Types.Mixed, default: {} },
   },
