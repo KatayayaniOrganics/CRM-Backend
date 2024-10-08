@@ -1,8 +1,8 @@
-const app = require('./app'); 
+const {server} = require("./app")
 const logger = require('./logger');
 const port = process.env.PORT;
 
 
-app.listen(port, () => {
+server.listen(port, () => {
   logger.info(`Server is running on http://localhost:${port}`);
 });
