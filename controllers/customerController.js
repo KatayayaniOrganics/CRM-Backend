@@ -28,7 +28,7 @@ exports.createCustomer = catchAsyncErrors(async (req, res) => {
   
   
       await newCustomer.save();
-      const io = req.app.get('socketio'); // Get Socket.IO instance
+      const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('new-customer', newCustomer);
   
       res.status(201).json({
@@ -78,7 +78,7 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
 
       // Save the updated customer document
       await customer.save();
-      const io = req.app.get('socketio'); // Get Socket.IO instance
+      const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('getone-customer', populatedCustomer);
       return res.status(200).json({
           success: true,
@@ -119,7 +119,7 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
   );
 
 
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('get-customer',customersWithPopulatedCallHistory);
   res.status(200).json({
       success: true,
@@ -150,7 +150,7 @@ exports.searchCustomer = catchAsyncErrors(async (req, res) => {
   }
 
   const customer = await Customer.find(query);
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('search-customer',customer);
   res.json(customer);
 });
@@ -165,7 +165,7 @@ exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
     return res.status(404).json({ message: "Customer not found" });
   }
 
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('delete-customer', deletedCustomer);
   res.json({ message: "Customer deleted successfully" });
 });
@@ -221,7 +221,7 @@ exports.updateCustomer = catchAsyncErrors(async (req, res) => {
   );
 
   if (updatedCustomer) {
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('update-customer', updatedCustomer);
     return res.status(200).json({
       success: true,

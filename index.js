@@ -1,24 +1,9 @@
-const app = require('./app'); 
+const { app, server } = require('./app'); // Ensure this matches the export
 const logger = require('./logger');
-const port = process.env.PORT;
-const socketIo = require('socket.io');
-const http = require('http');
-const path = require('path');
-const server = http.createServer(app);
-const io = socketIo(server);
-// Make the `io` instance accessible in routes
-app.set('socketio', io);
+const port = process.env.PORT || 3000;
 
-// Socket.IO connection handler
-io.on('connection', (socket) => {
-  console.log('New client connected:', socket.id);
-
-  // Handle client disconnection
-  socket.on('disconnect', () => {
-      console.log('Client disconnected:', socket.id);
-  });
-});
+app.set('port', port); // Setting the port
 
 server.listen(port, () => {
-  logger.info(`Server is running on http://localhost:${port}`);
+    logger.info(`Server is running on http://localhost:${port}`);
 });

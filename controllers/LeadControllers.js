@@ -19,13 +19,7 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
 
     await newLead.save();
     logger.info(`Lead created successfully with ID: ${newLeadId}`);
-
-    // Set follow-up time based on callStatus
-    if (newLead.status !== 'Answered') {
-        newLead.followUpTime = new Date(Date.now() + 24 * 60 * 60 * 1000); // Set follow-up time to 24 hours later
-        followUpQueue.push({ lead: newLead, res }); // Add to follow-up queue
-    }
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('new-lead', newLead); // Emit event to all connected clients
     res.status(201).json({
         message: "Lead created successfully",
@@ -142,6 +136,13 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
 
     if (updatedLead) {
         logger.info(`Lead updated successfully with ID: ${leadId}`);
+        const io = req.app.get('socket.io'); // Get Socket.IO instance
+        if (io) {
+            io.emit('updated-lead', updatedLead);
+        } else {
+            logger.error('Socket.io instance not found');
+            // Consider how to handle this case, maybe a fallback or a retry mechanism
+        }
         return res.status(200).json({
             success: true,
             message: "Lead updated successfully",
@@ -165,6 +166,8 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
 
     const leads = await Leads.find(query);
     logger.info(`Found ${leads.length} leads matching the query`);
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
+    io.emit('Filtered-lead', leads); // Emit event to all connected clients
     res.json(leads);
 });
 
@@ -217,6 +220,8 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
     allLeads.sort((a, b) => (priorityMap[a.followUpPriority] || 999) - (priorityMap[b.followUpPriority] || 999));
 
     logger.info(`Retrieved ${allLeads.length} leads (page ${page}, limit ${limit})`);
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
+    io.emit('All-leads', allLeads); // Emit event to all connected clients
     res.status(200).json({
         success: true,
         message: "Leads retrieved successfully",
@@ -240,7 +245,13 @@ exports.deleteLead = catchAsyncErrors(async (req, res) => {
     }
 
     logger.info(`Lead deleted successfully with ID: ${leadId}`);
-    res.json({ message: "Lead deleted successfully" });
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
+    io.emit('Deleted-lead', deletedLead);
+    res.status(200).json({ 
+        success: true,
+        message: "Lead deleted successfully",
+        data:deletedLead
+     });
 });
 
 // Handle Kylas lead requests by pushing them to the queue
@@ -350,7 +361,8 @@ exports.updateLeadStatus = catchAsyncErrors(async (req, res) => {
 
         await newTask.save();
     }
-
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
+    io.emit('New-leads', newTask,updatedLead); // Emit event to all connected clients
     res.status(200).json({
         message: "Lead callStatus updated and task created successfully",
         lead: updatedLead,
