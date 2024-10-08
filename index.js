@@ -7,7 +7,7 @@ const path = require('path');
 const server = http.createServer(app);
 const io = socketIo(server);
 // Make the `io` instance accessible in routes
-app.set('socketio', io);
+app.set('socket.io', io);
 
 // Socket.IO connection handler
 io.on('connection', (socket) => {
