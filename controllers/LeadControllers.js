@@ -136,8 +136,13 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
 
     if (updatedLead) {
         logger.info(`Lead updated successfully with ID: ${leadId}`);
-        const io = req.app.get('socketio'); // Get Socket.IO instance
-        io.emit('updated-lead',updatedLead);
+          const io = req.app.get('socketio'); // Get Socket.IO instance
+        if (io) {
+            io.emit('updated-lead',updatedLead);
+        } else {
+            console.error('Socket.io instance not found');
+        }
+       
         return res.status(200).json({
             success: true,
             message: "Lead updated successfully",
