@@ -31,7 +31,8 @@ const leadQueue = async.queue(async (task, done) => {
         });
       }
     }
-
+    const io = req.app.get('socketio'); // Get Socket.IO instance
+    io.emit('new-lead', processedData.newLead);
     // Send the successful response
     res.status(201).json({
       message: 'Lead created successfully',

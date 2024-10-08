@@ -34,8 +34,6 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     logger.info(callDetails);
   });
 
-
-
   exports.CallUpdate = catchAsyncErrors(async (req, res) => {
     const { callId } = req.params;
     const updateData = req.body;
@@ -89,8 +87,6 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
       });
     }
   });
-
-
 
 
 exports.CallDelete = catchAsyncErrors(async (req, res) => {

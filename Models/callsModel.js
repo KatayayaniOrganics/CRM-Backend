@@ -28,6 +28,13 @@ const callSchema = new mongoose.Schema({
         type: String, // Use agentId here
         ref: "Agents", // Reference the Agent schema using agentId
       },
+  
+    call_history: [ 
+        {
+            callId: { type: String, required: true , default: null },
+            callDate: { type: String, required: true, default: null }
+        }
+    ]
 });
 
 const Calls = mongoose.model('Calls', callSchema);

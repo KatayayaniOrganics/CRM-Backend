@@ -6,7 +6,7 @@ const createError = require('http-errors');
 const logger = require("./logger");
 const morgan = require("morgan");
 const cors = require('cors');
-const helmet = require('helmet'); // Add helmet for security
+
 
 
 
@@ -53,7 +53,6 @@ app.use(
 );
 
 // Middleware setup
-app.use(helmet()); // Add helmet middleware for security
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -85,4 +84,22 @@ app.all("*", (req, res, next) => {
 });
 app.use(generatedErrors);
 
-module.exports = app;
+const socketIo = require('socket.io');
+const http = require('http');
+const server = http.createServer(app);
+const io = socketIo(server);
+// Make the `io` instance accessible in routes
+app.set('socket.io', io);
+
+// Socket.IO connection handler
+io.on('connection', (socket) => {
+  logger.info(`New client connected: ${socket.id}`);
+
+  // Handle client disconnection
+  socket.on('disconnect', () => {
+      logger.info(`Client Disconnected: ${socket.id}`);
+  });
+});
+
+
+module.exports = {app,server};
