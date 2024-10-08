@@ -6,9 +6,8 @@ const createError = require('http-errors');
 const logger = require("./logger");
 const morgan = require("morgan");
 const cors = require('cors');
-
-
-
+const socketIo = require('socket.io');
+const http = require('http');
 
 // Connect to the database
 require("./Models/Database.js").connectDatabase();
@@ -84,4 +83,19 @@ app.all("*", (req, res, next) => {
 });
 app.use(generatedErrors);
 
-module.exports = app;
+// Create HTTP server and initialize Socket.IO
+const server = http.createServer(app);
+const io = socketIo(server);
+// Make the `io` instance accessible in routes
+app.set('socket.io', io);
+
+// Socket.IO connection handler
+io.on('connection', (socket) => {
+    logger.info(`New client connected: ${socket.id}`);
+
+    socket.on('disconnect', () => {
+        logger.info(`Client Disconnected: ${socket.id}`);
+    });
+});
+
+module.exports = { app, server };
