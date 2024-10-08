@@ -31,8 +31,6 @@ const agentSchema = new mongoose.Schema({
     countryCode:{type:String,default:null},
     phoneNumber:{type:Number,default:null},
   },
-  state:{type:String,default:null},
-  city:{type:String,default:null},
   password: {
     type: String,
     required: [true, "Password is required"],

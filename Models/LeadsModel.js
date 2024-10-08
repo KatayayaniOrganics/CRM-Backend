@@ -8,9 +8,8 @@ const LeadsSchema = new mongoose.Schema(
       default: "K0-1000",
     },
     leadOwner: {
-      type: String,
-      default: "Katyayani",
-      ref: "Agents",
+      agentId:{type:String,default:null},
+      agentRef:{type:mongoose.Schema.Types.ObjectId,ref:'Agents',default:null}
     },
     firstName: {
       type: String,
@@ -98,11 +97,12 @@ const LeadsSchema = new mongoose.Schema(
       type: Date,
       default: Date.now, 
     },
-    query: {
-      type: String,
-      ref: "Query", 
-      default:null,
-    },
+    query: [
+      {
+        queryId:{type:String,default:null},
+        queryRef:{type:mongoose.Schema.Types.ObjectId,ref:'Query',default:null}
+        }
+    ],
     order_history: [
       {
         order: { 
