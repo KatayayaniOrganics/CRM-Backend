@@ -18,8 +18,7 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
     });
 
     await newLead.save();
-    logger.info(`Lead created successfully with ID: ${newLeadId}`);
-    const io = req.app.get('socket.io'); // Get Socket.IO instance
+    logger.info(`Lead created successfully with ID: ${newLeadId}`); // Get Socket.IO instance
     io.emit('new-lead', newLead); // Emit event to all connected clients
     res.status(201).json({
         message: "Lead created successfully",
