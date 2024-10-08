@@ -54,18 +54,30 @@ const LeadsSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-
-    last_active: {
-      type: Date,
-      default: null,
+  
+    pinCode:{
+      type:String,
+      default:null
     },
-    lead_category: {
-      type: String,
-      default: null,
+    tehsil:{
+      type:String,
+      default:null
     },
-    countryCode: {
-      type: String,
-      default: null,
+    district:{
+      type:String,
+      default:null
+    },
+    talukka:{
+      type:String,
+      default:null
+    },
+    post:{
+      type:String,
+      default:null
+    },
+    gram:{
+      type:String,
+      default:null
     },
     contact: {
       type: String,
@@ -73,6 +85,10 @@ const LeadsSchema = new mongoose.Schema(
       required: [true, "Contact is required"],
       minLength: [10, "Contact should be at least 10 numbers"],
       maxLength: [13, "Contact should be at most 13 numbers"],
+    },
+    countryCode: {
+      type: String,
+      default: null,
     },
     source: {
       type: String,
@@ -156,6 +172,14 @@ const LeadsSchema = new mongoose.Schema(
     },
   dispossession: { type:String,enum:["follow Up","Completed","Push to agri adviser"], default:null },
   follow_Up_date: {type:Date ,default:null},
+  last_active: {
+    type: Date,
+    default: null,
+  },
+  lead_category: {
+    type: String,
+    default: null,
+  },
      // For additional fields that may be added dynamically
     miscellaneousFields: { 
       farmer_type:{
