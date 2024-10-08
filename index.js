@@ -11,11 +11,11 @@ app.set('socketio', io);
 
 // Socket.IO connection handler
 io.on('connection', (socket) => {
-  console.log('New client connected:', socket.id);
+  logger.info(`New client connected: ${socket.id}`);
 
   // Handle client disconnection
   socket.on('disconnect', () => {
-      console.log('Client disconnected:', socket.id);
+      logger.info(`Client Disconnected: ${socket.id}`);
   });
 });
 
