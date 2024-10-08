@@ -38,7 +38,7 @@ exports.generatedErrors = (err,req,res,next) => {
         message:err.message,
         errName:err.name,
         statusCode,
-        stack:err.stack,     
+        // stack:err.stack,     
     })
 
 
