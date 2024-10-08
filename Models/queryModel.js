@@ -1,39 +1,62 @@
 const mongoose = require('mongoose');
 
 const querySchema = new mongoose.Schema({
-    customer_id: { 
+  queryId: { 
         type: String, 
-        ref: 'CustomerLead',
-        unique:true,
-         default: "Qu-101",
-        required: [true, "Customer ID is required"]
+        unique: true,
+        default: "QU-1000",
+        required: [true, "QueryId is required"]
+    }, 
+    leadId: { 
+        type: String, 
+        ref: 'CustomerLead',  
+        required: false  
     },
-    query_category: {
-        type: String
+    title: { 
+        type: String, 
+        required:false
     },
-    order: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Order' 
+    subtitle: { 
+        type: String, 
+        required: false  
     },
-    tags: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Tags' 
-    }], 
-    reason_not_ordered: String,
     description: { 
         type: String, 
-        required: [true, "Description is required"]
+        required: false  
     },
-    created_at: { type: Date, default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) },
-    updated_By: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    other: { 
+        type: String,  
+        required: false  
+    },
+    created_by: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User',  
+        required: false
+    },
+    created_at: { 
+        type: Date, 
+        default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) 
+    },
+    updated_By: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User',
+        required: false
+    },
     updated_history: [
         {
-            updated_at: { type: Date, default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) },
-            updated_data: { type: Object },
-            updated_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+            updated_at: { 
+                type: Date, 
+                default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) 
+            },
+            updated_data: { 
+                type: Object 
+            },
+            updated_by: { 
+                type: mongoose.Schema.Types.ObjectId, 
+                ref: 'User' 
+            }
         }
     ]
-   
 });
 
 const Query = mongoose.model('Query', querySchema);

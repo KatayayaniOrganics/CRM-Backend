@@ -1,46 +1,47 @@
 const Query = require("../Models/queryModel");
 const logger = require("../logger");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
+const logger = require("../logger");
+
 
 exports.queryCreation = catchAsyncErrors(async (req, res) => {
     logger.info(`Creating new query from IP: ${req.ip}`);
-    const { description, query_category, order, tags, reason_not_ordered, created_by, updated_By } = req.body;
-  
-    // Check if description is provided (customer_id will be generated automatically)
-    if (!description) {
-        return res.status(400).json({
-            success: false,
-            message: 'Description is required',
-        });
-    }
-  
+    const { title, subtitle, description, other, created_by, updated_By } = req.body;
+
     const lastQuery = await Query.findOne().sort({ created_at: -1 });
-  
-    let newCustomerId = "Qu101";
-    if (lastQuery && lastQuery.customer_id) {
-        const lastCustomerIdNumber = parseInt(lastQuery.customer_id.slice(2)) + 1;
-        newCustomerId = `Qu${lastCustomerIdNumber}`;
+
+    let newQueryId = "QU-1000";
+    if (lastQuery && lastQuery.queryId) {
+        const lastQueryIdNumber = parseInt(lastQuery.queryId.slice(3)) + 1;
+        newQueryId = `QU-${lastQueryIdNumber}`;
     }
-  
-    // Create the new query with the generated customer_id
+
+    // Ensure the new query ID is unique
+    let existingQuery = await Query.findOne({ queryId: newQueryId });
+    while (existingQuery) {
+        const lastQueryIdNumber = parseInt(newQueryId.slice(3)) + 1;
+        newQueryId = `QU-${lastQueryIdNumber}`;
+        existingQuery = await Query.findOne({ queryId: newQueryId });
+    }
+
+    // Create the new query with the unique queryId
     const newQuery = await Query.create({
-        customer_id: newCustomerId, // Generated customer ID
-        description,                // Required
-        query_category,             // Optional
-        order,                      // Optional
-        tags,                       // Optional
-        reason_not_ordered,         // Optional
-        created_by,                 // Optional
-        updated_By                  // Optional
-    });
-  
-    res.status(201).json({
-        success: true,
-        message: 'Query created successfully',
-        query: newQuery
+        queryId: newQueryId,          // Generated query ID
+        title,                       // Optional
+        subtitle,                   // Optional
+        description,                 // Optional
+        other,                       // Optional
+        created_by,                  // Optional
+        updated_By                   // Optional
     });
 
-  }); 
+    res.status(201).json({
+        success: true,
+        message: 'Query created successful',
+        query: newQuery
+    });
+});
+
 exports.getQuery = catchAsyncErrors(async (req, res) => {
     const { lot = 1, size = 10 } = req.query;
 
@@ -90,13 +91,13 @@ exports.searchQuery = catchAsyncErrors(async (req, res) => {
     const { queryId } = req.params; // Get queryId from URL
 
     // Find the query with the given queryId
-    const query = await Query.findOne({ customer_id: queryId });
+    const query = await Query.findOne({ queryId });
 
     // If the query does not exist, return a 404 error
     if (!query) {
         return res.status(404).json({
             success: false,
-            message: `Query with customer_id ${queryId} not found`,
+            message: `Query with queryId ${queryId} not found`,
         });
     }
 
@@ -106,65 +107,75 @@ exports.searchQuery = catchAsyncErrors(async (req, res) => {
         query
     });
 });
+
 exports.deleteQuery = catchAsyncErrors(async (req, res) => {
-  
-    console.log('Request query:', req.query);
-  
-  
-    const { customer_id } = req.query;
-  
-    if (!customer_id) {
+    const { queryId } = req.params; // Get queryId from URL parameters
+
+    if (!queryId) {
         return res.status(400).json({
             success: false,
-            message: 'Customer ID must be provided to delete a query',
+            message: 'QueryId must be provided to delete a query',
         });
     }
-    const query = await Query.findOneAndDelete({ customer_id });
-  
+
+    const query = await Query.findOneAndDelete({ queryId });
+
     if (!query) {
         return res.status(404).json({
             success: false,
-            message: 'Query not found for the given customer ID',
+            message: 'Query not found for the given queryId',
         });
     }
-  
+
     return res.status(200).json({
         success: true,
         message: 'Query successfully deleted',
     });
 });
+
 exports.updateQuery = catchAsyncErrors(async (req, res) => {
-    const { customer_id } = req.query;
-    const updateData = req.body;
-  
-    if (!customer_id || Object.keys(updateData).length === 0) {
-        return res.status(400).json({
-            success: false,
-            message: 'Customer ID and update data are required',
-        });
-    }
-  
-    let query = await Query.findOne({ customer_id });
-    if (!query) {
+    logger.info(`Updating query from IP: ${req.ip}`);
+
+    const { title, subtitle, description, other, updated_By } = req.body;
+    const { queryId } = req.params; // Get queryId from URL parameters
+
+    // Find the query by queryId
+    const existingQuery = await Query.findOne({ queryId });
+
+    if (!existingQuery) {
         return res.status(404).json({
             success: false,
-            message: 'Query not found for the given customer ID',
+            message: 'Query not found',
         });
     }
-  
-    query.updated_history.push({
+
+    // Prepare the updated data
+    const updateData = {
+        title: title || existingQuery.title,
+        subtitle: subtitle || existingQuery.subtitle,
+        description: description || existingQuery.description,
+        other: other || existingQuery.other,
+        updated_By: updated_By || existingQuery.updated_By,
+        updated_at: Date.now(),
+    };
+
+    // Add the update to the query's updated history
+    existingQuery.updated_history.push({
         updated_at: new Date(),
         updated_data: updateData,
-        updated_by: req.body.updated_By
+        updated_by: updated_By, // Updated by is fetched from request body
     });
-  
-    Object.assign(query, updateData);
-    await query.save();
-  
-    return res.status(200).json({
+
+    // Apply the updates to the query
+    Object.assign(existingQuery, updateData);
+
+    // Save the updated query with the new history
+    const updatedQuery = await existingQuery.save();
+
+    res.status(200).json({
         success: true,
-        message: 'Query successfully updated',
-        query
+        message: 'Query updated successfully',
+        query: updatedQuery
     });
 });
-  
+

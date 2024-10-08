@@ -10,7 +10,7 @@ router.post('/create',logRequest, queryCreation);
 router.get('/all',logRequest, getQuery);
 
 //one queries
-router.get('/all/:queryId',logRequest, searchQuery);
+router.get('/:queryId',logRequest, searchQuery);
 
 //update queries
 router.put('/:queryId',logRequest, updateQuery);
