@@ -57,7 +57,7 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   });
 
   await crop.save();
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
   io.emit('new-crop', crop); // Emit event to all connected clients
   res.status(201).send({ success: true, message: "Crop created successfully", crop });
   logger.info(crop);
@@ -92,7 +92,7 @@ exports.allCrops = catchAsyncErrors(async (req, res) => {
       ...crop.toObject(),
       stages: populatedStages,
     }
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('getone-crop', populatedcrop);
     // Return the crop with populated diseases in stages
     return res.status(200).json({
@@ -124,7 +124,7 @@ exports.allCrops = catchAsyncErrors(async (req, res) => {
       };
     })
   );
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('all-crop',cropsWithPopulatedDiseases);
   res.status(200).json({
     success: true,
@@ -180,7 +180,7 @@ exports.searchCrop = catchAsyncErrors(async (req, res) => {
         };
       })
     );
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('search-crop', cropsWithPopulatedDiseases);
     res.json(cropsWithPopulatedDiseases);
 });
@@ -245,7 +245,7 @@ exports.updateCrop = catchAsyncErrors(async (req, res) => {
       return res.status(404).json({ message: "Crop not found" });
   }
 
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
   io.emit('update-crop', updatedCrop); // Emit event to all connected clients
   res.json({
       message: "Crop updated successfully",
@@ -263,7 +263,7 @@ exports.deleteCrop = catchAsyncErrors(async (req, res) => {
       return res.status(404).json({ message: "Crop not found" });
     }
 
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('delete-crop', deletedCrop); // Emit event to all connected clients
     res.json({ message: "Crop deleted successfully" });
   });

@@ -23,7 +23,7 @@ exports.createDisease = catchAsyncErrors(async (req, res) => {
 
 
     await newDisease.save();
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('new-disease', newDisease); // Emit event to all connected clients
     res.status(201).json({
       message: "Disease created successfully",
@@ -50,7 +50,7 @@ exports.allDisease = catchAsyncErrors(async (req, res) => {
               message: "Disease not found",
           });
       }
-      const io = req.app.get('socketio'); // Get Socket.IO instance
+      const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('getone-disease', disease);
       return res.status(200).json({
           success: true,
@@ -61,7 +61,7 @@ exports.allDisease = catchAsyncErrors(async (req, res) => {
 
   // Fetch all customers if no customerId is provided
   const allDisease = await Disease.find();
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
   io.emit('all-disease', allDisease);
   res.status(200).json({
       success: true,
@@ -85,7 +85,7 @@ exports.searchDisease = catchAsyncErrors(async (req, res) => {
     }
   }
   const disease = await Disease.find(query) 
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('search-disease', disease);
   res.json(disease);
 
@@ -142,7 +142,7 @@ exports.updateDisease = catchAsyncErrors(async (req, res) => {
   );
 
   if (updatedDisease) {
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('update-disease', updatedDisease); // Emit event to all connected clients
     return res.status(200).json({
       success: true,
@@ -161,7 +161,7 @@ exports.deleteDisease = catchAsyncErrors(async (req, res) => {
   if (!deletedDisease) {
     return res.status(404).json({ message: "Disease not found" });
   }
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
   io.emit('delete-disease', deletedDisease); // Emit event to all connected clients
   res.json({ message: "Disease deleted successfully" });
 });

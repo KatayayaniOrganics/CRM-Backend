@@ -19,7 +19,7 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
 
     await newLead.save();
     logger.info(`Lead created successfully with ID: ${newLeadId}`);
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('new-lead', newLead); // Emit event to all connected clients
     res.status(201).json({
         message: "Lead created successfully",
@@ -136,8 +136,13 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
 
     if (updatedLead) {
         logger.info(`Lead updated successfully with ID: ${leadId}`);
-        const io = req.app.get('socketio'); // Get Socket.IO instance
-        io.emit('updated-lead',updatedLead);
+        const io = req.app.get('socket.io'); // Get Socket.IO instance
+        if (io) {
+            io.emit('updated-lead',updatedLead);
+        } else {
+            console.error('Socket.io instance not found');
+        }
+       
         return res.status(200).json({
             success: true,
             message: "Lead updated successfully",
@@ -161,7 +166,7 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
 
     const leads = await Leads.find(query);
     logger.info(`Found ${leads.length} leads matching the query`);
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('Filtered-lead', leads); // Emit event to all connected clients
     res.json(leads);
 });
@@ -215,7 +220,7 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
     allLeads.sort((a, b) => (priorityMap[a.followUpPriority] || 999) - (priorityMap[b.followUpPriority] || 999));
 
     logger.info(`Retrieved ${allLeads.length} leads (page ${page}, limit ${limit})`);
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('All-leads', allLeads); // Emit event to all connected clients
     res.status(200).json({
         success: true,
@@ -240,7 +245,7 @@ exports.deleteLead = catchAsyncErrors(async (req, res) => {
     }
 
     logger.info(`Lead deleted successfully with ID: ${leadId}`);
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('Deleted-lead', deletedLead);
     res.status(200).json({ 
         success: true,
@@ -356,7 +361,7 @@ exports.updateLeadStatus = catchAsyncErrors(async (req, res) => {
 
         await newTask.save();
     }
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('New-leads', newTask,updatedLead); // Emit event to all connected clients
     res.status(200).json({
         message: "Lead callStatus updated and task created successfully",
