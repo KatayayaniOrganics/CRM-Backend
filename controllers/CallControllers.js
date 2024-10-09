@@ -30,7 +30,7 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     });
   
     await callDetails.save();
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('new-call', callDetails); 
     res.status(201).send({ success: true, message: "Calls created successfully" });
     logger.info(callDetails);
@@ -82,7 +82,7 @@ exports.CallUpdate = catchAsyncErrors(async (req, res) => {
   
     // If update was successful, return a success response with status code 200
     if (updatedCall) {
-      const io = req.app.get('socketio'); // Get Socket.IO instance
+      const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('update-call', updatedCall); 
       return res.status(200).json({ 
         success: true,
@@ -104,7 +104,7 @@ exports.CallDelete = catchAsyncErrors(async (req, res) => {
     if (result.deletedCount === 0) {
       return res.status(404).send({ success: false, message: "Calls not found" });
     }
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('delete-call', result); 
     res.status(200).send({ success: true, message: "Calls deleted successfully" });
     logger.info(`Calls with callId ${callId} deleted successfully`);
@@ -125,7 +125,7 @@ exports.callsearch = catchAsyncErrors(async (req, res) => {
     }
 
     const call = await Calls.find(query) // Exclude password field
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('filter-call', call); 
     res.json(call);
     logger.info("Searching for calls");
@@ -135,7 +135,7 @@ exports.callsearch = catchAsyncErrors(async (req, res) => {
 
 exports.getAllCalls = catchAsyncErrors(async (req, res) => {
   const allCalls = await Calls.find();
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('all-call', allCalls); 
   res.status(200).json(allCalls);
   logger.info("Fetching all calls");
