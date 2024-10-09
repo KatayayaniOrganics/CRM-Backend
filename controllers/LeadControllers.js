@@ -86,7 +86,7 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
                 }
             }
         }
-      console.log(updateData.callStatus.status)
+
         // Handling updates to callStatus and followUpPriority
         if (updateData.callStatus && updateData.callStatus.status) {
             updateData.callStatus.callTime = Date.now() + 5.5 * 60 * 60 * 1000; // Store the call time whenever status is updated
