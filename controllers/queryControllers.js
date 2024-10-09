@@ -178,4 +178,3 @@ exports.updateQuery = catchAsyncErrors(async (req, res) => {
         query: updatedQuery
     });
 });
-
