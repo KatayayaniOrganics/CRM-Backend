@@ -71,7 +71,10 @@ const agentSchema = new mongoose.Schema({
     default: null
   },
   assigned_leads:[
-    {lead_id:{type:String,default:null,ref:"Leads"}}
+    {
+      leadId:{type:String,default:null},
+      leadRef:{type:mongoose.Schema.Types.ObjectId,ref:"Leads"}
+    }
   ]
   
 });

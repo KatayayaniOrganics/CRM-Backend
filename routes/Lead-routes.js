@@ -18,8 +18,9 @@ router.get('/all/:leadId',logRequest,verifyToken,allLeads);
 //search lead
 router.get('/search',logRequest,verifyToken,searchLead);
   
-//Update leads
-router.put("/:leadId",logRequest,verifyToken,updateLead);
+//update leads
+router.put("/:leadId([a-zA-Z0-9,-]+)", logRequest, verifyToken, updateLead);
+
 
 //delete leads
 router.delete("/:leadId",logRequest,verifyToken,deleteLead);

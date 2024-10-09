@@ -157,10 +157,10 @@ const LeadsSchema = new mongoose.Schema(
     },
       LastUpdated:{type:Date,default:Date.now},
     },
-    callStatus: [{ 
+    callStatus: { 
       status:{type: String, enum: ['Answered', 'Not Answered', 'Busy', 'Not Reachable'],default:null},
       callTime:{type:Date,default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000)},
-  }],
+  },
     followUpPriority: { type: String, enum: ['High', 'Medium', 'Low','Closed','Completed'],default:'Medium'},
     callStatusHistory: [{
       type: String,
