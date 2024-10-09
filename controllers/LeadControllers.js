@@ -60,19 +60,20 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
             updatedFields[key] = updateData[key];
         }
     }
-
+    
     // Check if leadOwner has changed and update assigned_leads of the new agent
-    if (updateData.leadOwner && updateData.leadOwner !== existingLead.leadOwner) {
-        const newOwnerAgent = await Agent.findOne({ agentId: updateData.leadOwner });
-        if (newOwnerAgent) {
-            // Check if the leadId is already assigned to prevent duplicates
-            const isAlreadyAssigned = newOwnerAgent.assigned_leads.some(assignedLead => assignedLead.lead_id === leadId);
-            if (!isAlreadyAssigned) {
-                newOwnerAgent.assigned_leads.push({ lead_id: leadId });
-                await newOwnerAgent.save();
-            }
-        }
-    }
+    // if (updateData.leadOwner.agentId && updateData.leadOwner.agentId !== existingLead.leadOwner.agentId) {
+    //     const newOwnerAgent = await Agent.findOne({ agentId: updateData.leadOwner.agentId });
+    //     if (newOwnerAgent) {
+    //         // Check if the leadId is already assigned to prevent duplicates
+    //         const isAlreadyAssigned = newOwnerAgent.assigned_leads.some(assignedLead => assignedLead.lead_id === leadId);
+    //         if (!isAlreadyAssigned) {
+    //             newOwnerAgent.assigned_leads.push({ lead_id: leadId });
+    //             await newOwnerAgent.save();
+    //         }
+    //     }
+    // }
+    // console.log(updateData.leadOwner.agentId)
 
     // Handling updates to callStatus and followUpPriority
     if (updateData.callStatus && updateData.callStatus.status) {
@@ -178,12 +179,17 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
 
     if (leadId) {
         logger.info(`Retrieving lead with ID: ${leadId}`);
-        const lead = await Leads.findOne({ leadId });
-        if(lead.leadOwner){
-            const agent = await Agent.findOne({ agentId: lead.leadOwner }).select('agentId firstname lastname email');
-            console.log(agent);
-            lead.leadOwner = agent;
-        }
+        const lead = await Leads.findOne({ leadId }).populate({
+            path: 'query.queryRef',
+            select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
+        }).populate({
+            path: 'leadOwner.agentRef',  // Populate agentRef from leadOwner
+            select: 'firstname lastname email contact state address city country'  // Only include these fields
+        }).populate({
+            path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
+             select: '-updatedData -_id -__v -cropId'
+        });
+       
         if (!lead) {
             logger.warn(`Lead not found with ID: ${leadId}`);
             return res.status(404).json({ success: false, message: "Lead not found" });
@@ -212,7 +218,15 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
 
     // Corrected conditional logic for retrieving leads based on user role
     const query = (agent.user_role.role_name === 'Super Admin' || agent.user_role.role_name === 'Admin') ? {} : { leadOwner: agent.agentId };
-    const allLeads = await Leads.find(query).skip(skip).limit(limit);
+    const allLeads = await Leads.find(query).populate({
+        path: 'query.queryRef',
+        select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
+    }).populate({
+        path: 'leadOwner.agentRef',  // Populate agentRef from leadOwner
+        select: 'firstname lastname email contact state address city country'  // Only include these fields
+    }).populate({
+        path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
+    }).skip(skip).limit(limit);
     const totalLeads = await Leads.countDocuments(query);
 
     // Sort leads in memory based on the priority map
