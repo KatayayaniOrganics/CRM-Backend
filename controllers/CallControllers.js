@@ -34,7 +34,7 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     logger.info(callDetails);
   });
 
-  exports.CallUpdate = catchAsyncErrors(async (req, res) => {
+exports.CallUpdate = catchAsyncErrors(async (req, res) => {
     const { callId } = req.params;
     const updateData = req.body;
     logger.info(`Updating call with ID: ${callId}`);

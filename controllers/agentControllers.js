@@ -281,7 +281,6 @@ exports.updateAgent = catchAsyncErrors(async (req, res) => {
   }
 });
 
-
 //search agent
 exports.searchAgents = catchAsyncErrors(async (req, res) => {
   const query = {};
@@ -303,10 +302,6 @@ exports.searchAgents = catchAsyncErrors(async (req, res) => {
     agents: agents
   });
 });
-
-
-
-
 
 // Refresh Token Controller
 exports.refreshToken = catchAsyncErrors(async (req, res) => {

@@ -60,19 +60,20 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
             updatedFields[key] = updateData[key];
         }
     }
-
+    
     // Check if leadOwner has changed and update assigned_leads of the new agent
-    if (updateData.leadOwner.agentId && updateData.leadOwner.agentId !== existingLead.leadOwner.agentId) {
-        const newOwnerAgent = await Agent.findOne({ agentId: updateData.leadOwner.agentId });
-        if (newOwnerAgent) {
-            // Check if the leadId is already assigned to prevent duplicates
-            const isAlreadyAssigned = newOwnerAgent.assigned_leads.some(assignedLead => assignedLead.lead_id === leadId);
-            if (!isAlreadyAssigned) {
-                newOwnerAgent.assigned_leads.push({ lead_id: leadId });
-                await newOwnerAgent.save();
-            }
-        }
-    }
+    // if (updateData.leadOwner.agentId && updateData.leadOwner.agentId !== existingLead.leadOwner.agentId) {
+    //     const newOwnerAgent = await Agent.findOne({ agentId: updateData.leadOwner.agentId });
+    //     if (newOwnerAgent) {
+    //         // Check if the leadId is already assigned to prevent duplicates
+    //         const isAlreadyAssigned = newOwnerAgent.assigned_leads.some(assignedLead => assignedLead.lead_id === leadId);
+    //         if (!isAlreadyAssigned) {
+    //             newOwnerAgent.assigned_leads.push({ lead_id: leadId });
+    //             await newOwnerAgent.save();
+    //         }
+    //     }
+    // }
+    // console.log(updateData.leadOwner.agentId)
 
     // Handling updates to callStatus and followUpPriority
     if (updateData.callStatus && updateData.callStatus.status) {
@@ -184,6 +185,9 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
         }).populate({
             path: 'leadOwner.agentRef',  // Populate agentRef from leadOwner
             select: 'firstname lastname email contact state address city country'  // Only include these fields
+        }).populate({
+            path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
+             select: '-updatedData -_id -__v -cropId'
         });
        
         if (!lead) {
@@ -220,6 +224,8 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
     }).populate({
         path: 'leadOwner.agentRef',  // Populate agentRef from leadOwner
         select: 'firstname lastname email contact state address city country'  // Only include these fields
+    }).populate({
+        path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
     }).skip(skip).limit(limit);
     const totalLeads = await Leads.countDocuments(query);
 
