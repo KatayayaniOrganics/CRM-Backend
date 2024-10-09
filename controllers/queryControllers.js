@@ -1,6 +1,7 @@
 const Query = require("../Models/queryModel");
 const logger = require("../logger");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
+const logger = require("../logger");
 
 
 exports.queryCreation = catchAsyncErrors(async (req, res) => {
