@@ -16,11 +16,8 @@ exports.createCoupon = catchAsyncErrors(async (req, res) => {
     let newCouponId = "COUPON-001"; // Default value
 
     if (lastCoupon) {
-        // Extract the numeric part of the couponId
         const lastCouponNumber = parseInt(lastCoupon.couponId.split("-")[1], 10);
-        // Increment and create the new couponId
         const newCouponNumber = lastCouponNumber + 1;
-        // Ensure the numeric part is padded to the correct length
         newCouponId = `COUPON-${newCouponNumber.toString().padStart(3, "0")}`;
     }
 
@@ -54,17 +51,27 @@ exports.getCouponById = catchAsyncErrors(async (req, res) => {
 
 // Update a coupon by ID
 exports.updateCoupon = catchAsyncErrors(async (req, res) => {
-    const coupon = await Coupon.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    const couponId = req.params.couponId; // Adjust to retrieve couponId from params
+  
+    // Use couponId to find and update the coupon
+    const coupon = await Coupon.findOneAndUpdate(
+      { couponId: couponId }, // Match based on couponId field
+      req.body,
+      { new: true, runValidators: true }
+    );
+  
     if (!coupon) {
-        return res.status(404).json({ success: false, message: 'Coupon not found' });
+      return res.status(404).json({ success: false, message: 'Coupon not found' });
     }
+  
     logger.info(`Updated coupon: ${coupon}`);
     res.status(200).json({ success: true, data: coupon });
-});
+  });
 
 // Delete a coupon by ID
+
 exports.deleteCoupon = catchAsyncErrors(async (req, res) => {
-    const coupon = await Coupon.findByIdAndDelete(req.params.id);
+    const coupon = await Coupon.findOneAndDelete({ couponId: req.params.couponId }); 
     if (!coupon) {
         return res.status(404).json({ success: false, message: 'Coupon not found' });
     }

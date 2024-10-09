@@ -10,13 +10,13 @@ router.post('/', logRequest, createCoupon);
 // Get all coupons
 router.get('/all', logRequest, verifyToken, getAllCoupons);
 
-// Get a coupon by ID
-router.get('/all/:couponId', logRequest, verifyToken, getCouponById);
+// Get a coupon by custom couponId
+router.get('/:couponId', logRequest, verifyToken, getCouponById);  // Adjusted the route
 
-// Update a coupon by ID
+// Update a coupon by custom couponId
 router.put('/:couponId', logRequest, verifyToken, updateCoupon);
 
-// Delete a coupon by ID
+// Delete a coupon by custom couponId
 router.delete('/:couponId', logRequest, deleteCoupon);
 
 module.exports = router;
