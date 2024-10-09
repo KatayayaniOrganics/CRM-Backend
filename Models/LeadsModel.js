@@ -8,9 +8,8 @@ const LeadsSchema = new mongoose.Schema(
       default: "K0-1000",
     },
     leadOwner: {
-      type: String,
-      default: "Katyayani",
-      ref: "Agents",
+      agentId:{type:String,default:null},
+      agentRef:{type:mongoose.Schema.Types.ObjectId,ref:'Agents',default:null}
     },
     firstName: {
       type: String,
@@ -98,11 +97,12 @@ const LeadsSchema = new mongoose.Schema(
       type: Date,
       default: Date.now, 
     },
-    query: {
-      type: String,
-      ref: "Query", 
-      default:null,
-    },
+    query: [
+      {
+        queryId:{type:String,default:null},
+        queryRef:{type:mongoose.Schema.Types.ObjectId,ref:'Query',default:null}
+        }
+    ],
     order_history: [
       {
         order: { 
@@ -117,13 +117,13 @@ const LeadsSchema = new mongoose.Schema(
       area: { type: String,default: null },
       farm_unit: { type: String, default: null },
       Crop_name: [
-        {crop_id: { type: String, default: null }, crop_name:{type: String, default: null }},
+        {cropId: { type: String, default: null }, cropRef:{type:mongoose.Schema.Types.ObjectId,ref:'Crop',default:null }},
       ],
       showing_date: { type: Date, default: null },
-      day_after_showing: { type: Date, default: null },
-      expected_quntity:{ type: Date, default: null },
-      sell_unit: { type: Date, default: null },
-      unit_selling_price: { type: Date, default: null },
+      day_after_showing: { type: String, default: null },
+      expected_quntity:{ type: String, default: null },
+      sell_unit: { type: String, default: null },
+      unit_selling_price: { type: String, default: null },
     },
 
     call_history: [
