@@ -1,7 +1,6 @@
 const Query = require("../Models/queryModel");
 const logger = require("../logger");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
-const logger = require("../logger");
 
 
 exports.queryCreation = catchAsyncErrors(async (req, res) => {
@@ -34,7 +33,8 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
         created_by,                  // Optional
         updated_By                   // Optional
     });
-
+    const io = req.app.get('socket.io'); 
+    io.emit('new-query', newQuery);
     res.status(201).json({
         success: true,
         message: 'Query created successful',
@@ -69,6 +69,8 @@ exports.getQuery = catchAsyncErrors(async (req, res) => {
         totalLots = Math.ceil(totalQueries / pageSize); // Calculate total lots
     }
 
+
+
     // If no queries found, return a 404 response
     if (queries.length === 0) {
         return res.status(404).json({
@@ -76,7 +78,8 @@ exports.getQuery = catchAsyncErrors(async (req, res) => {
             message: 'No queries found',
         });
     }
-
+    const io = req.app.get('socket.io'); 
+    io.emit('get-queries', queries);
     // Return the queries along with pagination information
     res.status(200).json({
         success: true,
@@ -100,7 +103,8 @@ exports.searchQuery = catchAsyncErrors(async (req, res) => {
             message: `Query with queryId ${queryId} not found`,
         });
     }
-
+    const io = req.app.get('socket.io'); 
+    io.emit('get-query', query);
     // Return the query details
     res.status(200).json({
         success: true,
@@ -126,7 +130,8 @@ exports.deleteQuery = catchAsyncErrors(async (req, res) => {
             message: 'Query not found for the given queryId',
         });
     }
-
+    const io = req.app.get('socket.io'); 
+    io.emit('delete-query', query);
     return res.status(200).json({
         success: true,
         message: 'Query successfully deleted',
@@ -171,7 +176,8 @@ exports.updateQuery = catchAsyncErrors(async (req, res) => {
 
     // Save the updated query with the new history
     const updatedQuery = await existingQuery.save();
-
+    const io = req.app.get('socket.io'); 
+    io.emit('update-query', updatedQuery);
     res.status(200).json({
         success: true,
         message: 'Query updated successfully',
