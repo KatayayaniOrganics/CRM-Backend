@@ -441,7 +441,7 @@ exports.updateMultipleLeads = catchAsyncErrors(async (req, res) => {
     for (const lead of existingLeads) {
         const updatedFields = {};
         for (let key in updateData) {
-            if (key !== "leadId" && updateData[key] !== lead[key]) {
+            if (key !== "leadIds" && updateData[key] !== lead[key]) {
                 updatedFields[key] = updateData[key];
             }
         }
