@@ -198,7 +198,7 @@ exports.updateCustomer = catchAsyncErrors(async (req, res) => {
   // Collect fields that are being updated
   const updatedFields = {};
   for (let key in updateData) {
-    if (key !== "customerId" && key !== "order_history" && updateData[key] !== existingCustomer[key]) {
+    if (key !== "customerId" && key !== "order_history" && key !== "call_history" && updateData[key] !== existingCustomer[key]) {
       updatedFields[key] = updateData[key];
     }
   }
@@ -236,6 +236,23 @@ exports.updateCustomer = catchAsyncErrors(async (req, res) => {
     });
   }
 
+
+    // Handle call_history updates and additions
+    if (updateData.call_history) {
+      updateData.call_history.forEach(call => {
+        if (call._id) {
+          // Update the specific call by _id
+          const callPath = `call_history.$[elem]`;
+          updateObject.$set[callPath] = call;
+          updateObject.arrayFilters = updateObject.arrayFilters || [];
+          updateObject.arrayFilters.push({ "elem._id": call._id });
+        } else {
+          // Add new call using $push
+          updateObject.$push.call_history = updateObject.$push.call_history || [];
+          updateObject.$push.call_history.push({ callId: call.callId });
+        }
+      });
+    }
   // Execute the update
   const updatedCustomer = await Customer.findOneAndUpdate(
     { customerId },
