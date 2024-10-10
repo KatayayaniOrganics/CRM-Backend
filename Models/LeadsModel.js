@@ -170,7 +170,7 @@ const LeadsSchema = new mongoose.Schema(
     dispossession_status: {type:Boolean,
       default:true,
     },
-    dispossession: { type:String,enum:["Follow Up","Completed","Push to Advisory"], default:null },
+  dispossession: { type:String,enum:["Follow Up","Completed","Push to Advisory"], default:null },
   follow_Up_date: {type:Date ,default:null},
   last_active: {
     type: Date,
