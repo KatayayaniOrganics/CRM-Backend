@@ -4,6 +4,7 @@ const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 const Disease = require("../Models/diseaseModel"); 
 const Agent = require("../Models/agentModel");
 
+
 exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   logger.info("Creating new crop");
   logger.info("You made a POST Request on Crops creation Route");
@@ -23,7 +24,7 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
 
   // Loop through the stages and process each one
   for (let stage of stages) {
-    const diseaseIds = stage.diseases;
+    const diseaseIds = stage.diseases.map(d => d.diseaseId); // Ensure only diseaseIds are extracted
 
     logger.info(`Received disease IDs for stage '${stage.name}': ${diseaseIds.join(", ")}`);
 
@@ -42,7 +43,7 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
       name: stage.name, 
       stage: stage.stage,
       duration: stage.duration,
-      diseases: validDiseaseIds, 
+      diseases: validDiseaseIds.map(id => ({ diseaseId: id, diseaseRef: foundDiseases.find(d => d.diseaseId === id)._id })), // Map valid IDs to their references
     });
 
     logger.info(`Storing valid disease IDs for stage '${stage.name}': ${validDiseaseIds.join(", ")}`);
@@ -63,6 +64,76 @@ exports.CropsCreation = catchAsyncErrors(async (req, res) => {
   logger.info(crop);
 }); 
 
+// exports.allCrops = catchAsyncErrors(async (req, res) => {
+//   logger.info("Fetching all crops");
+
+//   const { cropId } = req.params; // Get cropId from query parameters
+
+//   if (cropId) {
+//     // Fetch a specific crop by cropId
+//     const crop = await Crop.findOne({ cropId });
+//     if (!crop) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Crop not found",
+//       });
+//     }
+
+//     // Manually populate diseases for the specific crop's stages
+//     const populatedStages = await Promise.all(
+//       crop.stages.map(async (stage) => {
+//         const diseases = await Disease.find({ diseaseId: { $in: stage.diseases } });
+//         return {
+//           ...stage.toObject(),
+//           diseases, // Populate diseases for each stage
+//         };
+//       })
+//     );
+//     const populatedcrop={
+//       ...crop.toObject(),
+//       stages: populatedStages,
+//     }
+//     const io = req.app.get('socket.io'); // Get Socket.IO instance
+//     io.emit('getone-crop', populatedcrop);
+//     // Return the crop with populated diseases in stages
+//     return res.status(200).json({
+//       success: true,
+//       message: "Crop retrieved successfully",
+//       crop: populatedcrop,
+//     });
+//   }
+
+//   // Fetch all crops if no cropId is provided
+//   const allCrops = await Crop.find();
+
+//   // Manually populate diseases for each crop's stages
+//   const cropsWithPopulatedDiseases = await Promise.all(
+//     allCrops.map(async (crop) => {
+//       const populatedStages = await Promise.all(
+//         crop.stages.map(async (stage) => {
+//           const diseases = await Disease.find({ diseaseId: { $in: stage.diseases } });
+//           return {
+//             ...stage.toObject(),
+//             diseases, // Populate diseases for each stage
+//           };
+//         })
+//       );
+
+//       return {
+//         ...crop.toObject(),
+//         stages: populatedStages,
+//       };
+//     })
+//   );
+//   const io = req.app.get('socket.io'); // Get Socket.IO instance
+//     io.emit('all-crop',cropsWithPopulatedDiseases);
+//   res.status(200).json({
+//     success: true,
+//     message: "All crops that are available",
+//     cropsWithPopulatedDiseases,
+//   });
+// });
+
 exports.allCrops = catchAsyncErrors(async (req, res) => {
   logger.info("Fetching all crops");
 
@@ -70,7 +141,12 @@ exports.allCrops = catchAsyncErrors(async (req, res) => {
 
   if (cropId) {
     // Fetch a specific crop by cropId
-    const crop = await Crop.findOne({ cropId });
+    const crop = await Crop.findOne({ cropId }).populate({
+      path: 'stages.diseases.diseaseRef',
+      model: 'Disease',
+      select: '-updatedData -_id -__v' 
+    });
+
     if (!crop) {
       return res.status(404).json({
         success: false,
@@ -78,58 +154,29 @@ exports.allCrops = catchAsyncErrors(async (req, res) => {
       });
     }
 
-    // Manually populate diseases for the specific crop's stages
-    const populatedStages = await Promise.all(
-      crop.stages.map(async (stage) => {
-        const diseases = await Disease.find({ diseaseId: { $in: stage.diseases } });
-        return {
-          ...stage.toObject(),
-          diseases, // Populate diseases for each stage
-        };
-      })
-    );
-    const populatedcrop={
-      ...crop.toObject(),
-      stages: populatedStages,
-    }
     const io = req.app.get('socket.io'); // Get Socket.IO instance
-    io.emit('getone-crop', populatedcrop);
+    io.emit('getone-crop', crop);
     // Return the crop with populated diseases in stages
     return res.status(200).json({
       success: true,
       message: "Crop retrieved successfully",
-      crop: populatedcrop,
+      crop: crop,
     });
   }
 
   // Fetch all crops if no cropId is provided
-  const allCrops = await Crop.find();
+  const allCrops = await Crop.find().populate({
+    path: 'stages.diseases.diseaseRef',
+    model: 'Disease',
+    select: '-updatedData -_id -__v' 
+  });
 
-  // Manually populate diseases for each crop's stages
-  const cropsWithPopulatedDiseases = await Promise.all(
-    allCrops.map(async (crop) => {
-      const populatedStages = await Promise.all(
-        crop.stages.map(async (stage) => {
-          const diseases = await Disease.find({ diseaseId: { $in: stage.diseases } });
-          return {
-            ...stage.toObject(),
-            diseases, // Populate diseases for each stage
-          };
-        })
-      );
-
-      return {
-        ...crop.toObject(),
-        stages: populatedStages,
-      };
-    })
-  );
   const io = req.app.get('socket.io'); // Get Socket.IO instance
-    io.emit('all-crop',cropsWithPopulatedDiseases);
+  io.emit('all-crop', allCrops);
   res.status(200).json({
     success: true,
     message: "All crops that are available",
-    cropsWithPopulatedDiseases,
+    crops: allCrops,
   });
 });
 
@@ -186,9 +233,9 @@ exports.searchCrop = catchAsyncErrors(async (req, res) => {
 });
   
 
-
+  
 exports.updateCrop = catchAsyncErrors(async (req, res) => {   
-  logger.info("updating crops")
+  logger.info("updating crops");
   const { cropId } = req.params; // Extract cropId from request params
   const updateCropData = req.body; // Get the data to be updated from the request body
   const agent = await Agent.findById(req.user.id); // Get the agent making the update
@@ -201,20 +248,48 @@ exports.updateCrop = catchAsyncErrors(async (req, res) => {
   // Capture the full IP address from the request
   const ipAddress = req.headers['x-forwarded-for'] || req.ip;
 
-  // Check if stages need to be updated
+  // Check if stages need to be updated or added
   if (updateCropData.stages) {
       const { stages } = updateCropData;
       for (const stage of stages) {
-          if (stage._id) { // Check if _id is provided
+          if (stage._id) { // Check if _id is provided for updating existing stages
               // Update the specific stage by _id
+              if (stage.diseases) {
+                  for (const disease of stage.diseases) {
+                      if (disease._id) {
+                          // Update the specific disease by _id within the stage
+                          await Crop.updateOne(
+                              { cropId, "stages._id": stage._id, "stages.diseases._id": disease._id },
+                              { $set: { "stages.$[stage].diseases.$[disease]": disease } },
+                              { 
+                                arrayFilters: [
+                                  { "stage._id": stage._id },
+                                  { "disease._id": disease._id }
+                                ]
+                              }
+                          );
+                      } else {
+                          // Add new disease to the stage
+                          await Crop.updateOne(
+                              { cropId, "stages._id": stage._id },
+                              { $push: { "stages.$.diseases": disease } }
+                          );
+                      }
+                  }
+              }
+              // Update other fields of the stage
               await Crop.updateOne(
-                  { cropId, "stages._id": stage._id }, // Find the specific stage by _id
+                  { cropId, "stages._id": stage._id },
                   { $set: { 
-                      [`stages.$.name`]: stage.name, 
-                      [`stages.$.stage`]: stage.stage, 
-                      [`stages.$.duration`]: stage.duration, 
-                      [`stages.$.diseases`]: stage.diseases 
-                  }} // Update the specific fields of the stage
+                      "stages.$.name": stage.name, 
+                      "stages.$.stage": stage.stage, 
+                      "stages.$.duration": stage.duration
+                  }}
+              );
+          } else { // No _id provided, add as new stage
+              await Crop.updateOne(
+                  { cropId },
+                  { $push: { stages: stage } } // Add new stage to stages array
               );
           }
       }
@@ -252,7 +327,8 @@ exports.updateCrop = catchAsyncErrors(async (req, res) => {
       data: updatedCrop
   });
 });
-  
+
+
 exports.deleteCrop = catchAsyncErrors(async (req, res) => {
     const { cropId } = req.params;
   logger.info(`Trying to Delete crop with this : ${cropId}`)
@@ -266,4 +342,4 @@ exports.deleteCrop = catchAsyncErrors(async (req, res) => {
     const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('delete-crop', deletedCrop); // Emit event to all connected clients
     res.json({ message: "Crop deleted successfully" });
-  });
+});

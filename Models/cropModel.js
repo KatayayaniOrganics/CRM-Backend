@@ -43,8 +43,8 @@ const cropSchema = new mongoose.Schema({
       },
       diseases: [
         {
-          type: String, 
-          ref: 'Disease'
+          diseaseId: {type: String, default: null},
+          diseaseRef: {type: mongoose.Schema.Types.ObjectId, ref: 'Disease'}
         }
       ],
     }
