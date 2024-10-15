@@ -274,3 +274,24 @@ exports.deleteCrop = catchAsyncErrors(async (req, res) => {
     io.emit('delete-crop', deletedCrop); // Emit event to all connected clients
     res.json({ message: "Crop deleted successfully" });
 });
+
+
+exports.deleteStage = catchAsyncErrors(async (req, res) => {
+  const { cropId, stageId } = req.params;
+  logger.info(`Trying to delete stage with ID: ${stageId} from crop with ID: ${cropId}`);
+
+  // Find the crop and pull the stage from the stages array
+  const updatedCrop = await Crop.findOneAndUpdate(
+      { cropId },
+      { $pull: { stages: { _id: stageId } } },
+      { new: true }
+  );
+
+  if (!updatedCrop) {
+      return res.status(404).json({ message: "Crop not found or Stage not found" });
+  }
+
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
+  io.emit('delete-stage', { cropId, stageId }); // Emit event to all connected clients
+  res.json({ message: "Stage deleted successfully", crop: updatedCrop });
+});
