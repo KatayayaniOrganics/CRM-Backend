@@ -200,7 +200,6 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
     //     const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
     //     agent.user_role = userRole;  // Replace with the populated user role
     // }
-IS
     // // Apply role-based restrictions to the query
     // if (!(agent.user_role.role_name === 'Super Admin' || agent.user_role.role_name === 'Admin')) {
     //     query['leadOwner.agentId'] = agent.agentId;
