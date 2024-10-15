@@ -25,7 +25,6 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
         lead: newLead,
     });
 });
-
 // Update an existing lead
 exports.updateLead = catchAsyncErrors(async (req, res) => {
     logger.info(`Updating lead with ID: ${req.params.leadId}`);
@@ -150,24 +149,56 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
     }
 });
 
-// Search for leads based on query parameters
 exports.searchLead = catchAsyncErrors(async (req, res) => {
     logger.info('Searching for leads');
+
+    const { user } = req; // Assuming the user's role is available in req.user
     const query = {};
 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit; 
+
     for (let key in req.query) {
-        if (req.query[key]) {
+        if (req.query[key] && key !== 'page' && key !== 'limit') { // Exclude page and limit from the query filters
             query[key] = key === 'leadId' || key === 'firstName' || key === 'lastName' || key === 'address' || key === 'leadOwner' || key === 'email' || key === 'contact'
-                ? { $regex: req.query[key], $options: 'i' }
+                ? { $regex: req.query[key], $options: 'i' } // Perform a case-insensitive search
                 : req.query[key];
         }
     }
 
-    const leads = await Leads.find(query);
+    if (user.role === 'Admin' || user.role === 'Super Admin') {
+        logger.info(`User is ${user.role}, searching all leads`);
+    
+    } else if (user.role === 'Agent') {
+        query.leadOwner = user._id; 
+        logger.info(`User is Agent, filtering leads by leadOwner: ${user._id}`);
+    } else {
+        return res.status(403).json({ message: 'You do not have permission to search leads.' });
+    }
+
+    // Get total count of matching leads (for pagination metadata)
+    const totalLeads = await Leads.countDocuments(query);
+
+    // Find leads using the query with pagination (skip and limit)
+    const leads = await Leads.find(query)
+        .skip(skip)
+        .limit(limit);
+
     logger.info(`Found ${leads.length} leads matching the query`);
+
+    // Emit the result to connected clients via Socket.IO
     const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('Filtered-lead', leads); // Emit event to all connected clients
-    res.json(leads);
+
+    // Respond with the leads and pagination information
+    res.json({
+        leads,
+        page,
+        totalPages: Math.ceil(totalLeads / limit), // Calculate total pages
+        totalLeads,
+        limit
+    });
 });
 
 // Retrieve all leads with optional pagination
