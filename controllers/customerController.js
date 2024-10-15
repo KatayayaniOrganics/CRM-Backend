@@ -46,7 +46,6 @@ exports.createCustomer = catchAsyncErrors(async (req, res) => {
     }
 });
 
-
 exports.allCustomer = catchAsyncErrors(async (req, res) => {
   const { customerId } = req.params; // Get customerId from query parameters
   if (customerId) {
@@ -131,8 +130,6 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
   });
 });
 
-
-
 exports.searchCustomer = catchAsyncErrors(async (req, res) => {
   const query = {};
 
@@ -169,9 +166,6 @@ exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
     io.emit('delete-customer', deletedCustomer);
   res.json({ message: "Customer deleted successfully" });
 });
-
-
-
 
 exports.updateCustomer = catchAsyncErrors(async (req, res) => {
   const { customerId } = req.params;
