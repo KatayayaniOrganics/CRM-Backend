@@ -29,9 +29,11 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
 // Update an existing lead
 exports.updateLead = catchAsyncErrors(async (req, res) => {
     logger.info(`Updating leads with IDs: ${req.params.leadId}`);
-    // Split the leadId string into an array if it contains multiple IDs
     const leadIds = req.params.leadId.split(',').map(id => id.trim());
-    const updateData = req.body;
+    const updateData = {...req.body};
+    delete updateData.query; // Remove query from updateData to avoid conflicts
+    delete updateData.order_history; // Simila
+ 
 
     // Log the leadIds for debugging
     logger.info(`Received lead IDs: ${JSON.stringify(leadIds)}`);
@@ -46,8 +48,6 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
         Agent.findById(req.user.id)
     ]);
 
-    // Log existing leads for debugging
-    logger.info(`Existing leads found: ${JSON.stringify(existingLeads)}`);
 
     if (existingLeads.length === 0) {
         logger.warn(`No leads found with IDs: ${leadIds.join(', ')}`);
@@ -136,6 +136,16 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
         if (callStatusHistory) {
             updateOperations.$push.callStatusHistory = callStatusHistory;
         }
+        // Append new order_history object to the order_history array
+        if (req.body.order_history !== null || req.body.order_history !== undefined) {
+            updateOperations.$push.order_history = req.body.order_history;
+        }
+       
+        // Append new query object to the query array
+        if (req.body.query !== null || req.body.query !== undefined) {
+            // let newQuery = {queryId:req.body.query[0].queryId,queryRef:req.body.query[0].queryRef};
+            updateOperations.$push.query = req.body.query;
+        }
         const updatedLead = await Leads.findOneAndUpdate(
             { leadId: lead.leadId },
             updateOperations,
@@ -164,24 +174,67 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
     });
 });
 
-// Search for leads based on query parameters
+// Search for leads based on query parameters with pagination and role-based restrictions
 exports.searchLead = catchAsyncErrors(async (req, res) => {
     logger.info('Searching for leads');
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 100;
+    const skip = (page - 1) * limit;
+
     const query = {};
 
     for (let key in req.query) {
-        if (req.query[key]) {
-            query[key] = key === 'leadId' || key === 'firstName' || key === 'lastName' || key === 'address' || key === 'leadOwner' || key === 'email' || key === 'contact'
-                ? { $regex: req.query[key], $options: 'i' }
-                : req.query[key];
+        if (req.query[key] && !['page', 'limit'].includes(key)) {
+            if (key === 'dispossession_status') {
+                query[key] = req.query[key] === 'true'; // Convert string to boolean
+            } else if (['leadId', 'firstName', 'lastName', 'address', 'leadOwner', 'email', 'contact', 'dispossession'].includes(key)) {
+                query[key] = { $regex: req.query[key], $options: 'i' }; // Use regex for string fields
+            } else {
+                query[key] = req.query[key];
+            }
         }
     }
 
-    const leads = await Leads.find(query);
-    logger.info(`Found ${leads.length} leads matching the query`);
-    const io = req.app.get('socket.io'); // Get Socket.IO instance
-    io.emit('Filtered-lead', leads); // Emit event to all connected clients
-    res.json(leads);
+    // const agent = await Agent.findById(req.user.id);
+    // if (agent.user_role) {
+    //     const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
+    //     agent.user_role = userRole;  // Replace with the populated user role
+    // }
+IS
+    // // Apply role-based restrictions to the query
+    // if (!(agent.user_role.role_name === 'Super Admin' || agent.user_role.role_name === 'Admin')) {
+    //     query['leadOwner.agentId'] = agent.agentId;
+    // }
+
+    try {
+        const leads = await Leads.find(query).populate({
+            path: 'query.queryRef',
+            select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
+        }).populate({
+            path: 'leadOwner.agentRef',  // Populate agentRef from leadOwner
+            select: 'firstname lastname email contact state address city country'  // Only include these fields
+        }).populate({
+            path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
+             select: '-updatedData -_id -__v -cropId'
+        }).skip(skip).limit(limit);
+        const totalLeads = await Leads.countDocuments(query);
+        logger.info(`Found ${leads.length} leads matching the query`);
+
+        const io = req.app.get('socket.io'); // Get Socket.IO instance
+        io.emit('Filtered-lead', leads); // Emit event to all connected clients
+
+        res.status(200).json({
+            success: true,
+            message: "Leads retrieved successfully",
+            total: totalLeads,
+            page,
+            limit,
+            data: leads,
+        });
+    } catch (error) {
+        logger.error('Error searching leads: ' + error.message);
+        res.status(500).json({ success: false, message: 'Error searching leads', error: error.message });
+    }
 });
 
 // Retrieve all leads with optional pagination
@@ -238,7 +291,8 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
         path: 'leadOwner.agentRef',  // Populate agentRef from leadOwner
         select: 'firstname lastname email contact state address city country'  // Only include these fields
     }).populate({
-        path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
+        path: 'farm_details.Crop_name.cropRef',
+        select: '-updatedData -_id -__v -cropId'  // Populate cropRef from farm_details.Crop_name
     }).skip(skip).limit(limit);
     const totalLeads = await Leads.countDocuments(query);
 

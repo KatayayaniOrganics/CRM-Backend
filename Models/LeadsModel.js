@@ -90,8 +90,8 @@ const LeadsSchema = new mongoose.Schema(
       default: null,
     },
     source: {
-      type: String,
-      ref: "Source", 
+      sourceId: {type:String,default:null},
+      sourceRef: {type:mongoose.Schema.Types.ObjectId,ref: "Source", default:null}, 
     },
     created_at: {
       type: Date,
@@ -100,16 +100,13 @@ const LeadsSchema = new mongoose.Schema(
     query: [
       {
         queryId:{type:String,default:null},
-        queryRef:{type:mongoose.Schema.Types.ObjectId,ref:'Query',default:null}
-        }
+        queryRef:{type:mongoose.Schema.Types.ObjectId,ref:'Query',default:null}   
+      }
     ],
     order_history: [
       {
-        order: { 
-          type: String, 
-          ref: "Order",
-          default:null,
-         }, 
+          orderId:{type:String,default:null},
+          orderRef:{type:mongoose.Schema.Types.ObjectId,ref:'Order',default:null},
       },
     ],
     farm_details: {
@@ -167,8 +164,9 @@ const LeadsSchema = new mongoose.Schema(
       enum: ['Answered', 'Not Answered', 'Busy', 'Not Reachable'],
       default: []
     }],
-    dispossession_status: {type:Boolean,
-      default:true,
+    dispossession_status: {
+      type:Boolean,
+      default:false,
     },
   dispossession: { type:String,enum:["Follow Up","Completed","Push to Advisory"], default:null },
   follow_Up_date: {type:Date ,default:null},
