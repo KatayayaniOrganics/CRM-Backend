@@ -6,6 +6,7 @@ const Calls = require("../Models/callsModel");
 
 
 exports.createCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a POST Request on Customer creation Route");
     try {
       const lastCustomer = await Customer.findOne().sort({ customerId: -1 }).exec();
 
@@ -50,6 +51,7 @@ exports.createCustomer = catchAsyncErrors(async (req, res) => {
 
 
 exports.allCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a GET Request on Customer Route");
   const { customerId } = req.params; // Get customerId from query parameters
   if (customerId) {
       // Fetch a specific customer by customerId and populate call and order history
@@ -104,6 +106,7 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
 
 
 exports.searchCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a GET Request on Customer Search Route");
   const query = {};
 
   for (let key in req.query) {
@@ -126,6 +129,7 @@ exports.searchCustomer = catchAsyncErrors(async (req, res) => {
 });
 
 exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a DELETE Request on Customer Route");
   const { customerId } = req.params;
 
  
@@ -144,6 +148,7 @@ exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
 
 
 exports.updateCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a PUT Request on Customer Route");
   const { customerId } = req.params;
   const updateData = req.body;
 
