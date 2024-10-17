@@ -195,16 +195,17 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
         }
     }
 
-    // const agent = await Agent.findById(req.user.id);
-    // if (agent.user_role) {
-    //     const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
-    //     agent.user_role = userRole;  // Replace with the populated user role
-    // }
+    const agent = await Agent.findById(req.user.id);
+    if (agent.user_role) {
+        const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
+        agent.user_role = userRole;  // Replace with the populated user role
+    }
 
-    // // Apply role-based restrictions to the query
-    // if (!(agent.user_role.role_name === 'Super Admin' || agent.user_role.role_name === 'Admin')) {
-    //     query['leadOwner.agentId'] = agent.agentId;
-    // }
+    // Apply role-based restrictions to the query
+    if (!(agent.user_role.role_name === 'Super Admin' || agent.user_role.role_name === 'Admin')) {
+        query['leadOwner.agentId'] = agent.agentId;
+        console.log(query)
+    }
 
     try {
         const leads = await Leads.find(query).populate({
