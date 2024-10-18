@@ -3,6 +3,8 @@ const logger = require('../logger');
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 const Agent = require('../Models/agentModel');
 
+
+
 // Create a new coupon
 exports.createCoupon = catchAsyncErrors(async (req, res) => {
     // Validate agentId
@@ -11,15 +13,22 @@ exports.createCoupon = catchAsyncErrors(async (req, res) => {
         return res.status(400).json({ success: false, message: 'Invalid agentId' });
     }
 
-    // Fetch the last coupon to generate a new couponId
-    const lastCoupon = await Coupon.findOne().sort({ couponId: -1 }).exec();
-    let newCouponId = "COUPON-001"; // Default value
+// Fetch the last coupon to generate a new couponId
+const lastCoupon = await Coupon.findOne().sort({ couponId: -1 }).exec();
+let newCouponId = "COUPON001"; // Default value
 
-    if (lastCoupon) {
-        const lastCouponNumber = parseInt(lastCoupon.couponId.split("-")[1], 10);
+if (lastCoupon && lastCoupon.couponId) {
+    // Extract the numeric part from the couponId without spaces
+    const lastCouponNumber = parseInt(lastCoupon.couponId.replace('COUPON', ''), 10);
+    
+    if (!isNaN(lastCouponNumber)) {
         const newCouponNumber = lastCouponNumber + 1;
-        newCouponId = `COUPON-${newCouponNumber.toString().padStart(3, "0")}`;
+        newCouponId = `COUPON${newCouponNumber.toString().padStart(3, "0")}`;
+    } else {
+        console.error("Invalid couponId format in the last coupon");
     }
+}
+    
 
     // Create a new coupon instance
     const coupon = new Coupon({
@@ -29,13 +38,17 @@ exports.createCoupon = catchAsyncErrors(async (req, res) => {
 
     await coupon.save();
     logger.info(`Coupon created: ${coupon}`);
+    // const io = req.app.get('socketio'); // Get Socket.IO instance
+    // io.emit('new-coupon', coupon); 
     res.status(201).json({ success: true, data: coupon });
 });
-
+   
 // Get all coupons
 exports.getAllCoupons = catchAsyncErrors(async (req, res) => {
     const coupons = await Coupon.find().populate('agentId', 'agentName'); // Populate agentId with agentName
     logger.info('Fetched all coupons');
+    // const io = req.app.get('socketio'); // Get Socket.IO instance
+    // io.emit('all-coupons', coupons); 
     res.status(200).json({ success: true, data: coupons });
 });
 
@@ -65,6 +78,8 @@ exports.updateCoupon = catchAsyncErrors(async (req, res) => {
     }
   
     logger.info(`Updated coupon: ${coupon}`);
+    // const io = req.app.get('socketio'); // Get Socket.IO instance
+    // io.emit('update-coupons', coupon); 
     res.status(200).json({ success: true, data: coupon });
   });
 
@@ -76,5 +91,7 @@ exports.deleteCoupon = catchAsyncErrors(async (req, res) => {
         return res.status(404).json({ success: false, message: 'Coupon not found' });
     }
     logger.info(`Deleted coupon: ${coupon}`);
+    const io = req.app.get('socketio'); // Get Socket.IO instance
+    io.emit('delete-coupons', coupon); 
     res.status(200).json({ success: true, message: 'Coupon deleted successfully' });
 });
