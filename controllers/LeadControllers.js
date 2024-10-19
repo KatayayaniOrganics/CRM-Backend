@@ -174,6 +174,7 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
     });
 });
 
+
 // Search for leads based on query parameters with pagination and role-based restrictions
 exports.searchLead = catchAsyncErrors(async (req, res) => {
     logger.info('Searching for leads');
