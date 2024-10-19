@@ -1,3 +1,4 @@
+const { query } = require('express');
 const mongoose = require('mongoose');
 
 const querySchema = new mongoose.Schema({
@@ -29,7 +30,8 @@ const querySchema = new mongoose.Schema({
                     // Make 'description' required if 'Other' is in selected_sub_options array
                     return this.selected_sub_options && this.selected_sub_options.includes('Other');
                 }
-            }
+            },
+            queryCategory_date:{type:Date,default:null},
         }
     ],
     reason_not_order: {
