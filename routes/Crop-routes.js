@@ -1,7 +1,7 @@
 const express = require('express');
 var router = express.Router();
 const { verifyToken } = require('../middlewares/authMiddleware');
-const {CropsCreation,allCrops,searchCrop,updateCrop,deleteCrop} = require('../controllers/cropControllers');
+const {CropsCreation,allCrops,searchCrop,updateCrop,deleteCrop, deleteStage} = require('../controllers/cropControllers');
 const { logRequest } = require('../middlewares/logDetails');
 
 // Create a new crop
@@ -21,5 +21,8 @@ router.put("/:cropId",logRequest,verifyToken,updateCrop);
 
 //Delete Crop
 router.delete("/:cropId",logRequest, deleteCrop);
+
+// Delete a specific stage in a crop
+router.delete("/:cropId/stage/:stageId", logRequest, verifyToken, deleteStage);
 
 module.exports = router;

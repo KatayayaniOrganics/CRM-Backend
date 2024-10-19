@@ -6,6 +6,7 @@ const Calls = require("../Models/callsModel");
 
 
 exports.createCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a POST Request on Customer creation Route");
     try {
       const lastCustomer = await Customer.findOne().sort({ customerId: -1 }).exec();
 
@@ -47,11 +48,20 @@ exports.createCustomer = catchAsyncErrors(async (req, res) => {
 });
 
 
+
+
 exports.allCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a GET Request on Customer Route");
   const { customerId } = req.params; // Get customerId from query parameters
   if (customerId) {
-      // Fetch a specific customer by customerId
-      const customer = await Customer.findOne({ customerId });
+      // Fetch a specific customer by customerId and populate call and order history
+      const customer = await Customer.findOne({ customerId })
+        .populate({
+          path: 'call_history.callRef',
+          model: 'Calls',
+          select: '-callId  -__v -call_history -updatedData'
+        })
+        
 
       if (!customer) {
           return res.status(404).json({
@@ -60,30 +70,12 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
           });
       }
 
-      // Map over call_history to fetch call details
-      const populatedCallHistory = await Promise.all(
-        customer.call_history.map(async (call) => {
-          const callDetails = await Calls.find({ callId: { $in: call.callId } });
-          return {
-            ...call.toObject(),
-            callDetails, // Populate call details for each call
-          };
-        })
-      );
-      console.log(populatedCallHistory);
-      const populatedCustomer={
-        ...customer.toObject(),
-        call_history: populatedCallHistory,
-      }
-
-      // Save the updated customer document
-      await customer.save();
       const io = req.app.get('socket.io'); // Get Socket.IO instance
-    io.emit('getone-customer', populatedCustomer);
+      io.emit('getone-customer', customer);
       return res.status(200).json({
           success: true,
           message: "Customer retrieved successfully",
-          customer: populatedCustomer,
+          customer: customer,
       });
   }
 
@@ -92,48 +84,29 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
   const limit = parseInt(req.query.limit) || 100; // Number of customers per page
   const skip = (page - 1) * limit; // Calculate the number of customers to skip
 
-  const [allCustomers, totalCustomers] = await Promise.all([
-      Customer.find().skip(skip).limit(limit), // Fetch customers with pagination
-      Customer.countDocuments() // Get total number of customers
-  ]);
-
-
-  // Manually populate diseases for each crop's stages
-  const customersWithPopulatedCallHistory = await Promise.all(
-    allCustomers.map(async (customer) => {
-      const populatedCallHistory = await Promise.all(
-        customer.call_history.map(async (call) => {
-          const callDetails = await Calls.find({ callId: { $in: call.callId } });
-          return {
-            ...call.toObject(),
-            callDetails, // Populate call details for each call
-          };
-        })
-      );
-
-      return {
-        ...customer.toObject(),
-        call_history: populatedCallHistory,
-      };
+  const allCustomers = await Customer.find().skip(skip).limit(limit)
+    .populate({
+      path: 'call_history.callRef',
+      model: 'Calls'
     })
-  );
-
+  const totalCustomers = await Customer.countDocuments(); // Get total number of customers
 
   const io = req.app.get('socket.io'); // Get Socket.IO instance
-    io.emit('get-customer',customersWithPopulatedCallHistory);
+  io.emit('get-customer', allCustomers);
   res.status(200).json({
       success: true,
       message: "All customers that are available",
-      total: allCustomers.length,
+      total: totalCustomers,
       page,
       limit,
-      data: customersWithPopulatedCallHistory,
+      data: allCustomers,
   });
 });
 
 
 
 exports.searchCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a GET Request on Customer Search Route");
   const query = {};
 
   for (let key in req.query) {
@@ -156,6 +129,7 @@ exports.searchCustomer = catchAsyncErrors(async (req, res) => {
 });
 
 exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a DELETE Request on Customer Route");
   const { customerId } = req.params;
 
  
@@ -170,63 +144,106 @@ exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
   res.json({ message: "Customer deleted successfully" });
 });
 
+
+
+
 exports.updateCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a PUT Request on Customer Route");
   const { customerId } = req.params;
   const updateData = req.body;
 
-  // Check if the updateData contains diseaseId - prevent updating it
+  // Prevent updating customerId
   if (updateData.customerId && updateData.customerId !== customerId) {
-      return res.status(400).json({ message: "customerId cannot be updated." });
+    return res.status(400).json({ message: "customerId cannot be updated." });
   }
 
-    // Find the existing customer
+  // Find the existing customer
   const existingCustomer = await Customer.findOne({ customerId });
-
   if (!existingCustomer) {
     return res.status(404).json({ message: "Customer not found" });
   }
 
-  // Find which fields are being updated
+  const agent = await Agent.findById(req.user.id);
+  if (!agent) {
+    return res.status(404).json({ message: "Agent not found" });
+  }
+
+  const ipAddress = req.headers['x-forwarded-for'] || req.ip;
+
+  // Collect fields that are being updated
   const updatedFields = {};
   for (let key in updateData) {
-    if (key !== "customerId" && updateData[key] !== existingCustomer[key]) {
+    if (key !== "customerId" && key !== "order_history" && key !== "call_history" && updateData[key] !== existingCustomer[key]) {
       updatedFields[key] = updateData[key];
     }
   }
 
-  const agent = await Agent.findById(req.user.id);
-
-  // Capture the full IP address from the request
-  const ipAddress = req.headers['x-forwarded-for'] || req.ip;
-
-  // Update the disease and add the changes to the updatedData field, using agentId and IP address
-  const updatedCustomer = await Customer.findOneAndUpdate(
-    { customerId },
-    {
-      $set: {
-        ...updateData, // Update the fields in the customer
-        LastUpdated_By: agent.agentId, // Store the agentId of the updating agent
-      },
-      $push: {
-        updatedData: {
-          updatedBy: agent.agentId,  // Assuming req.user contains the agentId
-          updatedFields,
-          updatedByEmail:agent.email,
-          updatedAt: Date.now(),
-          ipAddress,  // Store the full IP address
-        },
-      },
+  // Prepare the update object for MongoDB operations
+  const updateObject = {
+    $set: {
+      LastUpdated_By: agent.agentId,
+      ...updatedFields  // Ensure updated fields are set here
     },
-    { new: true, runValidators: true }
-  );
+    $push: {
+      updatedData: {
+        updatedBy: agent.agentId,
+        updatedFields: updatedFields,  // Ensure updated fields are pushed here
+        updatedByEmail: agent.email,
+        updatedAt: Date.now(),
+        ipAddress,
+      }
+    }
+  };
 
-  if (updatedCustomer) {
-    const io = req.app.get('socket.io'); // Get Socket.IO instance
-    io.emit('update-customer', updatedCustomer);
-    return res.status(200).json({
-      success: true,
-      message: "Customer updated successfully",
-      data: updatedCustomer,
+  // Handle order_history updates and additions
+  if (updateData.order_history) {
+    updateData.order_history.forEach(order => {
+      if (order._id) {
+        // Update the specific order by _id
+        const orderPath = `order_history.$[elem]`;
+        updateObject.$set[orderPath] = order;
+        updateObject.arrayFilters = updateObject.arrayFilters || [{ "elem._id": order._id }];
+      } else {
+        // Add new order using $push
+        updateObject.$push.order_history = updateObject.$push.order_history || [];
+        updateObject.$push.order_history.push(order);
+      }
     });
   }
+
+
+    // Handle call_history updates and additions
+    if (updateData.call_history) {
+      updateData.call_history.forEach(call => {
+        if (call._id) {
+          // Update the specific call by _id
+          const callPath = `call_history.$[elem]`;
+          updateObject.$set[callPath] = call;
+          updateObject.arrayFilters = updateObject.arrayFilters || [];
+          updateObject.arrayFilters.push({ "elem._id": call._id });
+        } else {
+          // Add new call using $push
+          updateObject.$push.call_history = updateObject.$push.call_history || [];
+          updateObject.$push.call_history.push({ callId: call.callId });
+        }
+      });
+    }
+  // Execute the update
+  const updatedCustomer = await Customer.findOneAndUpdate(
+    { customerId },
+    updateObject,
+    { new: true, runValidators: true, arrayFilters: updateObject.arrayFilters || [] }
+  );
+
+  if (!updatedCustomer) {
+    return res.status(404).json({ message: "Customer not found" });
+  }
+
+  const io = req.app.get('socket.io');
+  io.emit('update-customer', updatedCustomer);
+  return res.status(200).json({
+    success: true,
+    message: "Customer updated successfully",
+    data: updatedCustomer,
+  });
 });

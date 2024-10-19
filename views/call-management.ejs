@@ -151,6 +151,13 @@
 
         // Initialize the table when the page loads
         document.addEventListener('DOMContentLoaded', renderCallsTable);
+
+        const socket = io('http://localhost:3000'); // Adjust the URL as needed
+
+        socket.on('newCall', (newCall) => {
+            calls.push(newCall); // Add the new call to the calls array
+            renderCallsTable(); // Refresh the table
+        });
     </script>
 </body>
 </html>

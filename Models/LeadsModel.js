@@ -8,9 +8,8 @@ const LeadsSchema = new mongoose.Schema(
       default: "K0-1000",
     },
     leadOwner: {
-      type: String,
-      default: "Katyayani",
-      ref: "Agents",
+      agentId:{type:String,default:null},
+      agentRef:{type:mongoose.Schema.Types.ObjectId,ref:'Agents',default:null}
     },
     firstName: {
       type: String,
@@ -91,39 +90,42 @@ const LeadsSchema = new mongoose.Schema(
       default: null,
     },
     source: {
-      type: String,
-      ref: "Source", 
+      sourceId: {type:String,default:null},
+      sourceRef: {type:mongoose.Schema.Types.ObjectId,ref: "Source", default:null}, 
     },
     created_at: {
       type: Date,
       default: Date.now, 
     },
-    query: {
-      type: String,
-      ref: "Query", 
-      default:null,
-    },
+    query: [
+      {
+        queryId:{type:String,default:null},
+        queryRef:{type:mongoose.Schema.Types.ObjectId,ref:'Query',default:null}   
+      }
+    ],
     order_history: [
       {
-        order: { 
-          type: String, 
-          ref: "Order",
-          default:null,
-         }, 
+          orderId:{type:String,default:null},
+          orderRef:{type:mongoose.Schema.Types.ObjectId,ref:'Order',default:null},
       },
     ],
     farm_details: {
       farm_name: { type: String, default: null },
-      area: { type: String,default: null },
       farm_unit: { type: String, default: null },
       Crop_name: [
-        {crop_id: { type: String, default: null }, crop_name:{type: String, default: null }},
+        {
+        cropId: { type: String, default: null }, 
+        cropRef:{type:mongoose.Schema.Types.ObjectId,ref:'Crop',default:null },
+        showing_date: { type: Date, default: null },
+        day_after_showing: { type: String, default: null },
+        area: { type: String,default: null },
+      },
+        
       ],
-      showing_date: { type: Date, default: null },
-      day_after_showing: { type: Date, default: null },
-      expected_quntity:{ type: Date, default: null },
-      sell_unit: { type: Date, default: null },
-      unit_selling_price: { type: Date, default: null },
+     
+      expected_quantity:{ type: String, default: null },
+      sell_unit: { type: String, default: null },
+      unit_selling_price: { type: String, default: null },
     },
 
     call_history: [
@@ -157,20 +159,21 @@ const LeadsSchema = new mongoose.Schema(
     },
       LastUpdated:{type:Date,default:Date.now},
     },
-    callStatus: [{ 
+    callStatus: { 
       status:{type: String, enum: ['Answered', 'Not Answered', 'Busy', 'Not Reachable'],default:null},
       callTime:{type:Date,default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000)},
-  }],
+  },
     followUpPriority: { type: String, enum: ['High', 'Medium', 'Low','Closed','Completed'],default:'Medium'},
     callStatusHistory: [{
       type: String,
       enum: ['Answered', 'Not Answered', 'Busy', 'Not Reachable'],
       default: []
     }],
-    dispossession_status: {type:Boolean,
-      default:true,
+    dispossession_status: {
+      type:Boolean,
+      default:false,
     },
-  dispossession: { type:String,enum:["follow Up","Completed","Push to agri adviser"], default:null },
+  dispossession: { type:String,enum:["Follow Up","Completed","Push to Advisory"], default:null },
   follow_Up_date: {type:Date ,default:null},
   last_active: {
     type: Date,
