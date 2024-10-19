@@ -131,6 +131,7 @@ const LeadsSchema = new mongoose.Schema(
     call_history: [
            {
         callID:{type:String,default:null},
+        callRef:{type:mongoose.Schema.Types.ObjectId,ref:'Calls',default:null},
         callDate:{type:Date,default:null}
       },
    
@@ -187,7 +188,10 @@ const LeadsSchema = new mongoose.Schema(
     miscellaneousFields: { 
       farmer_type:{
         type:String,
-        enum:["High Potential Farmer","Preogressive Farmer","Farmer Registered"],
+        default:null
+      },
+      equipment:{
+        type:String,
         default:null
       },
       whatsApp_use:{

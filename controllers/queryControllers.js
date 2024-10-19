@@ -1,75 +1,69 @@
+const Leads = require("../Models/LeadsModel");
 const Query = require("../Models/queryModel");
 const logger = require("../logger");
 const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors");
 
+const generateNewQueryId = async () => {
+    const lastQuery = await Query.findOne().sort({ created_at: -1 });
+    if (lastQuery && lastQuery.queryId) {
+        const lastQueryIdNumber = parseInt(lastQuery.queryId.slice(3)) + 1;
+        return `QU-${lastQueryIdNumber}`;
+    }
+    return "QU-1000"; // Default if no queries are found
+};
+
+const validateQueryCategory = (query_category) => {
+    if (!query_category || query_category.length === 0) {
+        throw new Error("Please provide at least one category with sub-options.");
+    }
+    for (let category of query_category) {
+        if (!category.category_name || !category.selected_sub_options || category.selected_sub_options.length === 0) {
+            throw new Error(`Category "${category.category_name}" must have at least one sub-option selected.`);
+        }
+        if (category.selected_sub_options.includes('Other') && !category.description) {
+            throw new Error(`Description is required for the option "Other" in category "${category.category_name}".`);
+        }
+    }
+};
+
+const updateLeadWithQuery = async (leadRef, newQuery) => {
+    const lead = await Leads.findById(leadRef);
+    if (lead) {
+        lead.query.push({ queryId: newQuery.queryId, queryRef: newQuery._id });
+        await lead.save();
+    }
+};
+
 exports.queryCreation = catchAsyncErrors(async (req, res) => {
-    const {
+    logger.info(`Creating new query from IP: ${req.ip}`);
+    const { query_category, reason_not_order, action_taken, other, created_by, updated_by, leadId, leadRef } = req.body;
+
+    try {
+        validateQueryCategory(query_category);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+
+    const newQueryId = await generateNewQueryId();
+    const newQuery = await Query.create({
+        queryId: newQueryId,
+        lead: { leadId, leadRef },
         query_category,
-        leadId,
         reason_not_order,
         action_taken,
         other,
         created_by,
         updated_by
-    } = req.body;
-
-    // Log the query creation attempt with the request IP
-    logger.info(`Creating new query from IP: ${req.ip}`);
-
-    // Validate query_category
-    if (!query_category || query_category.length === 0) {
-        return res.status(400).json({ message: "Please provide at least one category with sub-options." });
-    }
-
-    // Check each category for valid sub-options and description requirements
-    for (let category of query_category) {
-        if (!category.category_name || !category.selected_sub_options || category.selected_sub_options.length === 0) {
-            return res.status(400).json({ message: `Category "${category.category_name}" must have at least one sub-option selected.` });
-        }
-
-        // Check if "Other" is selected and if the description is provided
-        if (category.selected_sub_options.includes('Other') && !category.description) {
-            return res.status(400).json({ message: `Description is required for the option "Other" in category "${category.category_name}".` });
-        }
-    }
-
-    // Find the last created query and calculate new query ID
-    const lastQuery = await Query.findOne().sort({ created_at: -1 });
-
-    let newQueryId = "QU-1000";
-    if (lastQuery && lastQuery.queryId) {
-        const lastQueryIdNumber = parseInt(lastQuery.queryId.slice(3)) + 1;
-        newQueryId = `QU-${lastQueryIdNumber}`;
-    }
-
-    // Ensure the new query ID is unique by checking the database
-    let existingQuery = await Query.findOne({ queryId: newQueryId });
-    while (existingQuery) {
-        const lastQueryIdNumber = parseInt(newQueryId.slice(3)) + 1;
-        newQueryId = `QU-${lastQueryIdNumber}`;
-        existingQuery = await Query.findOne({ queryId: newQueryId });
-    }
-
-    // Create the new query with validated query_category and unique queryId
-    const newQuery = await Query.create({
-        queryId: newQueryId,         // Generated query ID
-        leadId,                      // Optional leadId
-        query_category,              // The validated query_category
-        reason_not_order,            // Optional reason for not ordering
-        action_taken,                // Optional action taken
-        other,                       // Optional other information
-        created_by,                  // Optional creator ID
-        updated_by                   // Optional updater ID
     });
 
-    // Emit the new query event using Socket.io
+    if (leadId || leadRef) {
+        await updateLeadWithQuery(leadRef, newQuery);
+    }
+
     const io = req.app.get('socket.io');
     io.emit('new-query', newQuery);
-
-    // Log the successful query creation
     logger.info(`Query created successfully with ID: ${newQueryId}`);
 
-    // Respond to the client
     res.status(201).json({
         success: true,
         message: 'Query created successfully',

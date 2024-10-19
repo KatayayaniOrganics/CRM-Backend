@@ -9,9 +9,9 @@ const querySchema = new mongoose.Schema({
             return `QU-${Date.now()}`; // Example of a unique default
         }
     }, 
-    leadId: { 
-        type: String,
-        required: false  
+    lead: { 
+     leadId: {type:String,default:null},
+    leadRef: {type:mongoose.Schema.Types.ObjectId,ref:'Leads',default:null}, 
     },
     query_category: [
         {
@@ -39,9 +39,8 @@ const querySchema = new mongoose.Schema({
         type: String
     },
     created_by: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User',  
-        required: false
+        agentId: {type:String,ref:'Agents',default:null},
+        agentRef: {type:mongoose.Schema.Types.ObjectId,ref:'Agents',default:null}, 
     },
     created_at: { 
         type: Date, 
@@ -49,7 +48,7 @@ const querySchema = new mongoose.Schema({
     },
     updated_by: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User',
+        ref: 'Agents',
         required: false
     },
     updated_history: [
@@ -63,7 +62,7 @@ const querySchema = new mongoose.Schema({
             },
             updated_by: { 
                 type: mongoose.Schema.Types.ObjectId, 
-                ref: 'User' 
+                ref: 'Agents' 
             }
         }
     ]
