@@ -9,9 +9,9 @@ const querySchema = new mongoose.Schema({
             return `QU-${Date.now()}`; // Example of a unique default
         }
     }, 
-    leadId: { 
-        type: String,
-        required: false  
+    lead: { 
+     leadId: String,
+    leadRef: mongoose.Schema.Types.ObjectId, 
     },
     query_category: [
         {
@@ -39,9 +39,8 @@ const querySchema = new mongoose.Schema({
         type: String
     },
     created_by: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User',  
-        required: false
+        agentId:String,
+        agentRef:mongoose.Schema.Types.ObjectId, 
     },
     created_at: { 
         type: Date, 
