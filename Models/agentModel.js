@@ -53,9 +53,10 @@ const agentSchema = new mongoose.Schema({
   },
   call_history: [
     {
-      callId: { type: String, default: null }, 
-      callRef: { type: mongoose.Schema.Types.ObjectId, ref: "Calls" }
-    }
+      callID:{type:String,default:null},
+      callRef:{type:mongoose.Schema.Types.ObjectId,ref:'Calls',default:null},
+      callDate:{type:Date,default:null}
+    },
   ],
   updated_By:{
     type:mongoose.Schema.Types.ObjectId,
