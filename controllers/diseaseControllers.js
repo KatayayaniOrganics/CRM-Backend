@@ -5,7 +5,7 @@ const logger = require('../logger.js');
 
 
 exports.createDisease = catchAsyncErrors(async (req, res) => {
-  
+  logger.info("You made a POST Request on Disease creation Route");
   try {
     const lastDisease = await Disease.findOne().sort({ diseaseId: -1 }).exec();
 
@@ -39,6 +39,7 @@ exports.createDisease = catchAsyncErrors(async (req, res) => {
 
 
 exports.allDisease = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a GET Request on Disease Route");
   const { diseaseId } = req.params; // Get diseaseId from query parameters
 
   if (diseaseId) {
@@ -71,7 +72,7 @@ exports.allDisease = catchAsyncErrors(async (req, res) => {
 });
 
 exports.searchDisease = catchAsyncErrors(async (req, res) => {
-
+  logger.info("You made a GET Request on Disease Search Route");
   const query = {};
 
 
@@ -92,6 +93,7 @@ exports.searchDisease = catchAsyncErrors(async (req, res) => {
 });
 
 exports.updateDisease = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a PUT Request on Disease Route");
   const { diseaseId } = req.params;
   const updateData = req.body;
 
@@ -153,6 +155,7 @@ exports.updateDisease = catchAsyncErrors(async (req, res) => {
 });
 
 exports.deleteDisease = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a DELETE Request on Disease Route");
   const { diseaseId } = req.params;
 
  

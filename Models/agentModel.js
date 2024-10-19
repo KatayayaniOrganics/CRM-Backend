@@ -53,7 +53,8 @@ const agentSchema = new mongoose.Schema({
   },
   call_history: [
     {
-      call_id: { type: mongoose.Schema.Types.ObjectId, ref: "Calls" }
+      callId: { type: String, default: null }, 
+      callRef: { type: mongoose.Schema.Types.ObjectId, ref: "Calls" }
     }
   ],
   updated_By:{
@@ -75,8 +76,8 @@ const agentSchema = new mongoose.Schema({
       leadId:{type:String,default:null},
       leadRef:{type:mongoose.Schema.Types.ObjectId,ref:"Leads"}
     }
-  ]
-  
+  ],
+  status:{type:String,enum:["Taking a Quick Break","Available","Out for Lunch" , "In a Training","End of shift"],default:"Available"}
 });
 
 const Agents = mongoose.model("Agents", agentSchema);

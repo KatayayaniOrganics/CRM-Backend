@@ -111,14 +111,19 @@ const LeadsSchema = new mongoose.Schema(
     ],
     farm_details: {
       farm_name: { type: String, default: null },
-      area: { type: String,default: null },
       farm_unit: { type: String, default: null },
       Crop_name: [
-        {cropId: { type: String, default: null }, cropRef:{type:mongoose.Schema.Types.ObjectId,ref:'Crop',default:null }},
+        {
+        cropId: { type: String, default: null }, 
+        cropRef:{type:mongoose.Schema.Types.ObjectId,ref:'Crop',default:null },
+        showing_date: { type: Date, default: null },
+        day_after_showing: { type: String, default: null },
+        area: { type: String,default: null },
+      },
+        
       ],
-      showing_date: { type: Date, default: null },
-      day_after_showing: { type: String, default: null },
-      expected_quntity:{ type: String, default: null },
+     
+      expected_quantity:{ type: String, default: null },
       sell_unit: { type: String, default: null },
       unit_selling_price: { type: String, default: null },
     },

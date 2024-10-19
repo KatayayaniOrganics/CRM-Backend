@@ -25,6 +25,7 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
         lead: newLead,
     });
 });
+
 // Update an existing lead
 exports.updateLead = catchAsyncErrors(async (req, res) => {
     logger.info(`Updating leads with IDs: ${req.params.leadId}`);
@@ -173,6 +174,70 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
     });
 });
 
+
+// Search for leads based on query parameters with pagination and role-based restrictions
+exports.searchLead = catchAsyncErrors(async (req, res) => {
+    logger.info('Searching for leads');
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 100;
+    const skip = (page - 1) * limit;
+
+    const query = {};
+
+    for (let key in req.query) {
+        if (req.query[key] && !['page', 'limit'].includes(key)) {
+            if (key === 'dispossession_status') {
+                query[key] = req.query[key] === 'true'; // Convert string to boolean
+            } else if (['leadId', 'firstName', 'lastName', 'address', 'leadOwner', 'email', 'contact', 'dispossession'].includes(key)) {
+                query[key] = { $regex: req.query[key], $options: 'i' }; // Use regex for string fields
+            } else {
+                query[key] = req.query[key];
+            }
+        }
+    }
+
+    const agent = await Agent.findById(req.user.id);
+    if (agent.user_role) {
+        const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role }).select('UserRoleId  role_name');
+        agent.user_role = userRole;  // Replace with the populated user role
+    }
+
+    // Apply role-based restrictions to the query
+    if (!(agent.user_role.role_name === 'Super Admin' || agent.user_role.role_name === 'Admin')) {
+        query['leadOwner.agentId'] = agent.agentId;
+        console.log(query)
+    }
+
+    try {
+        const leads = await Leads.find(query).populate({
+            path: 'query.queryRef',
+            select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
+        }).populate({
+            path: 'leadOwner.agentRef',  // Populate agentRef from leadOwner
+            select: 'firstname lastname email contact state address city country'  // Only include these fields
+        }).populate({
+            path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
+             select: '-updatedData -_id -__v -cropId'
+        }).skip(skip).limit(limit);
+        const totalLeads = await Leads.countDocuments(query);
+        logger.info(`Found ${leads.length} leads matching the query`);
+
+        const io = req.app.get('socket.io'); // Get Socket.IO instance
+        io.emit('Filtered-lead', leads); // Emit event to all connected clients
+
+        res.status(200).json({
+            success: true,
+            message: "Leads retrieved successfully",
+            total: totalLeads,
+            page,
+            limit,
+            data: leads,
+        });
+    } catch (error) {
+        logger.error('Error searching leads: ' + error.message);
+        res.status(500).json({ success: false, message: 'Error searching leads', error: error.message });
+    }
+});
 
 // Retrieve all leads with optional pagination
 exports.allLeads = catchAsyncErrors(async (req, res) => {
