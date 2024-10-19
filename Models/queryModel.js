@@ -1,32 +1,42 @@
 const mongoose = require('mongoose');
 
 const querySchema = new mongoose.Schema({
-  queryId: { 
+    queryId: { 
         type: String, 
         unique: true,
-        default: "QU-1000",
-        required: [true, "QueryId is required"]
+        required: [true, "QueryId is required"],
+        default: function() {
+            return `QU-${Date.now()}`; // Example of a unique default
+        }
     }, 
     leadId: { 
-        type: String, 
-        ref: 'CustomerLead',  
+        type: String,
         required: false  
     },
-    title: { 
-        type: String, 
-        required:false
+    query_category: [
+        {
+            category_name: {
+                type: String,
+                required: true
+            },
+            selected_sub_options: {
+                type: [String], // Array of strings
+                required: [true, "selected_sub_options is required"]
+            },
+            description: {
+                type: String,
+                required: function() {
+                    // Make 'description' required if 'Other' is in selected_sub_options array
+                    return this.selected_sub_options && this.selected_sub_options.includes('Other');
+                }
+            }
+        }
+    ],
+    reason_not_order: {
+        type: String
     },
-    subtitle: { 
-        type: String, 
-        required: false  
-    },
-    description: { 
-        type: String, 
-        required: false  
-    },
-    other: { 
-        type: String,  
-        required: false  
+    action_taken: {
+        type: String
     },
     created_by: { 
         type: mongoose.Schema.Types.ObjectId, 
@@ -35,9 +45,9 @@ const querySchema = new mongoose.Schema({
     },
     created_at: { 
         type: Date, 
-        default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) 
+        default: () => new Date(Date.now() + 5.5 * 60 * 60 * 1000) // Indian Standard Time (IST)
     },
-    updated_By: { 
+    updated_by: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User',
         required: false
