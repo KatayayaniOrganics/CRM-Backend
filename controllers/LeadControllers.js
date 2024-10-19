@@ -27,179 +27,152 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
 });
 // Update an existing lead
 exports.updateLead = catchAsyncErrors(async (req, res) => {
-    logger.info(`Updating lead with ID: ${req.params.leadId}`);
-    const { leadId } = req.params;
-    const updateData = req.body;
+    logger.info(`Updating leads with IDs: ${req.params.leadId}`);
+    const leadIds = req.params.leadId.split(',').map(id => id.trim());
+    const updateData = {...req.body};
+    delete updateData.query; // Remove query from updateData to avoid conflicts
+    delete updateData.order_history; // Simila
+ 
 
-    if (updateData.leadId && updateData.leadId !== leadId) {
-        logger.warn(`Attempt to update leadId from ${leadId} to ${updateData.leadId}`);
-        return res.status(400).json({ message: "LeadId cannot be updated." });
+    // Log the leadIds for debugging
+    logger.info(`Received lead IDs: ${JSON.stringify(leadIds)}`);
+
+    // Validate leadIds
+    if (leadIds.length === 0) {
+        return res.status(400).json({ message: "No Lead IDs provided." });
     }
 
-    const [existingLead, agent] = await Promise.all([
-        Leads.findOne({ leadId }),
+    const [existingLeads, agent] = await Promise.all([
+        Leads.find({ leadId: { $in: leadIds } }),
         Agent.findById(req.user.id)
     ]);
 
-    if (!existingLead) {
-        logger.warn(`Lead not found with ID: ${leadId}`);
-        return res.status(404).json({ message: "Lead not found" });
+
+    if (existingLeads.length === 0) {
+        logger.warn(`No leads found with IDs: ${leadIds.join(', ')}`);
+        return res.status(404).json({ message: "No leads found" });
     }
 
     // Retrieve the user role
-    const userRole = await UserRoles.findOne({UserRoleId:agent.user_role});
-    // Check if the agent is the lead's owner or has admin privileges
-    if (existingLead.leadOwner !== agent.agentId && !['Admin', 'Super Admin'].includes(userRole.role_name)) {
-        return res.status(403).json({ message: "Not authorized to update this lead" });
+    const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role });
+    // Check if the agent is authorized to update the leads
+    const unauthorizedLeads = existingLeads.filter(lead => lead.leadOwner.agentId !== agent.agentId && !['Admin', 'Super Admin'].includes(userRole.role_name));
+    if (unauthorizedLeads.length > 0) {
+        return res.status(403).json({ message: "Not authorized to update some leads" });
     }
 
-    const updatedFields = {};
-    for (let key in updateData) {
-        if (key !== "leadId" && updateData[key] !== existingLead[key]) {
-            updatedFields[key] = updateData[key];
-        }
-    }
-
-    // Check if leadOwner has changed and update assigned_leads of the new agent
-    if (updateData.leadOwner && updateData.leadOwner !== existingLead.leadOwner) {
-        const newOwnerAgent = await Agent.findOne({ agentId: updateData.leadOwner });
-        if (newOwnerAgent) {
-            // Check if the leadId is already assigned to prevent duplicates
-            const isAlreadyAssigned = newOwnerAgent.assigned_leads.some(assignedLead => assignedLead.lead_id === leadId);
-            if (!isAlreadyAssigned) {
-                newOwnerAgent.assigned_leads.push({ lead_id: leadId });
-                await newOwnerAgent.save();
+    const updatedLeads = [];
+    for (const lead of existingLeads) {
+        const updatedFields = {};
+        for (let key in updateData) {
+            if (key !== "leadId" && updateData[key] !== lead[key]) {
+                updatedFields[key] = updateData[key];
             }
         }
-    }
 
-    // Handling updates to callStatus and followUpPriority
-    if (updateData.callStatus && updateData.callStatus.status) {
-        updateData.callStatus.callTime = Date.now() + 5.5 * 60 * 60 * 1000; // Store the call time whenever status is updated
-
-        // Set followUpPriority based on the call status
-        switch (updateData.callStatus.status) {
-            case 'Answered':
-                updateData.followUpPriority = 'Completed';
-                break;
-            case 'Not Answered':
-                updateData.followUpPriority = 'Medium';
-                break;
-            case 'Busy':
-            case 'Not Reachable':
-                updateData.followUpPriority = 'High';
-                break;
-        }
-
-        // Track consecutive 'Not Answered' statuses to potentially close the follow-up
-        if (!existingLead.callStatusHistory) {
-            existingLead.callStatusHistory = [];
-        }
-        existingLead.callStatusHistory.push(updateData.callStatus.status);
-
-        // Check the last three statuses for 'Not Answered'
-        const recentStatuses = existingLead.callStatusHistory.slice(-3);
-        if (recentStatuses.length === 3 && recentStatuses.every(status => status === 'Not Answered')) {
-            updateData.followUpPriority = 'Closed';
-        }
-    }
-
-    const callStatusHistory = updateData.callStatus ? updateData.callStatus.status : null;
-
-    // Prepare update operations
-    const updateOperations = {
-        $set: { ...updateData, LastUpdated_By: agent.agentId },
-        $push: {
-            updatedData: {
-                updatedBy: agent.agentId,
-                updatedFields,
-                ipAddress: req.ip,
-                updatedByEmail: agent.email,
-                updatedAt: Date.now() + 5.5 * 60 * 60 * 1000,
+        // Check if leadOwner has changed and update assigned_leads of the new agent
+        if (updateData.leadOwner && updateData.leadOwner.agentId && updateData.leadOwner.agentId !== lead.leadOwner.agentId) {
+            const newOwnerAgent = await Agent.findOne({ agentId: updateData.leadOwner.agentId });
+            if (newOwnerAgent) {
+                // Check if the leadId is already assigned to prevent duplicates
+                const isAlreadyAssigned = newOwnerAgent.assigned_leads.some(assignedLead => assignedLead.leadId === lead.leadId);
+                if (!isAlreadyAssigned) {
+                    newOwnerAgent.assigned_leads.push({ 
+                        leadId: lead.leadId, 
+                        leadRef: lead._id // Assuming lead._id is the ObjectId of the lead
+                    });
+                    await newOwnerAgent.save();
+                }
             }
         }
-    };
 
-    // Conditionally push to callStatusHistory if not null
-    if (callStatusHistory) {
-        updateOperations.$push.callStatusHistory = callStatusHistory;
-    }
+        // Handling updates to callStatus and followUpPriority
+        if (updateData.callStatus && updateData.callStatus.status) {
+            updateData.callStatus.callTime = Date.now() + 5.5 * 60 * 60 * 1000; // Store the call time whenever status is updated
 
-    // Ensure callStatusHistory is updated in the database
-    const updatedLead = await Leads.findOneAndUpdate(
-        { leadId },
-        updateOperations,
-        { new: true, runValidators: true }
-    );
+            // Set followUpPriority based on the call status
+            switch (updateData.callStatus.status) {
+                case 'Answered':
+                    updateData.followUpPriority = 'Completed';
+                    break;
+                case 'Not Answered':
+                    updateData.followUpPriority = 'Medium';
+                    break;
+                case 'Busy':
+                case 'Not Reachable':
+                    updateData.followUpPriority = 'High';
+                    break;
+            }
 
-    if (updatedLead) {
-        logger.info(`Lead updated successfully with ID: ${leadId}`);
-        const io = req.app.get('socket.io'); // Get Socket.IO instance
-        if (io) {
-            io.emit('updated-lead', updatedLead);
-        } else {
-            logger.error('Socket.io instance not found');
-            // Consider how to handle this case, maybe a fallback or a retry mechanism
+            // Track consecutive 'Not Answered' statuses to potentially close the follow-up
+            if (!lead.callStatusHistory) {
+                lead.callStatusHistory = [];
+            }
+            lead.callStatusHistory.push(updateData.callStatus.status);
+
+            // Check the last three statuses for 'Not Answered'
+            const recentStatuses = lead.callStatusHistory.slice(-3);
+            if (recentStatuses.length === 3 && recentStatuses.every(status => status === 'Not Answered')) {
+                updateData.followUpPriority = 'Closed';
+            }
         }
-        return res.status(200).json({
-            success: true,
-            message: "Lead updated successfully",
-            data: updatedLead,
-        });
-    }
-});
 
-exports.searchLead = catchAsyncErrors(async (req, res) => {
-    logger.info('Searching for leads');
+        const callStatusHistory = updateData.callStatus ? updateData.callStatus.status : null;
 
-    const { user } = req; // Assuming the user's role is available in req.user
-    const query = {};
+        const updateOperations = {
+            $set: { ...updateData, LastUpdated_By: agent.agentId },
+            $push: {
+                updatedData: {
+                    updatedBy: agent.agentId,
+                    updatedFields,
+                    ipAddress: req.ip,
+                    updatedByEmail: agent.email,
+                    updatedAt: Date.now() + 5.5 * 60 * 60 * 1000,
+                }
+            }
+        };
+        // Conditionally push to callStatusHistory if not null
+        if (callStatusHistory) {
+            updateOperations.$push.callStatusHistory = callStatusHistory;
+        }
+        // Append new order_history object to the order_history array
+        if (req.body.order_history !== null || req.body.order_history !== undefined) {
+            updateOperations.$push.order_history = req.body.order_history;
+        }
+       
+        // Append new query object to the query array
+        if (req.body.query !== null || req.body.query !== undefined) {
+            // let newQuery = {queryId:req.body.query[0].queryId,queryRef:req.body.query[0].queryRef};
+            updateOperations.$push.query = req.body.query;
+        }
+        const updatedLead = await Leads.findOneAndUpdate(
+            { leadId: lead.leadId },
+            updateOperations,
+            { new: true, runValidators: true }
+        );
 
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit; 
-
-    for (let key in req.query) {
-        if (req.query[key] && key !== 'page' && key !== 'limit') { // Exclude page and limit from the query filters
-            query[key] = key === 'leadId' || key === 'firstName' || key === 'lastName' || key === 'address' || key === 'leadOwner' || key === 'email' || key === 'contact'
-                ? { $regex: req.query[key], $options: 'i' } // Perform a case-insensitive search
-                : req.query[key];
+        if (updatedLead) {
+            updatedLeads.push(updatedLead);
+            logger.info(`Lead updated successfully with ID: ${lead.leadId}`);
         }
     }
 
-    if (user.role === 'Admin' || user.role === 'Super Admin') {
-        logger.info(`User is ${user.role}, searching all leads`);
-    
-    } else if (user.role === 'Agent') {
-        query.leadOwner = user._id; 
-        logger.info(`User is Agent, filtering leads by leadOwner: ${user._id}`);
-    } else {
-        return res.status(403).json({ message: 'You do not have permission to search leads.' });
-    }
-
-    // Get total count of matching leads (for pagination metadata)
-    const totalLeads = await Leads.countDocuments(query);
-
-    // Find leads using the query with pagination (skip and limit)
-    const leads = await Leads.find(query)
-        .skip(skip)
-        .limit(limit);
-
-    logger.info(`Found ${leads.length} leads matching the query`);
-
-    // Emit the result to connected clients via Socket.IO
     const io = req.app.get('socket.io'); // Get Socket.IO instance
-    io.emit('Filtered-lead', leads); // Emit event to all connected clients
+    if (io) {
+        updatedLeads.forEach(updatedLead => {
+            io.emit('updated-lead', updatedLead);
+        });
+    } else {
+        logger.error('Socket.io instance not found');
+    }
 
-    // Respond with the leads and pagination information
-    res.json({
-        leads,
-        page,
-        totalPages: Math.ceil(totalLeads / limit), // Calculate total pages
-        totalLeads,
-        limit
+    return res.status(200).json({
+        success: true,
+        message: "Leads updated successfully",
+        data: updatedLeads,
     });
 });
+
 
 // Retrieve all leads with optional pagination
 exports.allLeads = catchAsyncErrors(async (req, res) => {
@@ -209,12 +182,17 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
 
     if (leadId) {
         logger.info(`Retrieving lead with ID: ${leadId}`);
-        const lead = await Leads.findOne({ leadId });
-        if(lead.leadOwner){
-            const agent = await Agent.findOne({ agentId: lead.leadOwner }).select('agentId firstname lastname email');
-            console.log(agent);
-            lead.leadOwner = agent;
-        }
+        const lead = await Leads.findOne({ leadId }).populate({
+            path: 'query.queryRef',
+            select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
+        }).populate({
+            path: 'leadOwner.agentRef',  // Populate agentRef from leadOwner
+            select: 'firstname lastname email contact state address city country'  // Only include these fields
+        }).populate({
+            path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
+             select: '-updatedData -_id -__v -cropId'
+        });
+       
         if (!lead) {
             logger.warn(`Lead not found with ID: ${leadId}`);
             return res.status(404).json({ success: false, message: "Lead not found" });
@@ -242,8 +220,17 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
     };
 
     // Corrected conditional logic for retrieving leads based on user role
-    const query = (agent.user_role.role_name === 'Super Admin' || agent.user_role.role_name === 'Admin') ? {} : { leadOwner: agent.agentId };
-    const allLeads = await Leads.find(query).skip(skip).limit(limit);
+    const query = (agent.user_role.role_name === 'Super Admin' || agent.user_role.role_name === 'Admin') ? {} : { 'leadOwner.agentId': agent.agentId };
+    const allLeads = await Leads.find(query).populate({
+        path: 'query.queryRef',
+        select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
+    }).populate({
+        path: 'leadOwner.agentRef',  // Populate agentRef from leadOwner
+        select: 'firstname lastname email contact state address city country'  // Only include these fields
+    }).populate({
+        path: 'farm_details.Crop_name.cropRef',
+        select: '-updatedData -_id -__v -cropId'  // Populate cropRef from farm_details.Crop_name
+    }).skip(skip).limit(limit);
     const totalLeads = await Leads.countDocuments(query);
 
     // Sort leads in memory based on the priority map
@@ -397,5 +384,148 @@ exports.updateLeadStatus = catchAsyncErrors(async (req, res) => {
         message: "Lead callStatus updated and task created successfully",
         lead: updatedLead,
         task: newTask // Return the task if it was created
+    });
+});
+
+// Update multiple leads
+exports.updateMultipleLeads = catchAsyncErrors(async (req, res) => {
+    logger.info(`Updating leads with IDs: ${req.body.leadIds}`);
+    let leadIds = req.body.leadIds;
+    if (!leadIds || leadIds.length === 0) {
+        return res.status(400).json({ message: "No Lead IDs provided." });
+    }
+   
+    // Split the leadId string into an array if it contains multiple IDs
+    // leadIds = req.params.leadId.split(',').map(id => id.trim());
+    const updateData = req.body;
+
+    // Log the leadIds for debugging
+    logger.info(`Received lead IDs: ${JSON.stringify(leadIds)}`);
+
+    // Validate leadIds
+    if (leadIds.length === 0) {
+        return res.status(400).json({ message: "No Lead IDs provided." });
+    }
+
+    const [existingLeads, agent] = await Promise.all([
+        Leads.find({ leadId: { $in: leadIds } }),
+        Agent.findById(req.user.id)
+    ]);
+
+    // Log existing leads for debugging
+    logger.info(`Existing leads found: ${JSON.stringify(existingLeads)}`);
+
+    if (existingLeads.length === 0) {
+        logger.warn(`No leads found with IDs: ${leadIds.join(', ')}`);
+        return res.status(404).json({ message: "No leads found" });
+    }
+
+    // Retrieve the user role
+    const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role });
+    // Check if the agent is authorized to update the leads
+    const unauthorizedLeads = existingLeads.filter(lead => lead.leadOwner.agentId !== agent.agentId && !['Admin', 'Super Admin'].includes(userRole.role_name));
+    if (unauthorizedLeads.length > 0) {
+        return res.status(403).json({ message: "Not authorized to update some leads" });
+    }
+
+    const updatedLeads = [];
+    for (const lead of existingLeads) {
+        const updatedFields = {};
+        for (let key in updateData) {
+            if (key !== "leadIds" && updateData[key] !== lead[key]) {
+                updatedFields[key] = updateData[key];
+            }
+        }
+
+        // Check if leadOwner has changed and update assigned_leads of the new agent
+        if (updateData.leadOwner && updateData.leadOwner.agentId && updateData.leadOwner.agentId !== lead.leadOwner.agentId) {
+            const newOwnerAgent = await Agent.findOne({ agentId: updateData.leadOwner.agentId });
+            if (newOwnerAgent) {
+                // Check if the leadId is already assigned to prevent duplicates
+                const isAlreadyAssigned = newOwnerAgent.assigned_leads.some(assignedLead => assignedLead.leadId === lead.leadId);
+                if (!isAlreadyAssigned) {
+                    newOwnerAgent.assigned_leads.push({ 
+                        leadId: lead.leadId, 
+                        leadRef: lead._id // Assuming lead._id is the ObjectId of the lead
+                    });
+                    await newOwnerAgent.save();
+                }
+            }
+        }
+
+        // Handling updates to callStatus and followUpPriority
+        if (updateData.callStatus && updateData.callStatus.status) {
+            updateData.callStatus.callTime = Date.now() + 5.5 * 60 * 60 * 1000; // Store the call time whenever status is updated
+
+            // Set followUpPriority based on the call status
+            switch (updateData.callStatus.status) {
+                case 'Answered':
+                    updateData.followUpPriority = 'Completed';
+                    break;
+                case 'Not Answered':
+                    updateData.followUpPriority = 'Medium';
+                    break;
+                case 'Busy':
+                case 'Not Reachable':
+                    updateData.followUpPriority = 'High';
+                    break;
+            }
+
+            // Track consecutive 'Not Answered' statuses to potentially close the follow-up
+            if (!lead.callStatusHistory) {
+                lead.callStatusHistory = [];
+            }
+            lead.callStatusHistory.push(updateData.callStatus.status);
+
+            // Check the last three statuses for 'Not Answered'
+            const recentStatuses = lead.callStatusHistory.slice(-3);
+            if (recentStatuses.length === 3 && recentStatuses.every(status => status === 'Not Answered')) {
+                updateData.followUpPriority = 'Closed';
+            }
+        }
+
+        const callStatusHistory = updateData.callStatus ? updateData.callStatus.status : null;
+
+        const updateOperations = {
+            $set: { ...updateData, LastUpdated_By: agent.agentId },
+            $push: {
+                updatedData: {
+                    updatedBy: agent.agentId,
+                    updatedFields,
+                    ipAddress: req.ip,
+                    updatedByEmail: agent.email,
+                    updatedAt: Date.now() + 5.5 * 60 * 60 * 1000,
+                }
+            }
+        };
+        // Conditionally push to callStatusHistory if not null
+        if (callStatusHistory) {
+            updateOperations.$push.callStatusHistory = callStatusHistory;
+        }
+        const updatedLead = await Leads.findOneAndUpdate(
+            { leadId: lead.leadId },
+            updateOperations,
+            { new: true, runValidators: true }
+        );
+
+        if (updatedLead) {
+            updatedLeads.push(updatedLead);
+            logger.info(`Lead updated successfully with ID: ${lead.leadId}`);
+        }
+    }
+
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
+    if (io) {
+        updatedLeads.forEach(updatedLead => {
+            io.emit('updated-lead', updatedLead);
+        });
+    } else {
+        logger.error('Socket.io instance not found');
+    }
+
+    return res.status(200).json({
+        success: true,
+        message: "Leads updated successfully",
+        data: updatedLeads,
     });
 });
