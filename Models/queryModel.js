@@ -31,7 +31,7 @@ const querySchema = new mongoose.Schema({
                     return this.selected_sub_options && this.selected_sub_options.includes('Other');
                 }
             },
-            queryCategory_date:{type:Date,default:Date.now},
+            queryCategory_date:{type:Date,default:() => new Date(Date.now() + 5.5 * 60 * 60 * 1000)},
         }
     ],
     reason_not_order: {

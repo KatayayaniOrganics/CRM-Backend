@@ -63,12 +63,12 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
     const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role });
 
     // Check if the agent is authorized to update the leads
-    const unauthorizedLeads = existingLeads.filter(lead => 
-        lead.leadOwner.agentId !== agent.agentId && !['Admin', 'Super Admin'].includes(userRole.role_name)
-    );
-    if (unauthorizedLeads.length > 0) {
-        return res.status(403).json({ message: "Not authorized to update some leads" });
-    }
+    // const unauthorizedLeads = existingLeads.filter(lead => 
+    //     lead.leadOwner.agentId !== agent.agentId && !['Admin', 'Super Admin'].includes(userRole.role_name)
+    // );
+    // if (unauthorizedLeads.length > 0) {
+    //     return res.status(403).json({ message: "Not authorized to update some leads" });
+    // }
 
     const updatedLeads = [];
     for (const lead of existingLeads) {
@@ -199,12 +199,15 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
 
     for (let key in req.query) {
         if (req.query[key] && !['page', 'limit'].includes(key)) {
+            // Remove all whitespace and convert to lowercase
+            const normalizedValue = req.query[key].replace(/\s+/g, '').toLowerCase();
+            console.log(normalizedValue)
             if (key === 'dispossession_status') {
-                query[key] = req.query[key] === 'true'; // Convert string to boolean
+                query[key] = normalizedValue === 'true'; // Convert string to boolean
             } else if (['leadId', 'firstName', 'lastName', 'address', 'leadOwner', 'email', 'contact', 'dispossession'].includes(key)) {
-                query[key] = { $regex: req.query[key], $options: 'i' }; // Use regex for string fields
+                query[key] = { $regex: normalizedValue, $options: 'i' }; // Use regex for exact match
             } else {
-                query[key] = req.query[key];
+                query[key] = { $regex: normalizedValue, $options: 'i' }; // Use regex for exact match
             }
         }
     }
@@ -231,6 +234,9 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
         }).populate({
             path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
              select: '-updatedData -_id -__v -cropId'
+        }).populate({
+            path: 'call_history.callRef',
+            select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
         }).skip(skip).limit(limit);
         const totalLeads = await Leads.countDocuments(query);
         logger.info(`Found ${leads.length} leads matching the query`);
@@ -269,6 +275,9 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
         }).populate({
             path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
              select: '-updatedData -_id -__v -cropId'
+        }).populate({
+            path: 'call_history.callRef',
+            select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
         });
        
         if (!lead) {
@@ -607,3 +616,4 @@ exports.updateMultipleLeads = catchAsyncErrors(async (req, res) => {
         data: updatedLeads,
     });
 });
+
