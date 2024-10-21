@@ -54,7 +54,7 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
         other,
         created_by,
         updated_by,
-        queryCategory_date:Date.now()
+        queryCategory_date:new Date(Date.now() + 5.5 * 60 * 60 * 1000)
     });
 
     if (leadId || leadRef) {
