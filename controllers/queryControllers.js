@@ -53,7 +53,8 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
         action_taken,
         other,
         created_by,
-        updated_by
+        updated_by,
+        queryCategory_date:Date.now()
     });
 
     if (leadId || leadRef) {
