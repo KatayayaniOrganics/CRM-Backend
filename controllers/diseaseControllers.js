@@ -126,7 +126,7 @@ exports.updateDisease = catchAsyncErrors(async (req, res) => {
     $push: {
       updatedData: {
         updatedBy: agent.agentId,
-        updatedFields,
+        updatedFields: { ...otherUpdates, solution, prevention, products }, // Include all fields being updated
         updatedByEmail: agent.email,
         updatedAt: Date.now(),
         ipAddress,
