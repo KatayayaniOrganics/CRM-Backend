@@ -234,6 +234,9 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
         }).populate({
             path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
              select: '-updatedData -_id -__v -cropId'
+        }).populate({
+            path: 'call_history.callRef',
+            select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
         }).skip(skip).limit(limit);
         const totalLeads = await Leads.countDocuments(query);
         logger.info(`Found ${leads.length} leads matching the query`);
