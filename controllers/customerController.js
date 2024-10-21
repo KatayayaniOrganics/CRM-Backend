@@ -3,6 +3,8 @@ const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors.js");
 const logger = require('../logger.js');
 const Agent = require('../Models/agentModel.js');
 const Calls = require("../Models/callsModel");
+const { categorizeCustomer } = require("./customerCategories.js");
+
 
 
 exports.createCustomer = catchAsyncErrors(async (req, res) => {
@@ -20,11 +22,18 @@ exports.createCustomer = catchAsyncErrors(async (req, res) => {
       }
   
 
-      const newCustomer = new Customer({
-        ...req.body,
-        customerId: newCustomerId,
+      // Calculate initial category based on order history
+    const orderHistory = req.body.order_history || [];
+    const orderCount = orderHistory.length;
+    const totalOrderValue = orderHistory.reduce((sum, order) => sum + (order.orderValue || 0), 0);
+    const initialCategory = categorizeCustomer(orderCount, totalOrderValue);
 
-      });
+    const newCustomer = new Customer({
+      ...req.body,
+      customerId: newCustomerId,
+      category: initialCategory,
+    });
+
   
   
       await newCustomer.save();
@@ -162,61 +171,112 @@ exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
   res.json({ message: "Customer deleted successfully" });
 });
 
+
 exports.updateCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a PUT Request on Customer Route");
   const { customerId } = req.params;
   const updateData = req.body;
 
-  // Check if the updateData contains diseaseId - prevent updating it
+  // Prevent updating customerId
   if (updateData.customerId && updateData.customerId !== customerId) {
-      return res.status(400).json({ message: "customerId cannot be updated." });
+    return res.status(400).json({ message: "customerId cannot be updated." });
   }
 
-    // Find the existing customer
+  // Find the existing customer
   const existingCustomer = await Customer.findOne({ customerId });
-
   if (!existingCustomer) {
     return res.status(404).json({ message: "Customer not found" });
   }
 
-  // Find which fields are being updated
+  const agent = await Agent.findById(req.user.id);
+  if (!agent) {
+    return res.status(404).json({ message: "Agent not found" });
+  }
+
+  const ipAddress = req.headers['x-forwarded-for'] || req.ip;
+
+  // Collect fields that are being updated
   const updatedFields = {};
   for (let key in updateData) {
-    if (key !== "customerId" && updateData[key] !== existingCustomer[key]) {
+    if (key !== "customerId" && key !== "order_history" && key !== "call_history" && updateData[key] !== existingCustomer[key]) {
       updatedFields[key] = updateData[key];
     }
   }
 
-  const agent = await Agent.findById(req.user.id);
+  // Recalculate category if order_history is updated
+  if (updateData.order_history) {
+    const orderHistory = [...existingCustomer.order_history, ...updateData.order_history];
+    const orderCount = orderHistory.length;
+    const totalOrderValue = orderHistory.reduce((sum, order) => sum + (order.orderValue || 0), 0);
+    updatedFields.category = categorizeCustomer(orderCount, totalOrderValue);
+  }
 
-  // Capture the full IP address from the request
-  const ipAddress = req.headers['x-forwarded-for'] || req.ip;
-
-  // Update the disease and add the changes to the updatedData field, using agentId and IP address
-  const updatedCustomer = await Customer.findOneAndUpdate(
-    { customerId },
-    {
-      $set: {
-        ...updateData, // Update the fields in the customer
-        LastUpdated_By: agent.agentId, // Store the agentId of the updating agent
-      },
-      $push: {
-        updatedData: {
-          updatedBy: agent.agentId,  // Assuming req.user contains the agentId
-          updatedFields,
-          updatedByEmail:agent.email,
-          updatedAt: Date.now(),
-          ipAddress,  // Store the full IP address
-        },
-      },
+  // Prepare the update object for MongoDB operations
+  const updateObject = {
+    $set: {
+      LastUpdated_By: agent.agentId,
+      ...updatedFields
     },
-    { new: true, runValidators: true }
-  );
+    $push: {
+      updatedData: {
+        updatedBy: agent.agentId,
+        updatedFields: updatedFields,
+        updatedByEmail: agent.email,
+        updatedAt: Date.now(),
+        ipAddress,
+      }
+    }
+  };
 
-  if (updatedCustomer) {
-    return res.status(200).json({
-      success: true,
-      message: "Customer updated successfully",
-      data: updatedCustomer,
+  // Handle order_history updates and additions
+  if (updateData.order_history) {
+    updateData.order_history.forEach(order => {
+      if (order._id) {
+        // Update the specific order by _id
+        const orderPath = `order_history.$[elem]`;
+        updateObject.$set[orderPath] = order;
+        updateObject.arrayFilters = updateObject.arrayFilters || [{ "elem._id": order._id }];
+      } else {
+        // Add new order using $push
+        updateObject.$push.order_history = updateObject.$push.order_history || [];
+        updateObject.$push.order_history.push(order);
+      }
     });
   }
+
+  // Handle call_history updates and additions
+  if (updateData.call_history) {
+    updateData.call_history.forEach(call => {
+      if (call._id) {
+        // Update the specific call by _id
+        const callPath = `call_history.$[elem]`;
+        updateObject.$set[callPath] = call;
+        updateObject.arrayFilters = updateObject.arrayFilters || [];
+        updateObject.arrayFilters.push({ "elem._id": call._id });
+      } else {
+        // Add new call using $push
+        updateObject.$push.call_history = updateObject.$push.call_history || [];
+        updateObject.$push.call_history.push({ callId: call.callId });
+      }
+    });
+  }
+
+  // Execute the update
+  const updatedCustomer = await Customer.findOneAndUpdate(
+    { customerId },
+    updateObject,
+    { new: true, runValidators: true, arrayFilters: updateObject.arrayFilters || [] }
+  );
+
+  if (!updatedCustomer) {
+    return res.status(404).json({ message: "Customer not found" });
+  }
+
+  const io = req.app.get('socket.io');
+  io.emit('update-customer', updatedCustomer);
+  return res.status(200).json({
+    success: true,
+    message: "Customer updated successfully",
+    data: updatedCustomer,
+  });
 });
