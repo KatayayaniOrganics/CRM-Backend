@@ -38,8 +38,8 @@ if (lastCoupon && lastCoupon.couponId) {
 
     await coupon.save();
     logger.info(`Coupon created: ${coupon}`);
-    // const io = req.app.get('socketio'); // Get Socket.IO instance
-    // io.emit('new-coupon', coupon); 
+    const io = req.app.get('socketio'); // Get Socket.IO instance
+    io.emit('new-coupon', coupon); 
     res.status(201).json({ success: true, data: coupon });
 });
    
@@ -47,8 +47,8 @@ if (lastCoupon && lastCoupon.couponId) {
 exports.getAllCoupons = catchAsyncErrors(async (req, res) => {
     const coupons = await Coupon.find().populate('agentId', 'agentName'); // Populate agentId with agentName
     logger.info('Fetched all coupons');
-    // const io = req.app.get('socketio'); // Get Socket.IO instance
-    // io.emit('all-coupons', coupons); 
+    const io = req.app.get('socketio'); // Get Socket.IO instance
+    io.emit('all-coupons', coupons); 
     res.status(200).json({ success: true, data: coupons });
 });
 
@@ -78,8 +78,8 @@ exports.updateCoupon = catchAsyncErrors(async (req, res) => {
     }
   
     logger.info(`Updated coupon: ${coupon}`);
-    // const io = req.app.get('socketio'); // Get Socket.IO instance
-    // io.emit('update-coupons', coupon); 
+    const io = req.app.get('socketio'); // Get Socket.IO instance
+    io.emit('update-coupons', coupon); 
     res.status(200).json({ success: true, data: coupon });
   });
 
