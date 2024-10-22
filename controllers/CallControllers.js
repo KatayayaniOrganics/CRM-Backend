@@ -66,43 +66,43 @@ exports.CallUpdate = catchAsyncErrors(async (req, res) => {
     const { callId } = req.params;
     const updateData = req.body;
     logger.info(`Updating call with ID: ${callId}`);
-  
+
     // Check if the updateData contains callId - prevent updating it
     if (updateData.callId && updateData.callId !== callId) {
-      return res.status(400).json({ message: "callId cannot be updated." });
+        return res.status(400).json({ message: "callId cannot be updated." });
     }
-  
-    // Find the existing lead
+
+    // Find the existing call
     const existingcall = await Calls.findOne({ callId });
-  
+
     if (!existingcall) {
-      return res.status(404).json({ message: "Call Details not found" });
+        return res.status(404).json({ message: "Call Details not found" });
     }
-  
+
     // Find which fields are being updated
     const updatedFields = {};
     for (let key in updateData) {
-      if (key !== "callId" && updateData[key] !== existingcall[key]) {
-        updatedFields[key] = updateData[key];
-      }
+        if (key !== "callId" && updateData[key] !== existingcall[key]) {
+            updatedFields[key] = updateData[key];
+        }
     }
     const agent = await Agent.findById(req.user.id);
-  
-  
-    // Update the lead and add the changes to the updatedData field, using agentId
-    const updatedCall = await Calls.findOneAndUpdate(
-      { callId },
-      {
-        $set: {  ...updateData, // Update the fields in the lead
-          LastUpdated_By: agent.agentId}, // Store the agentId of the updating agent},
-        $push: {
-          updatedData: {
-            updatedBy: agent.agentId, // Assuming req.user contains the agentId
-            updatedFields,
-            updatedAt: Date.now(),            
-          },
+
+    // Update the call and add the changes to the updatedData field, using agentId
+   // Update the lead and add the changes to the updatedData field, using agentId
+   const updatedCall = await Calls.findOneAndUpdate(
+    { callId },
+    {
+      $set: {  ...updateData, // Update the fields in the lead
+        LastUpdated_By: agent.agentId}, // Store the agentId of the updating agent},
+      $push: {
+        updatedData: {
+          updatedBy: agent.agentId, // Assuming req.user contains the agentId
+          updatedFields,
+          updatedAt: Date.now(),            
         },
       },
+
       { new: true, runValidators: true }
     );
   
@@ -117,6 +117,7 @@ exports.CallUpdate = catchAsyncErrors(async (req, res) => {
       });
     }
   });
+
 
 
 exports.CallDelete = catchAsyncErrors(async (req, res) => {
