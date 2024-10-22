@@ -221,7 +221,10 @@ exports.logout = catchAsyncErrors(async (req, res) => {
 exports.getAllAgents = catchAsyncErrors(async (req, res) => {
   try {
     // Fetch all agents
-    const agents = await Agent.find();
+    const agents = await Agent.find().populate({
+      path: 'call_history.callRef',
+      select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
+  });
 
     // Manually populate the 'user_role' field using the UserRoleId string
     const populatedAgents = await Promise.all(agents.map(async (agent) => {
@@ -281,7 +284,6 @@ exports.updateAgent = catchAsyncErrors(async (req, res) => {
   }
 });
 
-
 //search agent
 exports.searchAgents = catchAsyncErrors(async (req, res) => {
   const query = {};
@@ -303,10 +305,6 @@ exports.searchAgents = catchAsyncErrors(async (req, res) => {
     agents: agents
   });
 });
-
-
-
-
 
 // Refresh Token Controller
 exports.refreshToken = catchAsyncErrors(async (req, res) => {

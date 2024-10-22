@@ -31,8 +31,6 @@ const agentSchema = new mongoose.Schema({
     countryCode:{type:String,default:null},
     phoneNumber:{type:Number,default:null},
   },
-  state:{type:String,default:null},
-  city:{type:String,default:null},
   password: {
     type: String,
     required: [true, "Password is required"],
@@ -55,8 +53,10 @@ const agentSchema = new mongoose.Schema({
   },
   call_history: [
     {
-      call_id: { type: mongoose.Schema.Types.ObjectId, ref: "Calls" }
-    }
+      callID:{type:String,default:null},
+      callRef:{type:mongoose.Schema.Types.ObjectId,ref:'Calls',default:null},
+      callDate:{type:Date,default:null}
+    },
   ],
   updated_By:{
     type:mongoose.Schema.Types.ObjectId,
@@ -73,9 +73,12 @@ const agentSchema = new mongoose.Schema({
     default: null
   },
   assigned_leads:[
-    {lead_id:{type:String,default:null,ref:"Leads"}}
-  ]
-  
+    {
+      leadId:{type:String,default:null},
+      leadRef:{type:mongoose.Schema.Types.ObjectId,ref:"Leads"}
+    }
+  ],
+  status:{type:String,enum:["Taking a Quick Break","Available","Out for Lunch" , "In a Training","End of shift"],default:"Available"}
 });
 
 const Agents = mongoose.model("Agents", agentSchema);

@@ -8,6 +8,7 @@ const { categorizeCustomer } = require("./customerCategories.js");
 
 
 exports.createCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a POST Request on Customer creation Route");
     try {
       const lastCustomer = await Customer.findOne().sort({ customerId: -1 }).exec();
 
@@ -37,6 +38,8 @@ exports.createCustomer = catchAsyncErrors(async (req, res) => {
   
   
       await newCustomer.save();
+      const io = req.app.get('socket.io'); // Get Socket.IO instance
+    io.emit('new-customer', newCustomer);
   
       res.status(201).json({
 
@@ -54,11 +57,20 @@ exports.createCustomer = catchAsyncErrors(async (req, res) => {
 });
 
 
+
+
 exports.allCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a GET Request on Customer Route");
   const { customerId } = req.params; // Get customerId from query parameters
   if (customerId) {
-      // Fetch a specific customer by customerId
-      const customer = await Customer.findOne({ customerId });
+      // Fetch a specific customer by customerId and populate call and order history
+      const customer = await Customer.findOne({ customerId })
+        .populate({
+          path: 'call_history.callRef',
+          model: 'Calls',
+          select: '-callId  -__v -call_history -updatedData'
+        })
+        
 
       if (!customer) {
           return res.status(404).json({
@@ -67,29 +79,12 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
           });
       }
 
-      // Map over call_history to fetch call details
-      const populatedCallHistory = await Promise.all(
-        customer.call_history.map(async (call) => {
-          const callDetails = await Calls.find({ callId: { $in: call.callId } });
-          return {
-            ...call.toObject(),
-            callDetails, // Populate call details for each call
-          };
-        })
-      );
-      console.log(populatedCallHistory);
-  
-
-      // Save the updated customer document
-      await customer.save();
-
+      const io = req.app.get('socket.io'); // Get Socket.IO instance
+      io.emit('getone-customer', customer);
       return res.status(200).json({
           success: true,
           message: "Customer retrieved successfully",
-          customer: {
-            ...customer.toObject(),
-            call_history: populatedCallHistory,
-          },
+          customer: customer,
       });
   }
 
@@ -98,47 +93,29 @@ exports.allCustomer = catchAsyncErrors(async (req, res) => {
   const limit = parseInt(req.query.limit) || 100; // Number of customers per page
   const skip = (page - 1) * limit; // Calculate the number of customers to skip
 
-  const [allCustomers, totalCustomers] = await Promise.all([
-      Customer.find().skip(skip).limit(limit), // Fetch customers with pagination
-      Customer.countDocuments() // Get total number of customers
-  ]);
-
-
-  // Manually populate diseases for each crop's stages
-  const customersWithPopulatedCallHistory = await Promise.all(
-    allCustomers.map(async (customer) => {
-      const populatedCallHistory = await Promise.all(
-        customer.call_history.map(async (call) => {
-          const callDetails = await Calls.find({ callId: { $in: call.callId } });
-          return {
-            ...call.toObject(),
-            callDetails, // Populate call details for each call
-          };
-        })
-      );
-
-      return {
-        ...customer.toObject(),
-        call_history: populatedCallHistory,
-      };
+  const allCustomers = await Customer.find().skip(skip).limit(limit)
+    .populate({
+      path: 'call_history.callRef',
+      model: 'Calls'
     })
-  );
+  const totalCustomers = await Customer.countDocuments(); // Get total number of customers
 
-
-
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
+  io.emit('get-customer', allCustomers);
   res.status(200).json({
       success: true,
       message: "All customers that are available",
-      total: allCustomers.length,
+      total: totalCustomers,
       page,
       limit,
-      data: customersWithPopulatedCallHistory,
+      data: allCustomers,
   });
 });
 
 
 
 exports.searchCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a GET Request on Customer Search Route");
   const query = {};
 
   for (let key in req.query) {
@@ -155,10 +132,13 @@ exports.searchCustomer = catchAsyncErrors(async (req, res) => {
   }
 
   const customer = await Customer.find(query);
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
+    io.emit('search-customer',customer);
   res.json(customer);
 });
 
 exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
+  logger.info("You made a DELETE Request on Customer Route");
   const { customerId } = req.params;
 
  
@@ -168,6 +148,8 @@ exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
     return res.status(404).json({ message: "Customer not found" });
   }
 
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
+    io.emit('delete-customer', deletedCustomer);
   res.json({ message: "Customer deleted successfully" });
 });
 
@@ -260,7 +242,6 @@ exports.updateCustomer = catchAsyncErrors(async (req, res) => {
       }
     });
   }
-
   // Execute the update
   const updatedCustomer = await Customer.findOneAndUpdate(
     { customerId },
@@ -280,3 +261,4 @@ exports.updateCustomer = catchAsyncErrors(async (req, res) => {
     data: updatedCustomer,
   });
 });
+

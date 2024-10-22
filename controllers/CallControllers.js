@@ -2,43 +2,67 @@ const Calls = require("../Models/callsModel");
 const logger = require("../logger");
 const {catchAsyncErrors} = require('../middlewares/catchAsyncErrors');
 const Agent = require('../Models/agentModel');
+const Leads = require("../Models/LeadsModel");
+
+const createNewCallId = async () => {
+    const lastCall = await Calls.findOne().sort({ callId: -1 }).exec();
+    if (lastCall) {
+        const lastCallNumber = parseInt(lastCall.callId.split("-")[1], 10);
+        const newCallNumber = lastCallNumber + 1;
+        return `CO-${newCallNumber.toString().padStart(4, "0")}`;
+    }
+    return "CO-1001"; // Default if no calls are found
+};
+
+const formatCustomerId = (customerId) => {
+    const numericPart = parseInt(customerId, 10);
+    return `K0-${numericPart.toString().padStart(4, "0")}`;
+};
+
+const updateLeadCallHistory = async (formattedCustomerId, callId, callRef) => {
+    const lead = await Leads.findOne({ leadId: formattedCustomerId });
+    if (lead) {
+        lead.call_history.push({ callID: callId, callRef: callRef, callDate: Date.now() });
+        await lead.save();
+    }
+};
+
+const updateAgentCallHistory = async (agentId, callId, callRef) => {
+    const agent = await Agent.findOne({ email: agentId });
+    if (agent) {
+        agent.call_history.push({ callID: callId, callRef: callRef, callDate: Date.now() });
+        await agent.save();
+    }
+};
 
 exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
     logger.info("You made a POST Request on CallDetails creation Route");
-    logger.info("Creating new call details");
-  
-    const lastCall = await Calls.findOne().sort({ callId: -1 }).exec();
-  
-    let newCallId = "CO-1001";
-  
-    if (lastCall) {
-      // Extract the numeric part of the callId
-      const lastCallNumber = parseInt(lastCall.callId.split("-")[1], 10);
-  
-      // Increment and create the new callId
-      const newCallNumber = lastCallNumber + 1;
-  
-      // Ensure the numeric part is padded to the correct length
-      newCallId = `CO-${newCallNumber.toString().padStart(2, "0")}`;
-    }
-  
+    const { customer_id, agent_id } = req.body;
+
+    const newCallId = await createNewCallId();
     const callDetails = new Calls({
-      ...req.body,
-      callId: newCallId,
-      // Add connection details if needed
-      connectionStatus: 'initiated', // Example field for connection status
+        ...req.body,
+        callId: newCallId,
+        connectionStatus: 'initiated',
     });
-  
     await callDetails.save();
-    const io = req.app.get('socketio'); // Get Socket.IO instance
-    io.emit('new-call', callDetails); 
+
+    if (customer_id) {
+        const formattedCustomerId = formatCustomerId(customer_id);
+        await updateLeadCallHistory(formattedCustomerId, callDetails.callId, callDetails._id);
+    }
+
+    if (agent_id) {
+        await updateAgentCallHistory(agent_id, callDetails.callId, callDetails._id);
+    }
+
+    const io = req.app.get('socket.io');
+    io.emit('new-call', callDetails);
     res.status(201).send({ success: true, message: "Calls created successfully" });
     logger.info(callDetails);
-  });
+});
 
-
-
-  exports.CallUpdate = catchAsyncErrors(async (req, res) => {
+exports.CallUpdate = catchAsyncErrors(async (req, res) => {
     const { callId } = req.params;
     const updateData = req.body;
     logger.info(`Updating call with ID: ${callId}`);
@@ -78,25 +102,21 @@ exports.CallDetailsCreation = catchAsyncErrors(async (req, res) => {
           updatedAt: Date.now(),            
         },
       },
-    },
-    { new: true, runValidators: true }
-  );
 
-  // If update was successful, return a success response with status code 200
-  if (updatedCall) {
-    const io = req.app.get('socket.io'); // Get Socket.IO instance
-  io.emit('update-call', updatedCall); 
-    return res.status(200).json({ 
-      success: true,
-      message: "CAll updated successfully",
-      data: updatedCall,
-    });
-  }
-});
-
- 
-
-
+      { new: true, runValidators: true }
+    );
+  
+    // If update was successful, return a success response with status code 200
+    if (updatedCall) {
+      const io = req.app.get('socket.io'); // Get Socket.IO instance
+    io.emit('update-call', updatedCall); 
+      return res.status(200).json({ 
+        success: true,
+        message: "CAll updated successfully",
+        data: updatedCall,
+      });
+    }
+  });
 
 
 
@@ -111,7 +131,7 @@ exports.CallDelete = catchAsyncErrors(async (req, res) => {
     if (result.deletedCount === 0) {
       return res.status(404).send({ success: false, message: "Calls not found" });
     }
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('delete-call', result); 
     res.status(200).send({ success: true, message: "Calls deleted successfully" });
     logger.info(`Calls with callId ${callId} deleted successfully`);
@@ -132,7 +152,7 @@ exports.callsearch = catchAsyncErrors(async (req, res) => {
     }
 
     const call = await Calls.find(query) // Exclude password field
-    const io = req.app.get('socketio'); // Get Socket.IO instance
+    const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('filter-call', call); 
     res.json(call);
     logger.info("Searching for calls");
@@ -142,7 +162,7 @@ exports.callsearch = catchAsyncErrors(async (req, res) => {
 
 exports.getAllCalls = catchAsyncErrors(async (req, res) => {
   const allCalls = await Calls.find();
-  const io = req.app.get('socketio'); // Get Socket.IO instance
+  const io = req.app.get('socket.io'); // Get Socket.IO instance
     io.emit('all-call', allCalls); 
   res.status(200).json(allCalls);
   logger.info("Fetching all calls");
