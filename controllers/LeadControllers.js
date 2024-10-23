@@ -174,7 +174,6 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
     });
 });
 
-
 // Search for leads based on query parameters with pagination and role-based restrictions
 exports.searchLead = catchAsyncErrors(async (req, res) => {
     logger.info('Searching for leads');
@@ -335,12 +334,42 @@ exports.deleteLead = catchAsyncErrors(async (req, res) => {
         data:deletedLead
      });
 });
-
-// Handle Kylas lead requests by pushing them to the queue
+// Webhook to handle lead updates from Kylas
 exports.kylasLead = catchAsyncErrors(async (req, res) => {
-    logger.info('Handling Kylas lead request');
-    leadQueue.push({ req, res });
+    const { phoneNumber, leadData } = req.body; // Assuming Kylas sends phoneNumber and updated leadData
+    
+    logger.info(`Received Kylas lead update for phone number: ${phoneNumber}`);
+
+    // Find lead by phone number
+    const lead = await Leads.findOne({ contact: phoneNumber });
+
+    if (!lead) {
+        logger.error(`Lead with phone number ${phoneNumber} not found`);
+        return res.status(404).json({ message: 'Lead not found' });
+    }
+
+    // Check if leadData exists and apply updates safely
+    if (leadData && typeof leadData === 'object') {
+        // Merge leadData into existing lead document
+        for (const key in leadData) {
+            if (leadData.hasOwnProperty(key)) {
+                lead[key] = leadData[key];
+            }
+        }
+    }
+
+    // Save the updated lead document
+    await lead.save();
+
+    logger.info(`Lead with phone number ${phoneNumber} updated successfully`);
+
+
+    res.status(200).json({
+        message: 'Lead updated successfully',
+        lead: lead,
+    });
 });
+
 
 // Interact with a lead (for demonstration purposes)
 exports.interactLead = catchAsyncErrors(async (req, res) => {

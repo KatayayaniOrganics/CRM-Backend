@@ -75,7 +75,6 @@ exports.queryCreation = catchAsyncErrors(async (req, res) => {
         query: newQuery
     });
 });
-
 exports.getQuery = catchAsyncErrors(async (req, res) => {
     const { lot = 1, size = 10 } = req.query;
 
@@ -123,7 +122,6 @@ exports.getQuery = catchAsyncErrors(async (req, res) => {
         totalQueries,  // Total number of queries
     });
 });
-
 exports.searchQuery = catchAsyncErrors(async (req, res) => {
     const { queryId } = req.params; // Get queryId from URL
 
@@ -145,7 +143,6 @@ exports.searchQuery = catchAsyncErrors(async (req, res) => {
         query
     });
 });
-
 exports.deleteQuery = catchAsyncErrors(async (req, res) => {
     const { queryId } = req.params; // Get queryId from URL parameters
 
@@ -171,7 +168,6 @@ exports.deleteQuery = catchAsyncErrors(async (req, res) => {
         message: 'Query successfully deleted',
     });
 });
-
 exports.updateQuery = catchAsyncErrors(async (req, res) => {
     logger.info(`Updating query from IP: ${req.ip}`);
 

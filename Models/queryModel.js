@@ -6,12 +6,12 @@ const querySchema = new mongoose.Schema({
         unique: true,
         required: [true, "QueryId is required"],
         default: function() {
-            return `QU-${Date.now()}`; // Example of a unique default
+            return `QU-${Date.now()}`; 
         }
     }, 
     lead: { 
      leadId: String,
-    leadRef: mongoose.Schema.Types.ObjectId, 
+     leadRef: mongoose.Schema.Types.ObjectId, 
     },
     query_category: [
         {
