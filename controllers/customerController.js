@@ -3,6 +3,8 @@ const { catchAsyncErrors } = require("../middlewares/catchAsyncErrors.js");
 const logger = require('../logger.js');
 const Agent = require('../Models/agentModel.js');
 const Calls = require("../Models/callsModel");
+const { categorizeCustomer } = require("./customerCategories.js");
+
 
 
 exports.createCustomer = catchAsyncErrors(async (req, res) => {
@@ -21,11 +23,18 @@ exports.createCustomer = catchAsyncErrors(async (req, res) => {
       }
   
 
-      const newCustomer = new Customer({
-        ...req.body,
-        customerId: newCustomerId,
+      // Calculate initial category based on order history
+    const orderHistory = req.body.order_history || [];
+    const orderCount = orderHistory.length;
+    const totalOrderValue = orderHistory.reduce((sum, order) => sum + (order.orderValue || 0), 0);
+    const initialCategory = categorizeCustomer(orderCount, totalOrderValue);
 
-      });
+    const newCustomer = new Customer({
+      ...req.body,
+      customerId: newCustomerId,
+      category: initialCategory,
+    });
+
   
   
       await newCustomer.save();
@@ -145,8 +154,6 @@ exports.deleteCustomer = catchAsyncErrors(async (req, res) => {
 });
 
 
-
-
 exports.updateCustomer = catchAsyncErrors(async (req, res) => {
   logger.info("You made a PUT Request on Customer Route");
   const { customerId } = req.params;
@@ -178,16 +185,24 @@ exports.updateCustomer = catchAsyncErrors(async (req, res) => {
     }
   }
 
+  // Recalculate category if order_history is updated
+  if (updateData.order_history) {
+    const orderHistory = [...existingCustomer.order_history, ...updateData.order_history];
+    const orderCount = orderHistory.length;
+    const totalOrderValue = orderHistory.reduce((sum, order) => sum + (order.orderValue || 0), 0);
+    updatedFields.category = categorizeCustomer(orderCount, totalOrderValue);
+  }
+
   // Prepare the update object for MongoDB operations
   const updateObject = {
     $set: {
       LastUpdated_By: agent.agentId,
-      ...updatedFields  // Ensure updated fields are set here
+      ...updatedFields
     },
     $push: {
       updatedData: {
         updatedBy: agent.agentId,
-        updatedFields: updatedFields,  // Ensure updated fields are pushed here
+        updatedFields: updatedFields,
         updatedByEmail: agent.email,
         updatedAt: Date.now(),
         ipAddress,
@@ -211,23 +226,22 @@ exports.updateCustomer = catchAsyncErrors(async (req, res) => {
     });
   }
 
-
-    // Handle call_history updates and additions
-    if (updateData.call_history) {
-      updateData.call_history.forEach(call => {
-        if (call._id) {
-          // Update the specific call by _id
-          const callPath = `call_history.$[elem]`;
-          updateObject.$set[callPath] = call;
-          updateObject.arrayFilters = updateObject.arrayFilters || [];
-          updateObject.arrayFilters.push({ "elem._id": call._id });
-        } else {
-          // Add new call using $push
-          updateObject.$push.call_history = updateObject.$push.call_history || [];
-          updateObject.$push.call_history.push({ callId: call.callId });
-        }
-      });
-    }
+  // Handle call_history updates and additions
+  if (updateData.call_history) {
+    updateData.call_history.forEach(call => {
+      if (call._id) {
+        // Update the specific call by _id
+        const callPath = `call_history.$[elem]`;
+        updateObject.$set[callPath] = call;
+        updateObject.arrayFilters = updateObject.arrayFilters || [];
+        updateObject.arrayFilters.push({ "elem._id": call._id });
+      } else {
+        // Add new call using $push
+        updateObject.$push.call_history = updateObject.$push.call_history || [];
+        updateObject.$push.call_history.push({ callId: call.callId });
+      }
+    });
+  }
   // Execute the update
   const updatedCustomer = await Customer.findOneAndUpdate(
     { customerId },
@@ -247,3 +261,4 @@ exports.updateCustomer = catchAsyncErrors(async (req, res) => {
     data: updatedCustomer,
   });
 });
+

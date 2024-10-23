@@ -5,7 +5,9 @@ const CustomerSchema = new mongoose.Schema(
     leadId: {
       type: String,
       unique: true,
-      ref: "Lead",
+      // ref: "Lead",
+       default: "K0-1000"
+   
     },
     customerId: {
       type: String,
@@ -85,6 +87,11 @@ const CustomerSchema = new mongoose.Schema(
       type:mongoose.Schema.Types.ObjectId,
       ref:"Tags",
     },
+    category: {
+      type: String,
+      enum: ['Key Account', 'Prospect', 'Repeat Buyer', 'Customer', 'Micro Dealer', 'Uncategorized'],
+      default: 'Uncategorized'
+    },
     call_history:[
       {
         callId:{type:String,default:null},
@@ -117,6 +124,7 @@ const CustomerSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
 
 const Customer = mongoose.model("Customer", CustomerSchema);
 

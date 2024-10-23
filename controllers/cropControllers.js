@@ -226,8 +226,16 @@ exports.updateCrop = catchAsyncErrors(async (req, res) => {
       }
   }
 
-  // Find the crop by cropId and update only the fields passed in the request body (excluding stages)
-  const { stages: _, ...remainingUpdateData } = updateCropData; // Exclude stages from remaining update data
+  if (updateCropData.products_used) {
+    await Crop.updateOne(
+        { cropId },
+        { $push: { products_used: { $each: updateCropData.products_used } } }
+    );
+}
+
+// Find the crop by cropId and update only the fields passed in the request body (excluding stages and products_used)
+const { stages: _, products_used: __, ...remainingUpdateData } = updateCropData; // Exclude stages and products_used from remaining update data
+
   const updatedCrop = await Crop.findOneAndUpdate(
       { cropId },  // Find the crop by its cropId
       { 
@@ -237,7 +245,8 @@ exports.updateCrop = catchAsyncErrors(async (req, res) => {
           },
           $push: {
               updatedData: {
-                  updatedFields: remainingUpdateData, // Store the updated fields
+                updatedBy: agent.agentId,
+                updatedFields: { ...remainingUpdateData, stages: updateCropData.stages, products_used: updateCropData.products_used }, // Store the updated fields
                   updatedByEmail: agent.email,
                   updatedAt: Date.now(),
                   ipAddress,  // Store the full IP address

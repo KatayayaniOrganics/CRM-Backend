@@ -92,56 +92,61 @@ exports.searchDisease = catchAsyncErrors(async (req, res) => {
 
 });
 
+
 exports.updateDisease = catchAsyncErrors(async (req, res) => {
   logger.info("You made a PUT Request on Disease Route");
   const { diseaseId } = req.params;
-  const updateData = req.body;
+  const { solution, prevention, products, ...otherUpdates } = req.body; // Destructure the array fields from the request body
 
   // Check if the updateData contains diseaseId - prevent updating it
-  if (updateData.diseaseId && updateData.diseaseId !== diseaseId) {
+  if (otherUpdates.diseaseId && otherUpdates.diseaseId !== diseaseId) {
     return res.status(400).json({ message: "diseaseId cannot be updated." });
   }
 
   // Find the existing disease
   const existingDisease = await Disease.findOne({ diseaseId });
-
   if (!existingDisease) {
     return res.status(404).json({ message: "Disease not found" });
   }
 
   // Find which fields are being updated
   const updatedFields = {};
-  for (let key in updateData) {
-    if (key !== "diseaseId" && updateData[key] !== existingDisease[key]) {
-      updatedFields[key] = updateData[key];
+  for (let key in otherUpdates) {
+    if (otherUpdates[key] !== existingDisease[key]) {
+      updatedFields[key] = otherUpdates[key];
     }
   }
 
   const agent = await Agent.findById(req.user.id);
-
-  // Capture the full IP address from the request
   const ipAddress = req.headers['x-forwarded-for'] || req.ip;
 
-  // Update the disease and add the changes to the updatedData field, using agentId and IP address
-  const updatedDisease = await Disease.findOneAndUpdate(
-    { diseaseId },
-    {
-      $set: {
-        ...updateData, // Update the fields in the disease
-        LastUpdated_By: agent.agentId, // Store the agentId of the updating agent
-      },
-      $push: {
-        updatedData: {
-          updatedBy: agent.agentId,  // Assuming req.user contains the agentId
-          updatedFields,
-          updatedByEmail:agent.email,
-          updatedAt: Date.now(),
-          ipAddress,  // Store the full IP address
-        },
-      },
-    },
-    { new: true, runValidators: true }
-  );
+  // Prepare the update object
+  const update = {
+    $set: otherUpdates,
+    $push: {
+      updatedData: {
+        updatedBy: agent.agentId,
+        updatedFields: { ...otherUpdates, solution, prevention, products }, // Include all fields being updated
+        updatedByEmail: agent.email,
+        updatedAt: Date.now(),
+        ipAddress,
+      }
+    }
+  };
+
+  // Append new items to arrays if they exist in the request
+  if (solution) {
+    update.$push.solution = { $each: solution };
+  }
+  if (prevention) {
+    update.$push.prevention = { $each: prevention };
+  }
+  if (products) {
+    update.$push.products = { $each: products };
+  }
+
+  // Update the disease with the prepared update object
+  const updatedDisease = await Disease.findOneAndUpdate({ diseaseId }, update, { new: true, runValidators: true });
 
   if (updatedDisease) {
     const io = req.app.get('socket.io'); // Get Socket.IO instance
@@ -149,7 +154,7 @@ exports.updateDisease = catchAsyncErrors(async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Disease updated successfully",
-      data: updatedDisease,
+      data: updatedDisease
     });
   }
 });

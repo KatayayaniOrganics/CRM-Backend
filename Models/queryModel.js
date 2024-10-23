@@ -1,3 +1,4 @@
+const { query } = require('express');
 const mongoose = require('mongoose');
 
 const querySchema = new mongoose.Schema({
@@ -10,8 +11,8 @@ const querySchema = new mongoose.Schema({
         }
     }, 
     lead: { 
-     leadId: String,
-     leadRef: mongoose.Schema.Types.ObjectId, 
+        leadId: {type: String, default: null}, 
+        leadRef: {type: mongoose.Schema.Types.ObjectId, ref: 'Leads', default: null}, 
     },
     query_category: [
         {
@@ -29,7 +30,8 @@ const querySchema = new mongoose.Schema({
                     // Make 'description' required if 'Other' is in selected_sub_options array
                     return this.selected_sub_options && this.selected_sub_options.includes('Other');
                 }
-            }
+            },
+            queryCategory_date:{type:Date,default:() => new Date(Date.now() + 5.5 * 60 * 60 * 1000)},
         }
     ],
     reason_not_order: {
@@ -39,8 +41,8 @@ const querySchema = new mongoose.Schema({
         type: String
     },
     created_by: { 
-        agentId:String,
-        agentRef:mongoose.Schema.Types.ObjectId, 
+        agentId: {type:String,ref:'Agents',default:null},
+        agentRef: {type:mongoose.Schema.Types.ObjectId,ref:'Agents',default:null}, 
     },
     created_at: { 
         type: Date, 
@@ -48,7 +50,7 @@ const querySchema = new mongoose.Schema({
     },
     updated_by: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User',
+        ref: 'Agents',
         required: false
     },
     updated_history: [
@@ -62,7 +64,7 @@ const querySchema = new mongoose.Schema({
             },
             updated_by: { 
                 type: mongoose.Schema.Types.ObjectId, 
-                ref: 'User' 
+                ref: 'Agents' 
             }
         }
     ]

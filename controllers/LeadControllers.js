@@ -28,54 +28,63 @@ exports.createLead = catchAsyncErrors(async (req, res) => {
 
 // Update an existing lead
 exports.updateLead = catchAsyncErrors(async (req, res) => {
+    // Log the initiation of the update process
     logger.info(`Updating leads with IDs: ${req.params.leadId}`);
+
+    // Extract and clean lead IDs from the request parameters
     const leadIds = req.params.leadId.split(',').map(id => id.trim());
     const updateData = {...req.body};
-    delete updateData.query; // Remove query from updateData to avoid conflicts
-    delete updateData.order_history; // Simila
- 
 
-    // Log the leadIds for debugging
+    // Remove specific fields from updateData to prevent conflicts
+    delete updateData.query;
+    delete updateData.order_history;
+
+    // Log the cleaned lead IDs for debugging purposes
     logger.info(`Received lead IDs: ${JSON.stringify(leadIds)}`);
 
-    // Validate leadIds
+    // Validate the presence of lead IDs
     if (leadIds.length === 0) {
         return res.status(400).json({ message: "No Lead IDs provided." });
     }
 
+    // Retrieve existing leads and the agent's details concurrently
     const [existingLeads, agent] = await Promise.all([
         Leads.find({ leadId: { $in: leadIds } }),
         Agent.findById(req.user.id)
     ]);
 
-
+    // Handle case where no leads are found
     if (existingLeads.length === 0) {
         logger.warn(`No leads found with IDs: ${leadIds.join(', ')}`);
         return res.status(404).json({ message: "No leads found" });
     }
 
-    // Retrieve the user role
+    // Retrieve the user role of the agent
     const userRole = await UserRoles.findOne({ UserRoleId: agent.user_role });
+
     // Check if the agent is authorized to update the leads
-    const unauthorizedLeads = existingLeads.filter(lead => lead.leadOwner.agentId !== agent.agentId && !['Admin', 'Super Admin'].includes(userRole.role_name));
-    if (unauthorizedLeads.length > 0) {
-        return res.status(403).json({ message: "Not authorized to update some leads" });
-    }
+    // const unauthorizedLeads = existingLeads.filter(lead => 
+    //     lead.leadOwner.agentId !== agent.agentId && !['Admin', 'Super Admin'].includes(userRole.role_name)
+    // );
+    // if (unauthorizedLeads.length > 0) {
+    //     return res.status(403).json({ message: "Not authorized to update some leads" });
+    // }
 
     const updatedLeads = [];
     for (const lead of existingLeads) {
         const updatedFields = {};
+
+        // Prepare fields for update, excluding 'leadId'
         for (let key in updateData) {
             if (key !== "leadId" && updateData[key] !== lead[key]) {
                 updatedFields[key] = updateData[key];
             }
         }
 
-        // Check if leadOwner has changed and update assigned_leads of the new agent
+        // Handle ownership transfer if leadOwner has changed
         if (updateData.leadOwner && updateData.leadOwner.agentId && updateData.leadOwner.agentId !== lead.leadOwner.agentId) {
             const newOwnerAgent = await Agent.findOne({ agentId: updateData.leadOwner.agentId });
             if (newOwnerAgent) {
-                // Check if the leadId is already assigned to prevent duplicates
                 const isAlreadyAssigned = newOwnerAgent.assigned_leads.some(assignedLead => assignedLead.leadId === lead.leadId);
                 if (!isAlreadyAssigned) {
                     newOwnerAgent.assigned_leads.push({ 
@@ -87,11 +96,11 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
             }
         }
 
-        // Handling updates to callStatus and followUpPriority
+        // Update call status and follow-up priority based on the new call status
         if (updateData.callStatus && updateData.callStatus.status) {
-            updateData.callStatus.callTime = Date.now() + 5.5 * 60 * 60 * 1000; // Store the call time whenever status is updated
+            updateData.callStatus.callTime = Date.now() + 5.5 * 60 * 60 * 1000; // Adjust for timezone if necessary
 
-            // Set followUpPriority based on the call status
+            // Set follow-up priority based on the call status
             switch (updateData.callStatus.status) {
                 case 'Answered':
                     updateData.followUpPriority = 'Completed';
@@ -105,13 +114,13 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
                     break;
             }
 
-            // Track consecutive 'Not Answered' statuses to potentially close the follow-up
+            // Track call status history for follow-up decisions
             if (!lead.callStatusHistory) {
                 lead.callStatusHistory = [];
             }
             lead.callStatusHistory.push(updateData.callStatus.status);
 
-            // Check the last three statuses for 'Not Answered'
+            // Automatically close follow-up if recent statuses are all 'Not Answered'
             const recentStatuses = lead.callStatusHistory.slice(-3);
             if (recentStatuses.length === 3 && recentStatuses.every(status => status === 'Not Answered')) {
                 updateData.followUpPriority = 'Closed';
@@ -120,6 +129,7 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
 
         const callStatusHistory = updateData.callStatus ? updateData.callStatus.status : null;
 
+        // Prepare MongoDB update operations
         const updateOperations = {
             $set: { ...updateData, LastUpdated_By: agent.agentId },
             $push: {
@@ -132,20 +142,21 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
                 }
             }
         };
-        // Conditionally push to callStatusHistory if not null
+
+        // Conditionally update callStatusHistory
         if (callStatusHistory) {
             updateOperations.$push.callStatusHistory = callStatusHistory;
         }
-        // Append new order_history object to the order_history array
-        if (req.body.order_history !== null || req.body.order_history !== undefined) {
+
+        // Append new order_history and query objects if provided
+        if (req.body.order_history) {
             updateOperations.$push.order_history = req.body.order_history;
         }
-       
-        // Append new query object to the query array
-        if (req.body.query !== null || req.body.query !== undefined) {
-            // let newQuery = {queryId:req.body.query[0].queryId,queryRef:req.body.query[0].queryRef};
+        if (req.body.query) {
             updateOperations.$push.query = req.body.query;
         }
+
+        // Execute the update operation
         const updatedLead = await Leads.findOneAndUpdate(
             { leadId: lead.leadId },
             updateOperations,
@@ -158,7 +169,8 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
         }
     }
 
-    const io = req.app.get('socket.io'); // Get Socket.IO instance
+    // Notify via Socket.IO if available
+    const io = req.app.get('socket.io');
     if (io) {
         updatedLeads.forEach(updatedLead => {
             io.emit('updated-lead', updatedLead);
@@ -167,6 +179,7 @@ exports.updateLead = catchAsyncErrors(async (req, res) => {
         logger.error('Socket.io instance not found');
     }
 
+    // Return success response
     return res.status(200).json({
         success: true,
         message: "Leads updated successfully",
@@ -185,12 +198,15 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
 
     for (let key in req.query) {
         if (req.query[key] && !['page', 'limit'].includes(key)) {
+            // Remove all whitespace and convert to lowercase
+            const normalizedValue = req.query[key].replace(/\s+/g, '').toLowerCase();
+            console.log(normalizedValue)
             if (key === 'dispossession_status') {
-                query[key] = req.query[key] === 'true'; // Convert string to boolean
+                query[key] = normalizedValue === 'true'; // Convert string to boolean
             } else if (['leadId', 'firstName', 'lastName', 'address', 'leadOwner', 'email', 'contact', 'dispossession'].includes(key)) {
-                query[key] = { $regex: req.query[key], $options: 'i' }; // Use regex for string fields
+                query[key] = { $regex: normalizedValue, $options: 'i' }; // Use regex for exact match
             } else {
-                query[key] = req.query[key];
+                query[key] = { $regex: normalizedValue, $options: 'i' }; // Use regex for exact match
             }
         }
     }
@@ -217,6 +233,9 @@ exports.searchLead = catchAsyncErrors(async (req, res) => {
         }).populate({
             path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
              select: '-updatedData -_id -__v -cropId'
+        }).populate({
+            path: 'call_history.callRef',
+            select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
         }).skip(skip).limit(limit);
         const totalLeads = await Leads.countDocuments(query);
         logger.info(`Found ${leads.length} leads matching the query`);
@@ -255,6 +274,9 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
         }).populate({
             path: 'farm_details.Crop_name.cropRef',  // Populate cropRef from farm_details.Crop_name
              select: '-updatedData -_id -__v -cropId'
+        }).populate({
+            path: 'call_history.callRef',
+            select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
         });
        
         if (!lead) {
@@ -294,6 +316,9 @@ exports.allLeads = catchAsyncErrors(async (req, res) => {
     }).populate({
         path: 'farm_details.Crop_name.cropRef',
         select: '-updatedData -_id -__v -cropId'  // Populate cropRef from farm_details.Crop_name
+    }).populate({
+        path: 'call_history.callRef',
+        select: '-updated_history -created_at -_id -queryId -__v'  // Exclude fields here
     }).skip(skip).limit(limit);
     const totalLeads = await Leads.countDocuments(query);
 
@@ -623,3 +648,4 @@ exports.updateMultipleLeads = catchAsyncErrors(async (req, res) => {
         data: updatedLeads,
     });
 });
+
