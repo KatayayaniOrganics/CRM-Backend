@@ -88,21 +88,20 @@ exports.CallUpdate = catchAsyncErrors(async (req, res) => {
     }
     const agent = await Agent.findById(req.user.id);
 
-    // Update the call and add the changes to the updatedData field, using agentId
-   // Update the lead and add the changes to the updatedData field, using agentId
-   const updatedCall = await Calls.findOneAndUpdate(
-    { callId },
-    {
-      $set: {  ...updateData, // Update the fields in the lead
-        LastUpdated_By: agent.agentId}, // Store the agentId of the updating agent},
-      $push: {
-        updatedData: {
-          updatedBy: agent.agentId, // Assuming req.user contains the agentId
-          updatedFields,
-          updatedAt: Date.now(),            
+ // Update the lead and add the changes to the updatedData field, using agentId
+    const updatedCall = await Calls.findOneAndUpdate(
+      { callId },
+      {
+        $set: {  ...updateData, // Update the fields in the lead
+          LastUpdated_By: agent.agentId}, // Store the agentId of the updating agent},
+        $push: {
+          updatedData: {
+            updatedBy: agent.agentId, // Assuming req.user contains the agentId
+            updatedFields,
+            updatedAt: Date.now(),            
+          },
         },
       },
-
       { new: true, runValidators: true }
     );
   
